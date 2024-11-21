@@ -36,6 +36,7 @@ import SearchAndReplace from '@/components/Editor/Search/SearchAndReplaceExtensi
 import getMarkdown from '@/components/Editor/utils'
 import useOrderedSet from '../lib/hooks/use-ordered-set'
 import welcomeNote from '@/lib/welcome-note'
+import { ImageExtension } from '@/components/Editor/ImageExtension'
 
 type FileContextType = {
   vaultFilesTree: FileInfoTree
@@ -154,7 +155,35 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setNeedToWriteEditorContentToDisk(true)
       setNeedToIndexEditorContent(true)
     },
-    editorProps: {},
+    editorProps: {
+      handlePaste: (view, event) => {
+        const items = Array.from(event.clipboardData?.items || [])
+        const imageItems = items.filter(item => item.type.indexOf('image') === 0)
+        
+        if (imageItems.length === 0) return false
+        
+        event.preventDefault()
+        
+        imageItems.forEach(async (imageItem) => {
+          const blob = imageItem.getAsFile()
+          if (!blob) return
+          
+          // Convert blob to base64
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            const base64String = e.target?.result as string
+            
+            // Insert image at current cursor position
+            view.dispatch(view.state.tr.replaceSelectionWith(
+              view.state.schema.nodes.image.create({ src: base64String })
+            ))
+          }
+          reader.readAsDataURL(blob)
+        })
+        
+        return true
+      }
+    },
     extensions: [
       StarterKit,
       Document,
@@ -194,6 +223,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         openOnClick: true,
       }),
       CharacterCount,
+      ImageExtension,
     ],
   })
 

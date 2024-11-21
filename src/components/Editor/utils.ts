@@ -6,7 +6,9 @@ function getMarkdown(editor: Editor) {
   // Replace the escaped square brackets with unescaped ones
   const modifiedMarkdown = originalMarkdown
     .replace(/\\\[/g, '[') // Replaces \[ with [
-    .replace(/\\\]/g, ']') // Replaces \] wi ]
+    .replace(/\\\]/g, ']') // Replaces \] with ]
+    // Convert base64 images to markdown image syntax
+    .replace(/<img src="(data:image\/[^;]+;base64[^"]+)"[^>]*>/g, '![]($1)')
 
   return modifiedMarkdown
 }

@@ -29,6 +29,8 @@ class WindowsManager {
       y,
       webPreferences: {
         preload,
+        webSecurity: true,
+        contextIsolation: true,
       },
       frame: false,
       titleBarStyle: 'hidden',
@@ -39,6 +41,25 @@ class WindowsManager {
       },
       width,
       height,
+    })
+
+    win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+      console.log('Setting CSP headers...')
+      const newHeaders = {
+        responseHeaders: {
+          ...details.responseHeaders,
+          'Content-Security-Policy': [
+            "default-src 'self' 'unsafe-inline'; " +
+              "img-src 'self' data: blob: https:; " +
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline'; " +
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+              "font-src 'self' https://fonts.gstatic.com; " +
+              "connect-src 'self' https://* wss://*;",
+          ],
+        },
+      }
+      console.log('New headers:', newHeaders)
+      callback(newHeaders)
     })
 
     if (url) {
