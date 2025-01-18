@@ -36,6 +36,10 @@ import SearchAndReplace from '@/components/Editor/Search/SearchAndReplaceExtensi
 import getMarkdown from '@/components/Editor/utils'
 import useOrderedSet from '../lib/hooks/use-ordered-set'
 import welcomeNote from '@/lib/welcome-note'
+import { BlockNoteEditor, useBlockNote } from '@/lib/blocknote'
+import { hmBlockSchema } from '@/components/Editor/schema'
+import { setGroupTypes } from '@/lib/utils'
+import { slashMenuItems } from '../components/Editor/slash-menu-items'
 
 type FileContextType = {
   vaultFilesTree: FileInfoTree
@@ -135,8 +139,12 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       window.database.indexFileInDatabase(currentlyOpenFilePath)
       setNeedToIndexEditorContent(false)
     }
-    const fileContent = (await window.fileSystem.readFile(filePath)) ?? ''
-    editor?.commands.setContent(fileContent)
+    const fileContent = (await window.fileSystem.readFile(filePath, 'utf-8')) ?? ''
+    // editor?.commands.setContent(fileContent)
+    const blocks = await editor.markdownToBlocks(fileContent)
+    editor.replaceBlocks(editor.topLevelBlocks, blocks)
+    setGroupTypes(editor?._tiptapEditor, blocks)
+
     setCurrentlyOpenFilePath(filePath)
     setCurrentlyChangingFilePath(false)
     const parentDirectory = await window.path.dirname(filePath)
@@ -148,66 +156,73 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await loadFileIntoEditor(absolutePath)
   }
 
-  const editor = useEditor({
-    autofocus: true,
-    onUpdate() {
-      setNeedToWriteEditorContentToDisk(true)
-      setNeedToIndexEditorContent(true)
-    },
-    editorProps: {},
-    extensions: [
-      StarterKit,
-      Document,
-      Paragraph,
-      Text,
-      TaskList,
-      MathExtension.configure({
-        evaluation: true,
-      }),
-      Table.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-      TextStyle,
-      SearchAndReplace.configure({
-        searchResultClass: 'bg-yellow-400',
-        disableRegex: false,
-      }),
-      Markdown.configure({
-        html: true,
-        tightLists: true,
-        tightListClass: 'tight',
-        bulletListMarker: '-',
-        linkify: true,
-        breaks: true,
-        transformPastedText: true,
-        transformCopiedText: false,
-      }),
-      TaskItem.configure({
-        nested: true,
-      }),
-      HighlightExtension(setHighlightData),
-      RichTextLink.configure({
-        linkOnPaste: true,
-        openOnClick: true,
-      }),
-      CharacterCount,
-    ],
+  // const editor = useEditor({
+  //   autofocus: true,
+  //   onUpdate() {
+  //     setNeedToWriteEditorContentToDisk(true)
+  //     setNeedToIndexEditorContent(true)
+  //   },
+  //   editorProps: {},
+  //   extensions: [
+  //     StarterKit,
+  //     Document,
+  //     Paragraph,
+  //     Text,
+  //     TaskList,
+  //     MathExtension.configure({
+  //       evaluation: true,
+  //     }),
+  //     Table.configure({
+  //       resizable: true,
+  //     }),
+  //     TableRow,
+  //     TableHeader,
+  //     TableCell,
+  //     TextStyle,
+  //     SearchAndReplace.configure({
+  //       searchResultClass: 'bg-yellow-400',
+  //       disableRegex: false,
+  //     }),
+  //     Markdown.configure({
+  //       html: true,
+  //       tightLists: true,
+  //       tightListClass: 'tight',
+  //       bulletListMarker: '-',
+  //       linkify: true,
+  //       breaks: true,
+  //       transformPastedText: true,
+  //       transformCopiedText: false,
+  //     }),
+  //     TaskItem.configure({
+  //       nested: true,
+  //     }),
+  //     HighlightExtension(setHighlightData),
+  //     RichTextLink.configure({
+  //       linkOnPaste: true,
+  //       openOnClick: true,
+  //     }),
+  //     CharacterCount,
+  //   ],
+  // })
+
+  const editor = useBlockNote<typeof hmBlockSchema>({
+    onEditorContentChange(editor: BlockNoteEditor) {},
+    blockSchema: hmBlockSchema,
+    slashMenuItems,
   })
 
-  useEffect(() => {
-    if (editor) {
-      editor.setOptions({
-        editorProps: {
-          attributes: {
-            spellcheck: spellCheckEnabled.toString(),
-          },
-        },
-      })
-    }
-  }, [spellCheckEnabled, editor])
+  // useEffect(() => {
+  //   if (editor) {
+  //     editor.setOptions({
+  //       editorProps: {
+  //         attributes: {
+  //           spellcheck: spellCheckEnabled.toString(),
+  //         },
+  //       },
+  //     })
+  //   }
+  // }, [spellCheckEnabled, editor])
+
 
   const [debouncedEditor] = useDebounce(editor?.state.doc.content, 3000)
 
