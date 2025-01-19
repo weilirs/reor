@@ -12,6 +12,7 @@ import {Block, BlockSchema} from '../../extensions/Blocks/api/blockTypes'
 import {blockToNode, nodeToBlock} from '../nodeConversions/nodeConversions'
 import {simplifyBlocks} from './simplifyBlocksRehypePlugin'
 import {removeSingleSpace, preserveEmptyParagraphs, code, videos} from './customRehypePlugins'
+import {Styles, InlineContent} from "@lib/blocknote/core/extensions/Blocks/api/inlineContentTypes"
 
 /**
  * Converts our blocks to HTML:
@@ -36,11 +37,13 @@ export async function blocksToHTML<BSchema extends BlockSchema>(
   }
 
   const htmlString = await unified()
+    // @ts-expect-error
     .use(rehypeParse, {fragment: true})
     .use(simplifyBlocks, {
       orderedListItemBlockTypes: new Set<string>(['numberedListItem']),
       unorderedListItemBlockTypes: new Set<string>(['bulletListItem']),
     })
+    // @ts-expect-error
     .use(rehypeStringify)
     .process(htmlParentElement.innerHTML)
   return htmlString.value as string
@@ -83,7 +86,7 @@ export async function HTMLToBlocks<BSchema extends BlockSchema>(
  * @param html The HTML string we want to convert to fit our format
  * @returns The decoded media data in base64
  */
-async function replaceLocalUrls(html) {
+async function replaceLocalUrls(html: string) {
   const imgRegex = /<img[^>]*?src="(local:\/\/[^"]*?)"[^>]*?>/g;
   let result = html;
   const matches = Array.from(html.matchAll(imgRegex));
@@ -92,7 +95,7 @@ async function replaceLocalUrls(html) {
     const [fullImg, src] = match;
     const fileName = src.replace('local://', '');
     try {
-      const imageData = await window.electron.getImage(fileName);
+      const imageData = await window.fileSystem.getImage(fileName);
       if (imageData) {
         const newImg = fullImg.replace(src, imageData);
         result = result.replace(fullImg, newImg);
@@ -113,7 +116,7 @@ async function replaceLocalUrls(html) {
  * @param styles The styles to apply to the text
  * @returns 
  */
-const applyStyles = (text, styles) => {
+const applyStyles = (text: string, styles: Styles) => {
   if (styles.bold) text = `<b>${text}</b>`
   if (styles.italic) text = `<i>${text}</i>`
   if (styles.strike) text = `<del>${text}</del>`
@@ -129,7 +132,7 @@ const applyStyles = (text, styles) => {
  * @returns 
  */
 const convertContentItemToHtml = (
-  contentItem,
+  contentItem: any,
 ) => {
   let text = contentItem.text || ''
   const {styles = {}} = contentItem
@@ -155,8 +158,8 @@ const convertContentItemToHtml = (
  * @param isListItem True if this is a list item (needs a <li> tag)
  * @returns 
  */
-function convertBlockToHtml(
-  block,
+function convertBlockToHtml<BSchema extends BlockSchema>(
+  block: Block<BSchema>,
   isListItem = false,
 ) {
   let childrenHtml = ''
@@ -243,10 +246,14 @@ export async function blocksToMarkdown<BSchema extends BlockSchema>(
   schema: Schema,
 ): Promise<string> {
   const tmpMarkdownString = await unified()
+    // @ts-expect-error
     .use(rehypeParse, {fragment: true})
     .use(preserveEmptyParagraphs) 
+    // @ts-expect-error
     .use(rehypeRemark)
+    // @ts-expect-error
     .use(remarkGfm)
+    // @ts-expect-error
     .use(remarkStringify)
     .process(convertBlocksToHtml(blocks))
   return tmpMarkdownString.value as string
@@ -266,9 +273,12 @@ export async function markdownToBlocks<BSchema extends BlockSchema>(
   schema: Schema,
 ): Promise<Block<BSchema>[]> {
   const htmlString = await unified()
+    // @ts-expect-error
     .use(remarkParse)
     .use(removeSingleSpace)
+    // @ts-expect-error
     .use(remarkGfm)
+    // @ts-expect-error
     .use(remarkRehype, {
       handlers: {
         ...(defaultHandlers as any),
@@ -276,6 +286,7 @@ export async function markdownToBlocks<BSchema extends BlockSchema>(
         paragraph: videos,
       },
     })
+    // @ts-expect-error
     .use(rehypeStringify)
     .process(markdown)
 

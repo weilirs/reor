@@ -6,6 +6,7 @@ import { defineConfig } from 'vite'
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import { sentryVitePlugin } from "@sentry/vite-plugin"
+import { tamaguiExtractPlugin } from '@tamagui/vite-plugin';
 
 import pkg from './package.json'
 
@@ -22,6 +23,7 @@ export default defineConfig(({ command }) => {
       alias: {
         '@': path.join(__dirname, './src'),
         '@shared': path.join(__dirname, './shared'),
+        'react-native': 'react-native-web'
       },
     },
     plugins: [
@@ -87,6 +89,7 @@ export default defineConfig(({ command }) => {
         org: "reor",
         project: "electron",
       }),
+      tamaguiExtractPlugin(),
     ],
     css: {
       postcss: {

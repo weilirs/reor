@@ -30,7 +30,7 @@ import {createMarkdownExtension} from './extensions/Markdown/MarkdownExtension'
 import {Placeholder} from './extensions/Placeholder/PlaceholderExtension'
 import {TrailingNode} from './extensions/TrailingNode/TrailingNodeExtension'
 import {UniqueID} from './extensions/UniqueID/UniqueID'
-import { HMBlockSchema } from '@/editor/editor/schema'
+import { HMBlockSchema } from '@/components/Editor/schema'
 import { DiffExtension } from './extensions/Diff/diffExtension'
 
 /**

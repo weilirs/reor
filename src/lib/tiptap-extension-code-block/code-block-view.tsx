@@ -1,4 +1,4 @@
-import {Check, ChevronDown, ChevronUp, Select, XStack, YStack} from '@shm/ui'
+import {Check, ChevronDown, ChevronUp, Select, XStack, YStack} from '@shared/ui'
 import {NodeViewProps} from '@tiptap/core'
 import {NodeViewContent} from '@tiptap/react'
 import {useState} from 'react'

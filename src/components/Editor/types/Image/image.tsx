@@ -248,6 +248,7 @@ const display = ({
       },
     })
 
+    // @ts-expect-error
     editor.updateBlock(block.id, {
       ...block,
       props: {

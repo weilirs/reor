@@ -1,5 +1,5 @@
 import { isValidUrl, youtubeParser } from '../utils'
-import { ResizeHandle, SizeableText, XStack, useTheme } from '../../ui/src'
+import { ResizeHandle, XStack } from '../../ui/src'
 import {useEffect, useState} from 'react'
 import { Block, BlockNoteEditor, defaultProps } from '@/lib/blocknote'
 import { createReactBlockSpec } from '@/lib/blocknote'
@@ -251,6 +251,7 @@ const display = ({
       },
     })
 
+    // @ts-expect-error
     editor.updateBlock(block.id, {
       ...block,
       props: {

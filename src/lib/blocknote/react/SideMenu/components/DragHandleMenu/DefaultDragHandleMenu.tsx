@@ -1,7 +1,7 @@
-import {Block, BlockNoteEditor } from '@/editor/blocknote'
-import { updateGroup } from '@/editor/utils/block-utils'
+import {Block, BlockNoteEditor} from '@lib/blocknote'
+import { updateGroup } from '@/lib/utils'
 import {Box, Menu} from '@mantine/core'
-import {Forward, RefreshCcw, XStack} from '@shm/ui'
+import {Forward, RefreshCcw, XStack} from '@shared/ui'
 import * as _ from 'lodash'
 import {useCallback, useRef, useState} from 'react'
 import {
@@ -16,9 +16,9 @@ import {
 import {RemoveBlockButton} from './DefaultButtons/RemoveBlockButton'
 import {DragHandleMenu, DragHandleMenuProps} from './DragHandleMenu'
 import {DragHandleMenuItem} from './DragHandleMenuItem'
-import { DefaultBlockSchema } from '@/editor/blocknote/core'
+import { HMBlockSchema } from '@/components/Editor/schema'
 
-export const DefaultDragHandleMenu = <BSchema extends DefaultBlockSchema>(
+export const DefaultDragHandleMenu = <BSchema extends HMBlockSchema>(
   props: DragHandleMenuProps<BSchema>,
 ) => (
   <DragHandleMenu>
@@ -27,10 +27,10 @@ export const DefaultDragHandleMenu = <BSchema extends DefaultBlockSchema>(
   </DragHandleMenu>
 )
 
-function TurnIntoMenu(props: DragHandleMenuProps<DefaultBlockSchema>) {
+function TurnIntoMenu(props: DragHandleMenuProps<HMBlockSchema>) {
   const [opened, setOpened] = useState(false)
 
-  const menuCloseTimer = useRef<NodeJS.Timeout | undefined>(null)
+  const menuCloseTimer = useRef<NodeJS.Timeout | null>(null)
 
   const startMenuCloseTimer = useCallback(() => {
     if (menuCloseTimer.current) {
@@ -116,8 +116,8 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
       editor.updateBlock(block, {
@@ -134,8 +134,8 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
       editor.updateBlock(block, {
@@ -152,8 +152,8 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
       editor.updateBlock(block, {
@@ -185,11 +185,11 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
-      updateGroup(editor, block, 'Unordered')
+      updateGroup(editor, block, 'ul')
     },
   },
   {
@@ -200,11 +200,11 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
-      updateGroup(editor, block, 'Ordered')
+      updateGroup(editor, block, 'ul')
     },
   },
   {
@@ -215,11 +215,11 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
-      updateGroup(editor, block, 'Group')
+      updateGroup(editor, block, 'group')
     },
   },
 
@@ -231,11 +231,11 @@ var turnIntoItems = [
       block,
       editor,
     }: {
-      block: Block<DefaultBlockSchema>
-      editor: BlockNoteEditor<DefaultBlockSchema>
+      block: Block<HMBlockSchema>
+      editor: BlockNoteEditor<HMBlockSchema>
     }) => {
       editor.focus()
-      updateGroup(editor, block, 'Blockquote')
+      updateGroup(editor, block, 'blockquote')
     },
   },
 ]

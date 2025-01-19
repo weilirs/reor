@@ -1,4 +1,4 @@
-import {isHypermediaScheme} from '@shm/shared'
+import {isHypermediaScheme} from '../utils'
 import {Mark, mergeAttributes} from '@tiptap/core'
 import {Plugin} from '@tiptap/pm/state'
 import {registerCustomProtocol, reset} from 'linkifyjs'
@@ -44,6 +44,7 @@ export interface LinkOptions {
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
+    // @ts-expect-error
     link: {
       /**
        * Set a link mark
