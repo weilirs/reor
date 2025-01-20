@@ -1,10 +1,10 @@
-import {
-  BlockNoteEditor,
-  BlockNoteEditorOptions,
+import { 
+  BlockNoteEditor, 
+  BlockNoteEditorOptions, 
   defaultBlockSchema,
-  DefaultBlockSchema,
-} from '@/editor/blocknote/core'
-import { HMBlockSchema } from '@/editor/editor/schema'
+  DefaultBlockSchema 
+} from '../../core'
+import { HMBlockSchema } from '@/components/Editor/schema'
 import {DependencyList, useMemo, useRef} from 'react'
 import {getDefaultReactSlashMenuItems} from '../SlashMenu/defaultReactSlashMenuItems'
 

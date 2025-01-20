@@ -44,7 +44,7 @@ import {SlashMenuProsemirrorPlugin} from './extensions/SlashMenu/SlashMenuPlugin
 import {getDefaultSlashMenuItems} from './extensions/SlashMenu/defaultSlashMenuItems'
 import {UniqueID} from './extensions/UniqueID/UniqueID'
 import {mergeCSSClasses} from './shared/utils'
-import { HMBlockSchema, hmBlockSchema } from '@/editor/editor/schema'
+import {HMBlockSchema, hmBlockSchema} from '@/components/Editor/schema'
 
 export type BlockNoteEditorOptions<BSchema extends BlockSchema> = {
   // TODO: Figure out if enableBlockNoteExtensions/disableHistoryExtension are needed and document them.

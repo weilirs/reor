@@ -1,10 +1,10 @@
-import {
+import { 
   BaseSlashMenuItem,
   BlockSchema,
   defaultBlockSchema,
-  DefaultBlockSchema,
-  getDefaultSlashMenuItems,
-} from '@/editor/blocknote/core'
+  DefaultBlockSchema, 
+  getDefaultSlashMenuItems 
+} from '../../core'
 import {MdPreview} from 'react-icons/md'
 import {
   RiChatQuoteLine,

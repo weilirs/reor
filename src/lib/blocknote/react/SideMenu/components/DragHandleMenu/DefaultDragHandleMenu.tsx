@@ -1,7 +1,7 @@
 import {Block, BlockNoteEditor} from '@lib/blocknote'
 import { updateGroup } from '@/lib/utils'
 import {Box, Menu} from '@mantine/core'
-import {Forward, RefreshCcw, XStack} from '@shared/ui'
+import {Forward, RefreshCcw, XStack} from '@shm/ui'
 import * as _ from 'lodash'
 import {useCallback, useRef, useState} from 'react'
 import {

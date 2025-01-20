@@ -1,16 +1,23 @@
 import { rmSync } from 'node:fs'
 import path from 'node:path'
-
+import { fileURLToPath } from 'url'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import { sentryVitePlugin } from "@sentry/vite-plugin"
-import { tamaguiExtractPlugin } from '@tamagui/vite-plugin';
+import { tamaguiExtractPlugin, tamaguiPlugin } from '@tamagui/vite-plugin'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
-import pkg from './package.json'
+// For CommonJS compatibility
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-// https://vitejs.dev/config/
+console.log(`Resolved: @shm/ui:`, path.join(__dirname, './src/components/Editor/ui/src/index.tsx'))
+
 export default defineConfig(({ command }) => {
   rmSync('dist-electron', { recursive: true, force: true })
 
@@ -23,18 +30,23 @@ export default defineConfig(({ command }) => {
       alias: {
         '@': path.join(__dirname, './src'),
         '@shared': path.join(__dirname, './shared'),
-        'react-native': 'react-native-web'
+        '@shm/ui': path.join(__dirname, './src/components/Editor/ui/src'),
       },
     },
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     plugins: [
+      tamaguiPlugin({
+        config: './tamagui.config.ts',
+        components: ['tamagui'],
+      }),
+      tamaguiExtractPlugin(),
       react(),
       electron([
         {
-          // Main-Process entry file of the Electron App.
           entry: 'electron/main/index.ts',
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App')
+              console.log('[startup] Electron App')
             } else {
               options.startup()
             }
@@ -54,6 +66,7 @@ export default defineConfig(({ command }) => {
             resolve: {
               alias: {
                 '@shared': path.join(__dirname, 'shared'),
+                '@shm/ui': path.join(__dirname, 'src/components/Editor/ui/src'),
               },
             },
           },
@@ -78,6 +91,7 @@ export default defineConfig(({ command }) => {
             resolve: {
               alias: {
                 '@shared': path.join(__dirname, 'shared'),
+                '@shm/ui': path.join(__dirname, 'src/components/Editor/ui/src'),
               },
             },
           },
@@ -88,12 +102,14 @@ export default defineConfig(({ command }) => {
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: "reor",
         project: "electron",
-      }),
-      tamaguiExtractPlugin(),
+      })
     ],
     css: {
       postcss: {
-        plugins: [require('tailwindcss'), require('autoprefixer')],
+        plugins: [
+          tailwindcss,
+          autoprefixer
+        ],
       },
     },
     server:

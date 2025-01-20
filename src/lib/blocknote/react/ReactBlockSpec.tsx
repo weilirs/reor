@@ -11,8 +11,8 @@ import {
   PropSchema,
   propsToAttributes,
   render,
-} from '@/editor/blocknote/core'
-import {   createTipTapBlock } from '@/editor/blocknote/core/extensions/Blocks/api/block'
+  createTipTapBlock
+} from '../core'
 import {TagParseRule} from '@tiptap/pm/model'
 import {
   NodeViewContent,
@@ -65,7 +65,6 @@ export const InlineContent = <Tag extends ElementType>(
 
   const classNames = mergeCSSClasses(
     props.className || '',
-    // @ts-expect-error
     bnBlockStyles.inlineContent,
     inlineContentDOMAttributes.class,
   )
@@ -173,7 +172,6 @@ export function createReactBlockSpec<
               ),
             )}
             className={mergeCSSClasses(
-              // @ts-expect-error
               bnBlockStyles.blockContent,
               blockContentDOMAttributes.class,
             )}
@@ -190,7 +188,6 @@ export function createReactBlockSpec<
       }
 
       return ReactNodeViewRenderer(BlockContent, {
-        // @ts-expect-error
         className: bnBlockStyles.reactNodeViewRenderer,
       })
     },

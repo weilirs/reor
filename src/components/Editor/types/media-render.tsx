@@ -9,7 +9,7 @@ import {
   YStack,
   EmbedComponent,
   // useDocContentContext,
-} from '@shared/ui'
+} from '@shm/ui'
 import {NodeSelection, TextSelection} from 'prosemirror-state'
 import {
   ChangeEvent,
@@ -18,7 +18,7 @@ import {
   useState,
 } from 'react'
 import {RiUpload2Fill} from 'react-icons/ri'
-import { Block, BlockNoteEditor, useEditorSelectionChange } from '@lib/blocknote'
+import { Block, BlockNoteEditor, useEditorSelectionChange } from '@/lib/blocknote'
 import { MultipleNodeSelection } from '@/lib/blocknote/core/extensions/SideMenu/MultipleNodeSelection'
 // import {MaxFileSizeB, MaxFileSizeMB} from './file'
 import { HMBlockSchema } from '../schema'

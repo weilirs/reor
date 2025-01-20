@@ -1,4 +1,4 @@
-import styles from '@/editor/blocknote/core/extensions/Blocks/nodes/Block.module.css'
+import styles from '@/lib/blocknote/core/extensions/Blocks/nodes/Block.module.css'
 import {
   Editor,
   mergeAttributes,
@@ -7,7 +7,7 @@ import {
 } from '@tiptap/core'
 import {Fragment, Slice} from '@tiptap/pm/model'
 import {Plugin, PluginKey, TextSelection} from '@tiptap/pm/state'
-import {BlockNoteDOMAttributes, getBlockInfoFromPos, mergeCSSClasses} from '@/editor/blocknote'
+import { BlockNoteDOMAttributes, getBlockInfoFromPos, mergeCSSClasses } from '../blocknote'
 import {getGroupInfoFromPos} from '../blocknote/core/extensions/Blocks/helpers/getGroupInfoFromPos'
 
 declare module '@tiptap/core' {
@@ -71,7 +71,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
           const classNames = [
             ...getClassNames(element.classList),
-            ...getClassNames(element.firstElementChild?.classList || []),
+            ...getClassNames(element.firstElementChild?.classList || new DOMTokenList()),
           ]
           const languages = classNames
             .filter((className) => className.startsWith(languageClassPrefix))

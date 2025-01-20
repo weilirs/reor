@@ -1,7 +1,7 @@
 import {toast} from '@shm/ui'
 import {Extension} from '@tiptap/core'
 import {Plugin, PluginKey} from 'prosemirror-state'
-import {HMBlockSchema} from '../../../../schema'
+import { HMBlockSchema } from '@/components/Editor/schema'
 import {BlockNoteEditor} from '../../BlockNoteEditor'
 import {getBlockInfoFromPos} from '../Blocks/helpers/getBlockInfoFromPos'
 

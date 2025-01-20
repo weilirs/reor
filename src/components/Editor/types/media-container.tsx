@@ -1,5 +1,5 @@
 // import {DAEMON_FILE_UPLOAD_URL} from '@shm/shared'
-import {Button, Text, XStack, YStack, toast} from '@shared/ui'
+import {Button, Text, XStack, YStack, toast} from '@shm/ui'
 import {useState} from 'react'
 import {Block, BlockNoteEditor} from '@lib/blocknote'
 import { HMBlockSchema } from '../schema'

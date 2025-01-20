@@ -19,7 +19,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"],
-      "@shared/ui": ["./src/components/Editor/ui/src/index"],
+      "@shm/ui": ["./src/components/Editor/ui/src/index"],
       "@blocknote/*": ["./src/lib/blocknote/*"],
       "@blocknote/core/*": ["./src/lib/blocknote/core/*"],
       "@lib/*": ["./src/lib/*"],

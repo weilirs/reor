@@ -1,10 +1,9 @@
-import {BlockNoteEditor, getBlockInfoFromPos} from '@/editor/blocknote'
-import * as BlockUtils from '@/src/app/utils'
+import { BlockNoteEditor } from '../../BlockNoteEditor'
+import { getBlockInfoFromPos } from '@/lib/utils'
+import * as BlockUtils from '@/lib/utils/block-utils'
 import {Editor, Extension} from '@tiptap/core'
 import {Fragment, Node} from '@tiptap/pm/model'
 import {Plugin} from 'prosemirror-state'
-import {MarkdownToBlocks} from './MarkdownToBlocks'
-import { markdownToBlocks } from '../../api/formatConversions/formatConversions'
 
 function containsMarkdownSymbols(pastedText: string) {
   // Regex to detect unique Markdown symbols at the start of a line

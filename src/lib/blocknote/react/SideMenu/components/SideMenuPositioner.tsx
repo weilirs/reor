@@ -1,11 +1,11 @@
-import {
-  Block,
-  BlockNoteEditor,
-  BlockSchema,
-  DefaultBlockSchema,
-  SideMenuProsemirrorPlugin,
-} from '@/editor/blocknote/core'
-import {getGroupInfoFromPos} from '@/editor/blocknote/core/extensions/Blocks/helpers/getGroupInfoFromPos'
+import { 
+  Block, 
+  BlockNoteEditor, 
+  BlockSchema, 
+  DefaultBlockSchema, 
+  SideMenuProsemirrorPlugin 
+} from '@/lib/blocknote'
+import { getGroupInfoFromPos } from '@/lib/blocknote/core/extensions/Blocks/helpers/getGroupInfoFromPos'
 // import {scrollEvents} from '@/editor/editor-on-scroll-stream'
 import Tippy from '@tippyjs/react'
 import {FC, useEffect, useMemo, useRef, useState} from 'react'
@@ -35,13 +35,13 @@ export const SideMenuPositioner = <
 }) => {
   const [show, setShow] = useState<boolean>(false)
   const [block, setBlock] = useState<Block<BSchema>>()
-  const referencePos = useRef<DOMRect>(null)
+  const referencePos = useRef<DOMRect | null>(null)
   const [lh, setLh] = useState('')
   useEffect(() => {
     return props.editor.sideMenu.onUpdate((sideMenuState) => {
       setShow(sideMenuState.show)
       setBlock(sideMenuState.block)
-      referencePos.current = sideMenuState.referencePos
+      referencePos.current = sideMenuState.referencePos ?? null
       setLh(sideMenuState.lineHeight)
     })
   }, [props.editor])
