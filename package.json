@@ -77,7 +77,7 @@
     "@tamagui/animations-css": "^1.121.12",
     "@tamagui/cli": "^1.121.12",
     "@tamagui/font-inter": "^1.121.12",
-    "@tamagui/lucide-icons": "^1.121.12",
+    "@tamagui/lucide-icons": "^1.122.6",
     "@tamagui/shorthands": "^1.121.12",
     "@tamagui/themes": "^1.121.12",
     "@tamagui/vite-plugin": "^1.121.12",

@@ -2,7 +2,6 @@ import React from 'react'
 
 import { FaSearch } from 'react-icons/fa'
 import { GrNewWindow } from 'react-icons/gr'
-import { ImFilesEmpty } from 'react-icons/im'
 import { IoChatbubbleEllipsesOutline } from 'react-icons/io5'
 import { MdSettings } from 'react-icons/md'
 import { VscNewFolder } from 'react-icons/vsc'
@@ -11,6 +10,10 @@ import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { useModalOpeners } from '../../contexts/ModalContext'
 import { useChatContext } from '@/contexts/ChatContext'
 import { useContentContext } from '@/contexts/ContentContext'
+
+import { ImFilesEmpty } from 'react-icons/im'
+import { Files } from '@tamagui/lucide-icons'
+import { Button } from 'tamagui'
 
 export interface IconsSidebarProps {
   getShortcutDescription: (action: string) => string
@@ -35,6 +38,7 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
             size={18}
             title={getShortcutDescription('open-files') || 'Open Files'}
           />
+          {/* <Button icon={Files} size={24} /> */}
         </div>
       </div>
       <div
