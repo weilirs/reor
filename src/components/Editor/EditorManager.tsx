@@ -70,7 +70,7 @@ const EditorManager: React.FC = () => {
 
   return (
     <div
-      className="relative size-full cursor-text overflow-hidden bg-dark-gray-c-eleven py-4 text-slate-400 opacity-80"
+      className="relative size-full cursor-text overflow-hidden bg-dark-gray-c-eleven py-4 "
       onClick={() => editor?.focus()}
     >
       {/* <SearchBar editor={editor} showSearch={showSearchBar} setShowSearch={setShowSearchBar} /> */}
@@ -84,18 +84,9 @@ const EditorManager: React.FC = () => {
       )} */}
 
       <div
-        className={`relative h-full ${editorFlex ? 'flex justify-center py-4 pl-4' : ''} ${showDocumentStats ? 'pb-3' : ''}`}
+        className={`py-4 relative h-full overflow-y-auto ${editorFlex ? 'flex justify-center px-24' : 'px-12'} ${showDocumentStats ? 'pb-3' : ''}`}
       >
-        <div className="relative size-full overflow-y-auto">
-          {/* <EditorContent
-            className={`relative size-full bg-dark-gray-c-eleven ${editorFlex ? 'max-w-xl' : ''}`}
-            style={{
-              wordBreak: 'break-word',
-            }}
-            onContextMenu={handleContextMenu}
-            onClick={handleClick}
-            editor={editor}
-          /> */}
+        <div className="relative size-full ">
           {editor && (
             <BlockNoteView editor={editor} >
               <FormattingToolbarPositioner editor={editor} />

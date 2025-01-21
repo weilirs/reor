@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-nested-ternary */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 import '../styles/global.css'
@@ -111,8 +111,20 @@ const MainPageContent: React.FC = () => {
 }
 
 const MainPageComponent: React.FC = () => {
+  const [theme, setTheme] = useState('dark')
+
+  useEffect(() => {
+    const fetchTheme = async () => {
+      const theme = await window.electronStore.getTamaguiTheme()
+      setTheme(theme)
+    }
+
+    fetchTheme()
+  }, [])
+
+  console.log(`Theme: ${theme}`)
   return (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
+    <TamaguiProvider config={tamaguiConfig} defaultTheme={theme}>
       <FileProvider>
         <ChatProvider>
           <ContentProvider>

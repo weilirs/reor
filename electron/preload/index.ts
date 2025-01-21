@@ -76,12 +76,14 @@ const electronStore = {
   setAgentConfig: createIPCHandler<(agentConfig: AgentConfig) => Promise<void>>('set-agent-config'),
   setAutoContext: createIPCHandler<(value: boolean) => Promise<void>>('set-auto-context'),
   getAutoContext: createIPCHandler<() => Promise<boolean>>('get-auto-context'),
+  setTamaguiTheme: createIPCHandler<(theme: string) => Promise<void>>('set-tamagui-theme'),
+  getTamaguiTheme: createIPCHandler<() => Promise<string>>('get-tamagui-theme'),
 }
 
 const fileSystem = {
   openDirectoryDialog: createIPCHandler<() => Promise<string[]>>('open-directory-dialog'),
   openFileDialog: createIPCHandler<(fileExtensions?: string[]) => Promise<string[]>>('open-file-dialog'),
-  openImageFileDialog: createIPCHandler<() => Promise<string[]>>('open-image-file-dialog'),
+  openImageFileDialog: createIPCHandler<() => Promise<string[]>>('open-img-file-dialog'),
   openVideoFileDialog: createIPCHandler<() => Promise<string[]>>('open-video-file-dialog'),
   getFilesTreeForWindow: createIPCHandler<() => Promise<FileInfoTree>>('get-files-tree-for-window'),
   readFile: createIPCHandler<(filePath: string, encoding: string) => Promise<string>>('read-file'),

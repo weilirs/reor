@@ -247,6 +247,10 @@ NESTED BLOCKS
   --level: 32px;
 }
 
+[data-content-type='paragraph'] {
+  font-size: 1rem;
+}
+
 [data-node-type='blockGroup']
   [data-node-type='blockGroup']
   [data-content-type='heading'] {

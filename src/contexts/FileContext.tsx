@@ -207,23 +207,13 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // })
 
   const editor = useBlockNote<typeof hmBlockSchema>({
-    onEditorContentChange(editor: BlockNoteEditor) {},
+    onEditorContentChange(editor: BlockNoteEditor) {
+      setNeedToWriteEditorContentToDisk(true)
+      setNeedToIndexEditorContent(true)
+    },
     blockSchema: hmBlockSchema,
     slashMenuItems,
   })
-
-  // useEffect(() => {
-  //   if (editor) {
-  //     editor.setOptions({
-  //       editorProps: {
-  //         attributes: {
-  //           spellcheck: spellCheckEnabled.toString(),
-  //         },
-  //       },
-  //     })
-  //   }
-  // }, [spellCheckEnabled, editor])
-
 
   const [debouncedEditor] = useDebounce(editor?.topLevelBlocks, 3000)
 
