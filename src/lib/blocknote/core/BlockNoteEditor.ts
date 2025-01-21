@@ -11,8 +11,8 @@ import {
   updateBlock,
 } from './api/blockManipulation/blockManipulation'
 import {
-  // HTMLToBlocks,
-  // blocksToHTML,
+  HTMLToBlocks,
+  blocksToHTML,
   blocksToMarkdown,
   markdownToBlocks,
 } from './api/formatConversions/formatConversions'
@@ -165,11 +165,6 @@ export class BlockNoteEditor<BSchema extends BlockSchema = HMBlockSchema> {
       inlineEmbedOptions?: any
     } = {
       defaultStyles: true,
-      // TODO: There's a lot of annoying typing stuff to deal with here. If
-      //  BSchema is specified, then options.blockSchema should also be required.
-      //  If BSchema is not specified, then options.blockSchema should also not
-      //  be defined. Unfortunately, trying to implement these constraints seems
-      //  to be a huge pain, hence the `as any` casts.
       blockSchema: options.blockSchema || (hmBlockSchema as any),
       editable: options.editable || true,
       ...options,
@@ -784,9 +779,9 @@ export class BlockNoteEditor<BSchema extends BlockSchema = HMBlockSchema> {
    * @param blocks An array of blocks that should be serialized into HTML.
    * @returns The blocks, serialized as an HTML string.
    */
-  // public async blocksToHTML(blocks: Block<BSchema>[]): Promise<string> {
-  //   return blocksToHTML(blocks, this._tiptapEditor.schema)
-  // }
+  public async blocksToHTML(blocks: Block<BSchema>[]): Promise<string> {
+    return blocksToHTML(blocks, this._tiptapEditor.schema)
+  }
 
   /**
    * Parses blocks from an HTML string. Tries to create `Block` objects out of any HTML block-level elements, and
@@ -795,9 +790,9 @@ export class BlockNoteEditor<BSchema extends BlockSchema = HMBlockSchema> {
    * @param html The HTML string to parse blocks from.
    * @returns The blocks parsed from the HTML string.
    */
-  // public async HTMLToBlocks(html: string): Promise<Block<BSchema>[]> {
-  //   return HTMLToBlocks(html, this.schema, this._tiptapEditor.schema)
-  // }
+  public async HTMLToBlocks(html: string): Promise<Block<BSchema>[]> {
+    return HTMLToBlocks(html, this.schema, this._tiptapEditor.schema)
+  }
 
   /**
    * Serializes blocks into a Markdown string. The output is simplified as Markdown does not support all features of

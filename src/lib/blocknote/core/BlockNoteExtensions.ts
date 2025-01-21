@@ -32,6 +32,7 @@ import {TrailingNode} from './extensions/TrailingNode/TrailingNodeExtension'
 import {UniqueID} from './extensions/UniqueID/UniqueID'
 import { HMBlockSchema } from '@/components/Editor/schema'
 import { DiffExtension } from './extensions/Diff/diffExtension'
+import SearchAndReplace from '@/components/Editor/Search/SearchAndReplaceExtension'
 
 /**
  * Get all the Tiptap extensions BlockNote is configured with by default
@@ -41,7 +42,6 @@ export const getBlockNoteExtensions = <BSchema extends HMBlockSchema>(opts: {
   editor: BlockNoteEditor<BSchema>
   domAttributes: Partial<BlockNoteDOMAttributes>
   blockSchema: BSchema
-  // TODO: properly type this.
   linkExtensionOptions: any
   inlineEmbedOptions: any
   collaboration?: {
@@ -123,6 +123,7 @@ export const getBlockNoteExtensions = <BSchema extends HMBlockSchema>(opts: {
     BlockContainer.configure({
       domAttributes: opts.domAttributes,
     }),
+    SearchAndReplace,
     // debugPlugin,
   ]
 

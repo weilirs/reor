@@ -13,13 +13,15 @@ import IconsSidebar from './Sidebars/IconsSidebar'
 import SidebarManager from './Sidebars/MainSidebar'
 import EmptyPage from './Common/EmptyPage'
 import { ContentProvider, useContentContext } from '../contexts/ContentContext'
-import WritingAssistant from './WritingAssistant/WritingAssistant'
+// import WritingAssistant from './WritingAssistant/WritingAssistant'
 import { ChatProvider, useChatContext } from '@/contexts/ChatContext'
 import { FileProvider, useFileContext } from '@/contexts/FileContext'
 import ModalProvider from '@/contexts/ModalContext'
 import CommonModals from './Common/CommonModals'
 import useAppShortcuts from '../lib/shortcuts/use-shortcut'
 import WindowControls from './ui/window-controls'
+import { TamaguiProvider } from '@shm/ui';
+import tamaguiConfig from '../../tamagui.config'
 
 // Moved MainContent outside as a separate component
 const MainContent: React.FC = () => {
@@ -40,7 +42,7 @@ const MainContent: React.FC = () => {
           <EditorManager />
         </div>
       )}
-      <WritingAssistant />
+      {/* <WritingAssistant /> */}
     </div>
   )
 }
@@ -110,15 +112,17 @@ const MainPageContent: React.FC = () => {
 
 const MainPageComponent: React.FC = () => {
   return (
-    <FileProvider>
-      <ChatProvider>
-        <ContentProvider>
-          <ModalProvider>
-            <MainPageContent />
-          </ModalProvider>
-        </ContentProvider>
-      </ChatProvider>
-    </FileProvider>
+    <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
+      <FileProvider>
+        <ChatProvider>
+          <ContentProvider>
+            <ModalProvider>
+              <MainPageContent />
+            </ModalProvider>
+          </ContentProvider>
+        </ChatProvider>
+      </FileProvider>
+    </TamaguiProvider>
   )
 }
 

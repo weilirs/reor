@@ -49,7 +49,7 @@ type FileContextType = {
   currentlyOpenFilePath: string | null
   setCurrentlyOpenFilePath: React.Dispatch<React.SetStateAction<string | null>>
   saveCurrentlyOpenedFile: () => Promise<void>
-  editor: Editor | null
+  editor: BlockNoteEditor | null
   navigationHistory: string[]
   addToNavigationHistory: (value: string) => void
   openOrCreateFile: (filePath: string, optionalContentToWriteOnCreate?: string) => Promise<void>
@@ -142,6 +142,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const fileContent = (await window.fileSystem.readFile(filePath, 'utf-8')) ?? ''
     // editor?.commands.setContent(fileContent)
     const blocks = await editor.markdownToBlocks(fileContent)
+    // @ts-expect-error
     editor.replaceBlocks(editor.topLevelBlocks, blocks)
     setGroupTypes(editor?._tiptapEditor, blocks)
 
@@ -224,7 +225,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // }, [spellCheckEnabled, editor])
 
 
-  const [debouncedEditor] = useDebounce(editor?.state.doc.content, 3000)
+  const [debouncedEditor] = useDebounce(editor?.topLevelBlocks, 3000)
 
   useEffect(() => {
     if (debouncedEditor && !currentlyChangingFilePath) {
@@ -239,9 +240,10 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await writeEditorContentToDisk(editor, currentlyOpenFilePath)
   }
 
-  const writeEditorContentToDisk = async (_editor: Editor | null, filePath: string | null) => {
+  const writeEditorContentToDisk = async (_editor: BlockNoteEditor | null, filePath: string | null) => {
     if (filePath !== null && needToWriteEditorContentToDisk && _editor) {
-      const markdownContent = getMarkdown(_editor)
+      const blocks = editor.topLevelBlocks
+      const markdownContent = await editor.blocksToMarkdown(blocks)
       if (markdownContent !== null) {
         await window.fileSystem.writeFile({
           filePath,
@@ -252,14 +254,15 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }
 
-  const handleNewFileRenaming = async (_editor: Editor, filePath: string) => {
+  const handleNewFileRenaming = async (_editor: BlockNoteEditor, filePath: string) => {
     const fileInfo = vaultFilesFlattened.find((f) => f.path === filePath)
     if (
       fileInfo &&
       fileInfo.name.startsWith('Untitled') &&
       new Date().getTime() - fileInfo.dateCreated.getTime() < 60000
     ) {
-      const editorText = _editor.getText()
+      // const editorText = _editor.getText()
+      const editorText = await _editor.blocksToMarkdown(_editor.topLevelBlocks)
       if (editorText) {
         const newProposedFileName = generateFileNameFromFileContent(editorText)
         if (newProposedFileName) {
@@ -306,11 +309,12 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     const handleWindowClose = async () => {
-      if (currentlyOpenFilePath !== null && editor && editor.getHTML() !== null) {
-        const markdown = getMarkdown(editor)
+      if (currentlyOpenFilePath !== null && editor && editor.topLevelBlocks !== null) {
+        const blocks = editor.topLevelBlocks
+        const markdownContent = await editor.blocksToMarkdown(blocks)
         await window.fileSystem.writeFile({
           filePath: currentlyOpenFilePath,
-          content: markdown,
+          content: markdownContent,
         })
         await window.database.indexFileInDatabase(currentlyOpenFilePath)
       }
@@ -327,7 +331,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!path) return false
     await window.fileSystem.deleteFile(path)
     if (currentlyOpenFilePath === path) {
-      editor?.commands.setContent('')
+      editor?.replaceBlocks(editor.topLevelBlocks, [])
       setCurrentlyOpenFilePath(null)
     }
     return true

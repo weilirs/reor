@@ -5,6 +5,7 @@ import EditorContextMenu from './EditorContextMenu'
 import SearchBar from './Search/SearchBar'
 import { useFileContext } from '@/contexts/FileContext'
 import { useContentContext } from '@/contexts/ContentContext'
+import { BlockNoteView, FormattingToolbarPositioner, SlashMenuPositioner } from '@/lib/blocknote'
 
 const EditorManager: React.FC = () => {
   const [showSearchBar, setShowSearchBar] = useState(false)
@@ -70,23 +71,23 @@ const EditorManager: React.FC = () => {
   return (
     <div
       className="relative size-full cursor-text overflow-hidden bg-dark-gray-c-eleven py-4 text-slate-400 opacity-80"
-      onClick={() => editor?.commands.focus()}
+      onClick={() => editor?.focus()}
     >
-      <SearchBar editor={editor} showSearch={showSearchBar} setShowSearch={setShowSearchBar} />
-      {contextMenuVisible && (
+      {/* <SearchBar editor={editor} showSearch={showSearchBar} setShowSearch={setShowSearchBar} /> */}
+      {/* {contextMenuVisible && (
         <EditorContextMenu
           editor={editor}
           menuPosition={menuPosition}
           setMenuVisible={setContextMenuVisible}
           hideMenu={hideMenu}
         />
-      )}
+      )} */}
 
       <div
         className={`relative h-full ${editorFlex ? 'flex justify-center py-4 pl-4' : ''} ${showDocumentStats ? 'pb-3' : ''}`}
       >
         <div className="relative size-full overflow-y-auto">
-          <EditorContent
+          {/* <EditorContent
             className={`relative size-full bg-dark-gray-c-eleven ${editorFlex ? 'max-w-xl' : ''}`}
             style={{
               wordBreak: 'break-word',
@@ -94,7 +95,13 @@ const EditorManager: React.FC = () => {
             onContextMenu={handleContextMenu}
             onClick={handleClick}
             editor={editor}
-          />
+          /> */}
+          {editor && (
+            <BlockNoteView editor={editor} >
+              <FormattingToolbarPositioner editor={editor} />
+              <SlashMenuPositioner editor={editor} />
+            </BlockNoteView>
+          )}
         </div>
       </div>
       {suggestionsState && (
@@ -103,12 +110,12 @@ const EditorManager: React.FC = () => {
           suggestions={vaultFilesFlattened.map((file) => file.relativePath)}
         />
       )}
-      {editor && showDocumentStats && (
+      {/* {editor && showDocumentStats && (
         <div className="absolute bottom-2 right-2 flex gap-4 text-sm text-gray-500">
           <div>Characters: {editor.storage.characterCount.characters()}</div>
           <div>Words: {editor.storage.characterCount.words()}</div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }
