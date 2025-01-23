@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { FaSearch } from 'react-icons/fa'
 import { GrNewWindow } from 'react-icons/gr'
-import { IoChatbubbleEllipsesOutline } from 'react-icons/io5'
 import { MdSettings } from 'react-icons/md'
 import { VscNewFolder } from 'react-icons/vsc'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
@@ -10,9 +8,9 @@ import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { useModalOpeners } from '../../contexts/ModalContext'
 import { useChatContext } from '@/contexts/ChatContext'
 import { useContentContext } from '@/contexts/ContentContext'
+import { useThemeManager } from '@/contexts/ThemeContext'
 
-import { ImFilesEmpty } from 'react-icons/im'
-import { Files } from '@tamagui/lucide-icons'
+import { Files, MessageCircle, Search, Moon, SunMoon } from '@tamagui/lucide-icons'
 import { Button } from 'tamagui'
 
 export interface IconsSidebarProps {
@@ -21,7 +19,9 @@ export interface IconsSidebarProps {
 
 const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) => {
   const { sidebarShowing, setSidebarShowing } = useChatContext()
+  const { state, actions } = useThemeManager() // State => theme, actions => toggle, set, syncWithSystem
 
+  console.log(`State is: ${state}`)
   const { isSettingsModalOpen, setIsSettingsModalOpen, setIsNewDirectoryModalOpen } = useModalOpeners()
   const { createUntitledNote } = useContentContext()
 
@@ -32,13 +32,11 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         onClick={() => setSidebarShowing('files')}
       >
         <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
-          <ImFilesEmpty
-            className="mx-auto text-gray-200"
+          <Files 
+            size={20} 
             color={sidebarShowing === 'files' ? 'white' : 'gray'}
-            size={18}
-            title={getShortcutDescription('open-files') || 'Open Files'}
+            title={getShortcutDescription('open-files') || 'Files'}
           />
-          {/* <Button icon={Files} size={24} /> */}
         </div>
       </div>
       <div
@@ -46,10 +44,9 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         onClick={() => setSidebarShowing('chats')}
       >
         <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
-          <IoChatbubbleEllipsesOutline
-            color={sidebarShowing === 'chats' ? 'white' : 'gray'}
-            className="cursor-pointer text-gray-100 "
-            size={18}
+          <MessageCircle 
+            size={20}
+            color={sidebarShowing === 'chats' ? 'white' : 'gray'}  
             title={getShortcutDescription('open-chat-bot') || 'Open Chatbot'}
           />
         </div>
@@ -59,10 +56,9 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         onClick={() => setSidebarShowing('search')}
       >
         <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
-          <FaSearch
+          <Search 
+            size={20}
             color={sidebarShowing === 'search' ? 'white' : 'gray'}
-            size={18}
-            className="text-gray-200"
             title={getShortcutDescription('open-search') || 'Semantic Search'}
           />
         </div>
@@ -95,6 +91,16 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
       </div>
 
       <div className="grow border-yellow-300" />
+      <button
+        className="flex w-full cursor-pointer items-center justify-center border-none bg-transparent pb-3"
+        onClick={() => console.log(`Selected change theme`)}
+        type="button"
+        aria-label="Change Theme"
+      >
+        <Button onPress={actions.toggle} backgroundColor="transparent">
+          {state === 'light' ? <Moon size={18} /> : <SunMoon size={18} />}
+        </Button>
+      </button>
       <div
         className="mb-[2px] flex w-full cursor-pointer items-center justify-center border-none bg-transparent pb-2"
         onClick={() => window.electronUtils.openNewWindow()}

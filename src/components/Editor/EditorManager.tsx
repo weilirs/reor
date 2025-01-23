@@ -6,6 +6,7 @@ import SearchBar from './Search/SearchBar'
 import { useFileContext } from '@/contexts/FileContext'
 import { useContentContext } from '@/contexts/ContentContext'
 import { BlockNoteView, FormattingToolbarPositioner, SlashMenuPositioner } from '@/lib/blocknote'
+import { XStack, YStack } from 'tamagui'
 
 const EditorManager: React.FC = () => {
   const [showSearchBar, setShowSearchBar] = useState(false)
@@ -69,8 +70,9 @@ const EditorManager: React.FC = () => {
   }, [])
 
   return (
-    <div
-      className="relative size-full cursor-text overflow-hidden bg-dark-gray-c-eleven py-4 "
+    <YStack
+      backgroundColor="$editorbg11"
+      className="relative size-full cursor-text overflow-hidden py-4 "
       onClick={() => editor?.focus()}
     >
       {/* <SearchBar editor={editor} showSearch={showSearchBar} setShowSearch={setShowSearchBar} /> */}
@@ -83,18 +85,18 @@ const EditorManager: React.FC = () => {
         />
       )} */}
 
-      <div
+      <YStack
         className={`py-4 relative h-full overflow-y-auto ${editorFlex ? 'flex justify-center px-24' : 'px-12'} ${showDocumentStats ? 'pb-3' : ''}`}
       >
-        <div className="relative size-full ">
+        <YStack className="relative size-full ">
           {editor && (
             <BlockNoteView editor={editor} >
               <FormattingToolbarPositioner editor={editor} />
               <SlashMenuPositioner editor={editor} />
             </BlockNoteView>
           )}
-        </div>
-      </div>
+        </YStack>
+      </YStack>
       {suggestionsState && (
         <InEditorBacklinkSuggestionsDisplay
           suggestionsState={suggestionsState}
@@ -107,7 +109,7 @@ const EditorManager: React.FC = () => {
           <div>Words: {editor.storage.characterCount.words()}</div>
         </div>
       )} */}
-    </div>
+    </YStack>
   )
 }
 

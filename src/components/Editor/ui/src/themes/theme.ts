@@ -6,6 +6,15 @@ import {shadows} from "./shadows";
 import {templates} from "./templates";
 import {darkColors, lightColors} from "./token-colors";
 
+const customColorPalette = {
+  dark: {
+    editorbg11: '#191919',
+  },
+  light: {
+    editorbg11: '#FFFFFF',
+  }
+}
+
 const colorThemeDefinition = (colorName: string) => [
   {
     parent: "light",
@@ -20,7 +29,17 @@ const colorThemeDefinition = (colorName: string) => [
 ];
 
 const themesBuilder = createThemeBuilder()
-  .addPalettes(palettes)
+  .addPalettes({
+    ...palettes,
+    dark: { 
+      ...palettes.dark, 
+      ...customColorPalette.dark 
+    },
+    light: { 
+      ...palettes.light, 
+      ...customColorPalette.light 
+    },
+  })
   .addTemplates(templates)
   .addMasks(masks)
   .addThemes({
@@ -30,6 +49,7 @@ const themesBuilder = createThemeBuilder()
       nonInheritedValues: {
         ...lightColors,
         ...shadows.light,
+        ...customColorPalette.light,
       },
     },
     dark: {
@@ -38,38 +58,18 @@ const themesBuilder = createThemeBuilder()
       nonInheritedValues: {
         ...darkColors,
         ...shadows.dark,
+        ...customColorPalette.dark,
       },
     },
   })
   .addChildThemes({
-    // orange: colorThemeDefinition('orange'),
     yellow: colorThemeDefinition("yellow"),
     green: colorThemeDefinition("green"),
     blue: colorThemeDefinition("blue"),
     purple: colorThemeDefinition("purple"),
-    // pink: colorThemeDefinition('pink'),
     red: colorThemeDefinition("red"),
     brand: colorThemeDefinition("brand"),
   });
-// .addChildThemes({
-//   alt1: {
-//     mask: 'soften',
-//     ...maskOptions.alt,
-//   },
-//   alt2: {
-//     mask: 'soften2',
-//     ...maskOptions.alt,
-//   },
-//   active: {
-//     mask: 'soften3',
-//     skip: {
-//       color: 1,
-//     },
-//   },
-// })
-// .addChildThemes(componentThemeDefinitions, {
-//   // to save bundle size but make alt themes not work on components
-//   // avoidNestingWithin: ['alt1', 'alt2'],
-// })
+
 
 export const themes = themesBuilder.build();

@@ -9,6 +9,7 @@ import {
 } from 'electron/main/electron-store/storeConfig'
 import { FileInfoTree, FileInfoWithContent, RenameFileProps, WriteFileProps } from 'electron/main/filesystem/types'
 import { DBQueryResult } from 'electron/main/vector-database/schema'
+import { TamaguiThemeTypes } from 'electron/main/electron-store/storeConfig'
 
 import { AgentConfig, ChatMetadata, Chat } from '@/lib/llm/types'
 
@@ -76,8 +77,8 @@ const electronStore = {
   setAgentConfig: createIPCHandler<(agentConfig: AgentConfig) => Promise<void>>('set-agent-config'),
   setAutoContext: createIPCHandler<(value: boolean) => Promise<void>>('set-auto-context'),
   getAutoContext: createIPCHandler<() => Promise<boolean>>('get-auto-context'),
-  setTamaguiTheme: createIPCHandler<(theme: string) => Promise<void>>('set-tamagui-theme'),
-  getTamaguiTheme: createIPCHandler<() => Promise<string>>('get-tamagui-theme'),
+  setTamaguiTheme: createIPCHandler<(theme: TamaguiThemeTypes) => Promise<void>>('set-tamagui-theme'),
+  getTamaguiTheme: createIPCHandler<() => Promise<TamaguiThemeTypes>>('get-tamagui-theme'),
 }
 
 const fileSystem = {

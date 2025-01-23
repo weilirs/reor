@@ -17,11 +17,10 @@ import { ContentProvider, useContentContext } from '../contexts/ContentContext'
 import { ChatProvider, useChatContext } from '@/contexts/ChatContext'
 import { FileProvider, useFileContext } from '@/contexts/FileContext'
 import ModalProvider from '@/contexts/ModalContext'
+import { ThemeProvider } from '../contexts/ThemeContext'
 import CommonModals from './Common/CommonModals'
 import useAppShortcuts from '../lib/shortcuts/use-shortcut'
 import WindowControls from './ui/window-controls'
-import { TamaguiProvider } from '@shm/ui';
-import tamaguiConfig from '../../tamagui.config'
 
 // Moved MainContent outside as a separate component
 const MainContent: React.FC = () => {
@@ -111,20 +110,8 @@ const MainPageContent: React.FC = () => {
 }
 
 const MainPageComponent: React.FC = () => {
-  const [theme, setTheme] = useState('dark')
-
-  useEffect(() => {
-    const fetchTheme = async () => {
-      const theme = await window.electronStore.getTamaguiTheme()
-      setTheme(theme)
-    }
-
-    fetchTheme()
-  }, [])
-
-  console.log(`Theme: ${theme}`)
   return (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme={theme}>
+    <ThemeProvider>
       <FileProvider>
         <ChatProvider>
           <ContentProvider>
@@ -134,7 +121,7 @@ const MainPageComponent: React.FC = () => {
           </ContentProvider>
         </ChatProvider>
       </FileProvider>
-    </TamaguiProvider>
+    </ThemeProvider>
   )
 }
 
