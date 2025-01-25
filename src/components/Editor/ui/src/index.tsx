@@ -1,5 +1,5 @@
 export * from "tamagui";
-export {config} from "./tamagui.config";
+export {config} from "./tamagui/tamagui.config";
 
 export {
   Button as TButton,

@@ -24,8 +24,7 @@ import { MultipleNodeSelection } from '@/lib/blocknote/core/extensions/SideMenu/
 import { HMBlockSchema } from '../schema'
 import { getNodesInSelection } from './utils'
 import { JSX } from 'react'
-import { mediaConfig } from '../ui/src/config/mediaEmbed'
-
+import { mediaConfig } from '../ui/src/tamagui/config/mediaEmbed'
 
 export type MediaType = {
   id: string

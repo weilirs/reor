@@ -71,7 +71,6 @@ const EditorManager: React.FC = () => {
 
   return (
     <YStack
-      backgroundColor="$editorbg11"
       className="relative size-full cursor-text overflow-hidden py-4 "
       onClick={() => editor?.focus()}
     >

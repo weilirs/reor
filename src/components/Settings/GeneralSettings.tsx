@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Switch from '@mui/material/Switch'
+import { XStack, YStack } from 'tamagui'
 
 export const EditorSection = () => {
   const [tempSpellCheckEnabled, setTempSpellCheckEnabled] = useState(false)
@@ -47,8 +48,8 @@ export const EditorSection = () => {
   }, [])
 
   return (
-    <div className="w-full flex-col pt-4">
-      <div className="h-[2px] w-full bg-neutral-700" />
+    <YStack className="w-full flex-col pt-4">
+      <XStack className="h-[2px] w-full bg-neutral-700" />
       <div className="flex w-full flex-wrap items-center justify-between">
         <div className="flex w-[70%] flex-col justify-center">
           <p className="xs:text-xs flex flex-col text-base text-gray-100 opacity-80 sm:text-sm">
@@ -104,7 +105,7 @@ export const EditorSection = () => {
         />
       </div>
       <div className="h-[2px] w-full bg-neutral-700" />
-    </div>
+    </YStack>
   )
 }
 

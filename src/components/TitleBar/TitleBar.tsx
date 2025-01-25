@@ -3,6 +3,7 @@ import { BsChatLeftDots, BsChatLeftDotsFill } from 'react-icons/bs'
 import NavigationButtons from './NavigationButtons'
 import ExternalLink from '../Common/ExternalLink'
 import { useChatContext } from '@/contexts/ChatContext'
+import { XStack } from 'tamagui'
 
 export const titleBarHeight = '30px'
 
@@ -20,7 +21,9 @@ const TitleBar: React.FC = () => {
   }, [])
 
   return (
-    <div className="electron-drag flex justify-between bg-[#303030]">
+    <XStack 
+      backgroundColor="$gray3"
+      className="electron-drag flex justify-between bg-[#303030]">
       <div className="mt-px flex" style={platform === 'darwin' ? { marginLeft: '65px' } : { marginLeft: '2px' }}>
         <NavigationButtons />
       </div>
@@ -48,7 +51,7 @@ const TitleBar: React.FC = () => {
           />
         )}
       </div>
-    </div>
+    </XStack>
   )
 }
 

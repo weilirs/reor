@@ -6,14 +6,6 @@ import {shadows} from "./shadows";
 import {templates} from "./templates";
 import {darkColors, lightColors} from "./token-colors";
 
-const customColorPalette = {
-  dark: {
-    editorbg11: '#191919',
-  },
-  light: {
-    editorbg11: '#FFFFFF',
-  }
-}
 
 const colorThemeDefinition = (colorName: string) => [
   {
@@ -29,17 +21,7 @@ const colorThemeDefinition = (colorName: string) => [
 ];
 
 const themesBuilder = createThemeBuilder()
-  .addPalettes({
-    ...palettes,
-    dark: { 
-      ...palettes.dark, 
-      ...customColorPalette.dark 
-    },
-    light: { 
-      ...palettes.light, 
-      ...customColorPalette.light 
-    },
-  })
+  .addPalettes({...palettes})
   .addTemplates(templates)
   .addMasks(masks)
   .addThemes({
@@ -49,7 +31,6 @@ const themesBuilder = createThemeBuilder()
       nonInheritedValues: {
         ...lightColors,
         ...shadows.light,
-        ...customColorPalette.light,
       },
     },
     dark: {
@@ -58,7 +39,6 @@ const themesBuilder = createThemeBuilder()
       nonInheritedValues: {
         ...darkColors,
         ...shadows.dark,
-        ...customColorPalette.dark,
       },
     },
   })

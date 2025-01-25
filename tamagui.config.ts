@@ -1,4 +1,4 @@
-import {config} from './src/components/ui/tamagui/tamagui.config'
+import {config} from './src/components/Editor/ui/src/tamagui/tamagui.config'
 
 type Conf = typeof config
 
@@ -7,6 +7,10 @@ declare module 'tamagui' {
 
   interface TypeOverride {
     groupNames(): 'header' | 'item' | 'blocknode' | 'pathitem' | 'icon'
+  }
+
+  export interface ThemeNameOverrides {
+    fileSidebar: true;
   }
 }
 

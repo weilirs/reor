@@ -11,7 +11,7 @@ import { useContentContext } from '@/contexts/ContentContext'
 import { useThemeManager } from '@/contexts/ThemeContext'
 
 import { Files, MessageCircle, Search, Moon, SunMoon } from '@tamagui/lucide-icons'
-import { Button } from 'tamagui'
+import { Button, YStack } from 'tamagui'
 
 export interface IconsSidebarProps {
   getShortcutDescription: (action: string) => string
@@ -25,8 +25,15 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
   const { isSettingsModalOpen, setIsSettingsModalOpen, setIsNewDirectoryModalOpen } = useModalOpeners()
   const { createUntitledNote } = useContentContext()
 
+  const determineColor = (sidebarName: string) => {
+    return sidebarShowing === sidebarName ? '$gray12' : '$gray11'
+  }
+
   return (
-    <div className="flex size-full w-[55px] flex-col items-center justify-between gap-1 bg-neutral-800 pt-2">
+    <YStack 
+      backgroundColor="$gray3"
+      className="flex size-full w-[55px] flex-col items-center justify-between gap-1 bg-neutral-800 pt-2"
+    >
       <div
         className=" flex h-8 w-full cursor-pointer items-center justify-center"
         onClick={() => setSidebarShowing('files')}
@@ -34,7 +41,7 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
           <Files 
             size={20} 
-            color={sidebarShowing === 'files' ? 'white' : 'gray'}
+            color={determineColor('files')}
             title={getShortcutDescription('open-files') || 'Files'}
           />
         </div>
@@ -46,7 +53,7 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
           <MessageCircle 
             size={20}
-            color={sidebarShowing === 'chats' ? 'white' : 'gray'}  
+            color={determineColor('chats')}  
             title={getShortcutDescription('open-chat-bot') || 'Open Chatbot'}
           />
         </div>
@@ -58,7 +65,7 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
           <Search 
             size={20}
-            color={sidebarShowing === 'search' ? 'white' : 'gray'}
+            color={determineColor('search')}
             title={getShortcutDescription('open-search') || 'Semantic Search'}
           />
         </div>
@@ -120,7 +127,7 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
           title={getShortcutDescription('open-settings-modal') || 'Settings'}
         />
       </button>
-    </div>
+    </YStack>
   )
 }
 

@@ -77,7 +77,7 @@ const App: React.FC<AppProps> = () => {
   }
 
   return (
-    <div className="max-h-screen bg-neutral-800 font-sans">
+    <div className="max-h-screen font-sans">
       <Portal>
         <ToastContainer
           theme="dark"

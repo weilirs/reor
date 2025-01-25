@@ -5,8 +5,8 @@ import {
   blueDark,
   brand,
   brandDark,
-  gray,
-  grayDark,
+  customGray,
+  customGrayDark,
   green,
   greenDark,
   // orange,
@@ -30,12 +30,13 @@ export {
   lightColor,
   lightPalette,
   lightTransparent,
+  customGrayDark
 } from "./colors";
 
 export const colorTokens = {
   light: {
     blue,
-    gray,
+    customGray,
     green,
     // orange,
     // pink,
@@ -48,7 +49,7 @@ export const colorTokens = {
   },
   dark: {
     blue: blueDark,
-    gray: grayDark,
+    gray: customGrayDark,
     green: greenDark,
     // orange: orangeDark,
     // pink: pinkDark,
@@ -74,7 +75,7 @@ export const darkColors = {
 
 export const lightColors = {
   ...colorTokens.light.blue,
-  ...colorTokens.light.gray,
+  ...colorTokens.light.customGray,
   ...colorTokens.light.green,
   // ...colorTokens.light.orange,
   // ...colorTokens.light.pink,

@@ -4,6 +4,8 @@ import { FixedSizeList } from 'react-window'
 import { isFileNodeDirectory } from '@shared/utils'
 import { useFileContext } from '@/contexts/FileContext'
 import FileItemRows from './FileItemRows'
+import { YStack, Theme } from 'tamagui'
+import { useThemeManager } from '@/contexts/ThemeContext'
 
 const getFilesAndIndentationsForSidebar = (
   files: FileInfoTree,
@@ -30,6 +32,7 @@ interface FileExplorerProps {
 }
 
 const FileSidebar: React.FC<FileExplorerProps> = ({ lheight }) => {
+  const { state, actions } = useThemeManager()
   const [listHeight, setListHeight] = useState(lheight ?? window.innerHeight - 50)
   const { vaultFilesTree, expandedDirectories, renameFile, setSelectedDirectory } = useFileContext()
 
@@ -63,26 +66,29 @@ const FileSidebar: React.FC<FileExplorerProps> = ({ lheight }) => {
 
   const filesAndIndentations = getFilesAndIndentationsForSidebar(vaultFilesTree, expandedDirectories)
   const itemCount = filesAndIndentations.length
-
   return (
-    <div
-      className="h-full grow px-1 pt-2 opacity-70"
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      onClick={handleClick}
-    >
-      <FixedSizeList
-        height={listHeight}
-        itemCount={itemCount}
-        itemSize={30}
-        width="100%"
-        itemData={{
-          filesAndIndentations,
-        }}
+    <Theme name={state}>
+      <YStack
+        backgroundColor="$gray3"
+        color="$gray11"
+        className="h-full grow px-1 pt-2 "
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onClick={handleClick}
       >
-        {FileItemRows}
-      </FixedSizeList>
-    </div>
+        <FixedSizeList
+          height={listHeight}
+          itemCount={itemCount}
+          itemSize={30}
+          width="100%"
+          itemData={{
+            filesAndIndentations,
+          }}
+        >
+          {FileItemRows}
+        </FixedSizeList>
+      </YStack>
+    </Theme>
   )
 }
 

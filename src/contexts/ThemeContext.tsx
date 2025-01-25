@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, PropsWithChildren, FC }
 import type { TamaguiThemeTypes } from 'electron/main/electron-store/storeConfig'
 import { TamaguiProvider } from 'tamagui'
 import tamaguiConfig from '../../tamagui.config'
+import { themes } from '@/components/Editor/ui/src/tamagui/themes/theme'
 
 interface ThemeActions {
   toggle: () => void
@@ -72,7 +73,7 @@ export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={manager.getContextValue()}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme={theme}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={theme} themes={themes}>
         {children}
       </TamaguiProvider>
     </ThemeContext.Provider>

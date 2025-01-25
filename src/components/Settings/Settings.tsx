@@ -6,6 +6,7 @@ import EmbeddingModelSettings from './EmbeddingSettings/EmbeddingSettings'
 import GeneralSettings from './GeneralSettings'
 
 import LLMSettingsContent from './LLMSettings/LLMSettingsContent'
+import { YStack, SizableText } from 'tamagui'
 
 interface SettingsModalProps {
   isOpen: boolean
@@ -48,53 +49,117 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     >
       <DialogContent className="border-none bg-transparent p-0 [&>button]:hidden">
         <div className="flex h-[80vh] w-[80vw] md:w-[70vw] lg:w-[50vw]">
-          <div className="flex w-[150px] flex-col rounded-l-lg border-y-0 border-l-0 border-r-[0.1px] border-solid border-gray-700 bg-dark-gray-c-seven p-2 text-white">
-            <div
-              className={`mt-2 flex cursor-pointer items-center rounded border-b border-gray-200 p-2 text-sm hover:bg-neutral-600 ${
-                activeTab === SettingsTab.GeneralSettingsTab
-                  ? 'bg-neutral-700 font-semibold text-white'
-                  : 'text-gray-200'
-              }`}
-              onClick={() => setActiveTab(SettingsTab.GeneralSettingsTab)}
+          <YStack 
+            backgroundColor="$gray12"
+            className="flex w-[150px] flex-col rounded-l-lg border-y-0 border-l-0 border-r-[0.1px] border-solid border-gray-700 p-2 text-white">
+            <YStack
+              backgroundColor={activeTab === SettingsTab.GeneralSettingsTab ? '$gray7' : ''}
+              color={activeTab === SettingsTab.GeneralSettingsTab ? '$gray13' : ''}
+              hoverStyle={{
+                backgroundColor: '$gray7',
+                backgroundFocus: '$gray8',
+              }}
+              cursor='pointer'
+              py="$2"
+              px="$2"
+              alignItems="left"
+              borderRadius="$2"
+              borderBottomWidth="$1"
+              borderBottomColor="$gray4"
+              borderBottomStyle="solid"
+              onPress={() => setActiveTab(SettingsTab.GeneralSettingsTab)}
             >
-              Editor
-            </div>
-            <div
-              className={`flex cursor-pointer items-center rounded border-b border-gray-200 p-2 text-sm hover:bg-neutral-600 ${
-                activeTab === SettingsTab.LLMSettingsTab ? 'bg-neutral-700 font-semibold text-white' : 'text-gray-200'
-              }`}
-              onClick={() => setActiveTab(SettingsTab.LLMSettingsTab)}
+              <SizableText
+                size="$2"
+                fontWeight={activeTab === SettingsTab.GeneralSettingsTab ? 'bold' : 'normal'}
+              >
+                Editor
+              </SizableText>
+            </YStack>
+            <YStack
+              backgroundColor={activeTab === SettingsTab.LLMSettingsTab ? '$gray7' : ''}
+              color={activeTab === SettingsTab.LLMSettingsTab ? '$gray13' : ''}
+              hoverStyle={{
+                backgroundColor: '$gray7',
+                backgroundFocus: '$gray8',
+              }}
+              cursor='pointer'
+              py="$2"
+              px="$2"
+              alignItems="left"
+              borderRadius="$2"
+              borderBottomWidth="$1"
+              borderBottomColor="$gray4"
+              borderBottomStyle="solid"
+              onPress={() => setActiveTab(SettingsTab.LLMSettingsTab)}
             >
-              LLM
-            </div>
-            <div
-              className={`flex cursor-pointer items-center rounded border-b border-gray-200 p-2 text-sm hover:bg-neutral-600 ${
-                activeTab === SettingsTab.EmbeddingModelTab
-                  ? 'bg-neutral-700 font-semibold text-white'
-                  : 'text-gray-200'
-              }`}
-              onClick={() => setActiveTab(SettingsTab.EmbeddingModelTab)}
+              <SizableText
+                size="$2"
+                fontWeight={activeTab === SettingsTab.LLMSettingsTab ? 'bold' : 'normal'}
+              >
+                LLM
+              </SizableText>
+            </YStack>
+            <YStack
+              backgroundColor={activeTab === SettingsTab.EmbeddingModelTab ? '$gray7' : ''}
+              color={activeTab === SettingsTab.EmbeddingModelTab ? '$gray13' : ''}
+              hoverStyle={{
+                backgroundColor: '$gray7',
+                backgroundFocus: '$gray8',
+              }}
+              cursor='pointer'
+              py="$2"
+              px="$2"
+              alignItems="left"
+              borderRadius="$2"
+              borderBottomWidth="$1"
+              borderBottomColor="$gray4"
+              borderBottomStyle="solid"
+              onPress={() => setActiveTab(SettingsTab.EmbeddingModelTab)}
             >
-              Embedding Model
-            </div>
-            <div
-              className={`flex cursor-pointer items-center rounded border-b border-gray-200 p-2 text-sm hover:bg-neutral-600 ${
-                activeTab === SettingsTab.AnalyticsTab ? 'bg-neutral-700 font-semibold text-white' : 'text-gray-200'
-              }`}
-              onClick={() => setActiveTab(SettingsTab.AnalyticsTab)}
+              <SizableText
+                size="$2"
+                fontWeight={activeTab === SettingsTab.EmbeddingModelTab ? 'bold' : 'normal'}
+              >
+                Embedding Model
+              </SizableText>
+            </YStack>
+            <YStack
+              backgroundColor={activeTab === SettingsTab.AnalyticsTab ? '$gray7' : ''}
+              color={activeTab === SettingsTab.AnalyticsTab ? '$gray13' : ''}
+              hoverStyle={{
+                backgroundColor: '$gray7',
+                backgroundFocus: '$gray8',
+              }}
+              cursor='pointer'
+              py="$2"
+              px="$2"
+              alignItems="left"
+              borderRadius="$2"
+              borderBottomWidth="$1"
+              borderBottomColor="$gray4"
+              borderBottomStyle="solid"
+              onPress={() => setActiveTab(SettingsTab.AnalyticsTab)}
             >
-              Analytics
-            </div>
-          </div>
+              <SizableText
+                size="$2"
+                fontWeight={activeTab === SettingsTab.AnalyticsTab ? 'bold' : 'normal'}
+              >
+                Analytics
+              </SizableText>
+            </YStack>
+          </YStack>
 
-          <div className="w-full flex-1 overflow-y-auto rounded-r-lg bg-dark-gray-c-three px-4">
+          <YStack 
+            width="100%"
+            className="flex-1 overflow-y-auto rounded-r-lg bg-dark-gray-c-three px-4">
             {activeTab === SettingsTab.GeneralSettingsTab && <GeneralSettings />}
             {activeTab === SettingsTab.LLMSettingsTab && <LLMSettingsContent />}
             {activeTab === SettingsTab.EmbeddingModelTab && (
               <EmbeddingModelSettings handleUserHasChangedModel={() => setWillNeedToReIndex(true)} />
             )}
             {activeTab === SettingsTab.AnalyticsTab && <AnalyticsSettings />}
-          </div>
+          </YStack>
         </div>
       </DialogContent>
     </Dialog>

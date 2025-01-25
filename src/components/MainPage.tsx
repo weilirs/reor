@@ -4,6 +4,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
+import { YStack } from 'tamagui'
 
 import '../styles/global.css'
 import ChatComponent from './Chat'
@@ -55,7 +56,7 @@ const MainPageContent: React.FC = () => {
   const panelGroupKey = `${showChatbot}-${showEditor}-${!!currentlyOpenFilePath}`
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden">
+    <YStack className="relative flex h-screen flex-col overflow-hidden">
       <TitleBar />
       <div className="flex min-h-0 flex-1">
         <div className="border-y-0 border-l-0 border-r-[0.001px] border-solid border-neutral-700">
@@ -105,7 +106,7 @@ const MainPageContent: React.FC = () => {
 
         <CommonModals />
       </div>
-    </div>
+    </YStack>
   )
 }
 

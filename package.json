@@ -26,7 +26,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "prepare": "husky",
     "type-check": "tsc && vite build",
-    "themes-build": "npx tamagui generate-themes ./src/components/ui/tamagui/themes/theme.ts ./src/components/ui/tamagui/themes/themes-generated.ts"
+    "themes-build": "npx tamagui generate-themes ./src/components/Editor/ui/src/tamagui/themes/theme.ts ./src/components/Editor/ui/src/tamagui/themes/themes-generated.ts"
   },
   "dependencies": {
     "@aarkue/tiptap-math-extension": "^1.2.2",

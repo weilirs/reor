@@ -1,8 +1,10 @@
+import { grayDark, gray } from "@tamagui/themes";
+
 export {
   blue,
   blueDark,
-  gray,
-  grayDark,
+  // gray,
+  // grayDark,
   green,
   greenDark,
   orange,
@@ -37,7 +39,7 @@ export const brand = {
   brand12: "hsl(123, 50%, 93%)",
   brandHighlight: "hsl(125, 50%, 96%)",
 };
-
+``
 export const brandDark = {
   brand1: brand.brand12,
   brand2: brand.brand11,
@@ -53,6 +55,38 @@ export const brandDark = {
   brand12: brand.brand1,
   brandHighlight: "hsl(180, 41%, 8%)",
 };
+
+export const customGray = {
+  gray1: gray.gray1,
+  gray2: gray.gray2,
+  gray3: gray.gray3,
+  gray4: gray.gray4,
+  gray5: gray.gray5,
+  gray6: gray.gray6,
+  gray7: gray.gray7,
+  gray8: gray.gray8,
+  gray9: gray.gray9,
+  gray10: gray.gray10,
+  gray11: gray.gray11,
+  gray12: 'hsl(0, 0%, 99.0%)',
+  gray13: gray.gray12,
+}
+
+export const customGrayDark = {
+  gray1: grayDark.gray1,
+  gray2: grayDark.gray2,
+  gray3: grayDark.gray3,
+  gray4: grayDark.gray4,
+  gray5: grayDark.gray5,
+  gray6: grayDark.gray6,
+  gray7: grayDark.gray7,
+  gray8: grayDark.gray8,
+  gray9: grayDark.gray9,
+  gray10: grayDark.gray10,
+  gray11: grayDark.gray11,
+  gray12: 'hsl(0, 0%, 18%)',
+  gray13: grayDark.gray12,
+}
 
 export const lightColor = "hsl(0, 0%, 9.0%)";
 export const lightPalette = [
