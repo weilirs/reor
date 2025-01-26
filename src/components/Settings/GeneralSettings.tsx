@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import Switch from '@mui/material/Switch'
-import { XStack, YStack } from 'tamagui'
+// import Switch from '@mui/material/Switch'
+import { XStack, YStack, SizableText, Switch } from 'tamagui'
 
 export const EditorSection = () => {
   const [tempSpellCheckEnabled, setTempSpellCheckEnabled] = useState(false)
@@ -48,18 +48,31 @@ export const EditorSection = () => {
   }, [])
 
   return (
-    <YStack className="w-full flex-col pt-4">
+    <YStack 
+      className="flex-col pt-4"
+      maxWidth="100%"
+      overflow="hidden"
+    >
       <XStack className="h-[2px] w-full bg-neutral-700" />
-      <div className="flex w-full flex-wrap items-center justify-between">
-        <div className="flex w-[70%] flex-col justify-center">
-          <p className="xs:text-xs flex flex-col text-base text-gray-100 opacity-80 sm:text-sm">
-            Content Flex Center
-            <span className="m-0 pt-1 text-xs text-gray-100">
+      <XStack >
+        <YStack py="$3">
+          <YStack width="40%">
+            <SizableText
+              size="$3"
+              fontWeight="semi-bold"
+            >
+              Content Flex Center
+            </SizableText>
+            <SizableText
+              size="$1"
+              py="$2"
+            >
               Centers content inside editor. Recommended for larger screens
-            </span>
-          </p>
-        </div>
+            </SizableText>
+          </YStack>
+        </YStack>
         <Switch
+          color="$gray12"
           checked={editorFlexCenter}
           onChange={() => {
             setEditorFlexCenter(!editorFlexCenter)
@@ -68,7 +81,7 @@ export const EditorSection = () => {
             }
           }}
         />
-      </div>
+      </XStack>
       <div className="h-[2px] w-full bg-neutral-700" />
       <div className="flex w-full flex-wrap items-center justify-between">
         <div className="flex w-[70%] flex-col justify-center">
@@ -104,17 +117,20 @@ export const EditorSection = () => {
           inputProps={{ 'aria-label': 'controlled' }}
         />
       </div>
-      <div className="h-[2px] w-full bg-neutral-700" />
     </YStack>
   )
 }
 
 const GeneralSettings = () => {
   return (
-    <div className="w-full flex-col justify-between rounded bg-dark-gray-c-three">
-      <h2 className="mb-0 text-2xl font-semibold text-white">Editor</h2>
-      <EditorSection />
-    </div>
+    <YStack 
+      px="$4"
+      backgroundColor="$gray1"
+      color="$gray13"
+      maxWidth="100%">
+      <h2 className="mb-0 text-2xl font-semibold">Editor</h2>
+      {/* <EditorSection /> */}
+    </YStack>
   )
 }
 
