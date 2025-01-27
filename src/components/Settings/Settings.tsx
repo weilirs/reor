@@ -8,6 +8,7 @@ import GeneralSettings from './GeneralSettings'
 import LLMSettingsContent from './LLMSettings/LLMSettingsContent'
 import { YStack, SizableText, XStack, ScrollView } from 'tamagui'
 
+
 interface SettingsModalProps {
   isOpen: boolean
   onClose: () => void
@@ -51,7 +52,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         <ScrollView>
           <XStack 
             height="80vh"
-            width='100%'
             maxWidth='70vw'
             overflow="hidden"
             >
@@ -157,7 +157,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             </YStack>
 
             <XStack
-              maxWidth="calc(100% - 150px)"
+              width="calc(100% - 150px)"
             >
               {activeTab === SettingsTab.GeneralSettingsTab && <GeneralSettings />}
               {activeTab === SettingsTab.LLMSettingsTab && <LLMSettingsContent />}
