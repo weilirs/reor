@@ -51,15 +51,14 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         <ScrollView>
           <XStack 
             height="80vh"
-            width='70vw'
-            // maxWidth="100%"
-            // md={{ width: '70vw' }}
-            // lg={{ width: '50vw' }}
+            width='100%'
+            maxWidth='70vw'
             overflow="hidden"
             >
             <YStack 
               backgroundColor="$gray12"
-              className="flex w-[150px] flex-col rounded-l-lg border-y-0 border-l-0 border-r-[0.1px] border-solid border-gray-700 p-2 text-white">
+              width="150px"
+              className="flex flex-col rounded-l-lg border-y-0 border-l-0 border-r-[0.1px] border-solid border-gray-700 p-2 text-white">
               <YStack
                 backgroundColor={activeTab === SettingsTab.GeneralSettingsTab ? '$gray7' : ''}
                 color={activeTab === SettingsTab.GeneralSettingsTab ? '$gray13' : ''}
@@ -158,14 +157,14 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             </YStack>
 
             <XStack
-              maxWidth="100%"
+              maxWidth="calc(100% - 150px)"
             >
               {activeTab === SettingsTab.GeneralSettingsTab && <GeneralSettings />}
-              {/* {activeTab === SettingsTab.LLMSettingsTab && <LLMSettingsContent />}
+              {activeTab === SettingsTab.LLMSettingsTab && <LLMSettingsContent />}
               {activeTab === SettingsTab.EmbeddingModelTab && (
                 <EmbeddingModelSettings handleUserHasChangedModel={() => setWillNeedToReIndex(true)} />
               )}
-              {activeTab === SettingsTab.AnalyticsTab && <AnalyticsSettings />} */}
+              {activeTab === SettingsTab.AnalyticsTab && <AnalyticsSettings />}
             </XStack>
           </XStack>
         </ScrollView>

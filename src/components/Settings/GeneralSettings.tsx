@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-// import Switch from '@mui/material/Switch'
-import { XStack, YStack, SizableText, Switch } from 'tamagui'
+import Switch from '@mui/material/Switch'
+import { XStack, YStack, SizableText, Separator } from 'tamagui'
 
 export const EditorSection = () => {
   const [tempSpellCheckEnabled, setTempSpellCheckEnabled] = useState(false)
@@ -51,12 +51,17 @@ export const EditorSection = () => {
     <YStack 
       className="flex-col pt-4"
       maxWidth="100%"
+      width="100%"
       overflow="hidden"
     >
       <XStack className="h-[2px] w-full bg-neutral-700" />
-      <XStack >
-        <YStack py="$3">
-          <YStack width="40%">
+      <XStack>
+        <XStack 
+        justifyContent="space-between"
+        alignItems="center"
+        py="$3"
+        width="100%">
+          <YStack width="60%">
             <SizableText
               size="$3"
               fontWeight="semi-bold"
@@ -70,53 +75,81 @@ export const EditorSection = () => {
               Centers content inside editor. Recommended for larger screens
             </SizableText>
           </YStack>
-        </YStack>
-        <Switch
-          color="$gray12"
-          checked={editorFlexCenter}
-          onChange={() => {
-            setEditorFlexCenter(!editorFlexCenter)
-            if (editorFlexCenter !== undefined) {
-              window.electronStore.setEditorFlexCenter(!editorFlexCenter)
-            }
-          }}
-        />
+          <Switch
+            checked={editorFlexCenter}
+            onChange={() => {
+              setEditorFlexCenter(!editorFlexCenter)
+              if (editorFlexCenter !== undefined) {
+                window.electronStore.setEditorFlexCenter(!editorFlexCenter)
+              }
+            }}
+          />
+        </XStack>
       </XStack>
+
       <div className="h-[2px] w-full bg-neutral-700" />
-      <div className="flex w-full flex-wrap items-center justify-between">
-        <div className="flex w-[70%] flex-col justify-center">
-          <p className="xs:text-xs flex flex-col text-base text-gray-100 opacity-80 sm:text-sm">
-            Spell Check
-            <span className="m-0 pt-1 text-xs text-gray-100">
+
+      <XStack >
+        <XStack 
+        justifyContent="space-between"
+        alignItems="center"
+        py="$3"
+        width="100%">
+          <YStack width="60%">
+            <SizableText
+              size="$3"
+              fontWeight="semi-bold"
+            >
+              Spell Check
+            </SizableText>
+            <SizableText
+              size="$1"
+              py="$2"
+            >
               Note: Quit and restart the app for this to take effect
-            </span>
-          </p>
-        </div>
-        <Switch
-          checked={tempSpellCheckEnabled}
-          onChange={() => {
-            handleSaveSpellCheck(!tempSpellCheckEnabled)
-          }}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
-      </div>
-      <div className="flex w-full flex-wrap items-center justify-between">
-        <div className="flex w-[70%] flex-col justify-center">
-          <p className="xs:text-xs flex flex-col text-base text-gray-100 opacity-80 sm:text-sm">
-            Document Statistics
-            <span className="m-0 pt-1 text-xs text-gray-100">
+            </SizableText>
+          </YStack>
+          <Switch
+            checked={tempSpellCheckEnabled}
+            onChange={() => {
+              handleSaveSpellCheck(!tempSpellCheckEnabled)
+            }}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        </XStack>
+      </XStack>
+
+      <div className="h-[2px] w-full bg-neutral-700" />
+
+      <XStack >
+        <XStack 
+        justifyContent="space-between"
+        alignItems="center"
+        py="$3"
+        width="100%">
+          <YStack width="60%">
+            <SizableText
+              size="$3"
+              fontWeight="semi-bold"
+            >
+              Document Statistics
+            </SizableText>
+            <SizableText
+              size="$1"
+              py="$2"
+            >
               Display real-time word and character statistics while editing your document
-            </span>
-          </p>
-        </div>
-        <Switch
-          checked={documentStatsEnabled}
-          onChange={() => {
-            handleSaveDocStats(!documentStatsEnabled)
-          }}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
-      </div>
+            </SizableText>
+          </YStack>
+          <Switch
+            checked={documentStatsEnabled}
+            onChange={() => {
+              handleSaveDocStats(!documentStatsEnabled)
+            }}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        </XStack>
+      </XStack>
     </YStack>
   )
 }
@@ -129,7 +162,7 @@ const GeneralSettings = () => {
       color="$gray13"
       maxWidth="100%">
       <h2 className="mb-0 text-2xl font-semibold">Editor</h2>
-      {/* <EditorSection /> */}
+      <EditorSection />
     </YStack>
   )
 }
