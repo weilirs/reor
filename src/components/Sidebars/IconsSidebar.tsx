@@ -84,7 +84,7 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
             backgroundFocus: '$gray8',
           }}
           backgroundColor={sidebarShowing === 'search' ? '$gray6' : ''}
-          className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700"
+          className="flex size-4/5 items-center justify-center rounded"
         >
           <Search 
             size={20}
@@ -97,59 +97,105 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         className="flex h-8 w-full cursor-pointer items-center justify-center border-none bg-transparent "
         onClick={() => createUntitledNote()}
       >
-        <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
+        <YStack 
+          alignItems="center"
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          className="flex size-4/5 items-center justify-center rounded">
           <HiOutlinePencilAlt
             className="text-gray-200"
             color="gray"
             size={22}
             title={getShortcutDescription('open-new-note') || 'New Note'}
           />
-        </div>
+        </YStack>
       </div>
       <div
         className="mt-[2px] flex h-8 w-full cursor-pointer items-center justify-center border-none bg-transparent "
         onClick={() => setIsNewDirectoryModalOpen(true)}
       >
-        <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
+        <YStack 
+          alignItems="center"
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          className="flex size-4/5 items-center justify-center rounded">
           <VscNewFolder
             className="text-gray-200"
             color="gray"
             size={18}
             title={getShortcutDescription('open-new-directory-modal') || 'New Directory'}
           />
-        </div>
+        </YStack>
       </div>
 
       <div className="grow border-yellow-300" />
-      <button
-        className="flex w-full cursor-pointer items-center justify-center border-none bg-transparent pb-3"
-        onClick={() => console.log(`Selected change theme`)}
-        type="button"
-        aria-label="Change Theme"
-      >
-        <Button onPress={actions.toggle} backgroundColor="transparent">
-          {state === 'light' ? <Moon size={18} /> : <SunMoon size={18} />}
-        </Button>
-      </button>
       <div
-        className="mb-[2px] flex w-full cursor-pointer items-center justify-center border-none bg-transparent pb-2"
+        className="flex h-8 w-full cursor-pointer items-center justify-center border-none bg-transparent"
+      >  
+        <YStack 
+          alignItems="center"
+          onClick={() => actions.toggle()}
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          className="flex size-4/5 items-center justify-center rounded">
+            {state === 'dark' ? (
+              <SunMoon 
+                size={20}
+                color="gray"
+                title={getShortcutDescription('toggle-theme') || 'Toggle Theme'}
+              />
+            ) : (
+              <Moon 
+                size={20}
+                color="gray"
+                title={getShortcutDescription('toggle-theme') || 'Toggle Theme'}
+              />
+            )}
+        </YStack>
+      </div>
+      <div
+        className="flex h-8 w-full cursor-pointer items-center justify-center border-none bg-transparent"
         onClick={() => window.electronUtils.openNewWindow()}
       >
-        <GrNewWindow className="text-gray-100" color="gray" size={18} title="Open New Vault" />
+        <YStack 
+          alignItems="center"
+          onClick={() => actions.toggle()}
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          className="flex size-4/5 items-center justify-center rounded"
+        >
+          <GrNewWindow className="text-gray-100" color="gray" size={14} title="Open New Vault" />
+        </YStack>
       </div>
-      <button
-        className="flex w-full cursor-pointer items-center justify-center border-none bg-transparent pb-2"
+  
+      <div
+        className="mb-[8px] flex h-8 w-full cursor-pointer items-center justify-center border-none bg-transparent"
         onClick={() => setIsSettingsModalOpen(!isSettingsModalOpen)}
-        type="button"
-        aria-label="Open Settings"
       >
-        <MdSettings
-          color="gray"
-          size={18}
-          className="mb-3 size-6 text-gray-100"
-          title={getShortcutDescription('open-settings-modal') || 'Settings'}
-        />
-      </button>
+        <YStack 
+          alignItems="center"
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          className="flex size-4/5 items-center justify-center rounded"
+        >
+          <MdSettings
+            color="gray"
+            size={18}
+            title={getShortcutDescription('open-settings-modal') || 'Settings'}
+          />
+        </YStack>
+      </div>
+
     </YStack>
   )
 }

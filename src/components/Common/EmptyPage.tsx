@@ -17,7 +17,7 @@ const EmptyPage: React.FC = () => {
           <File size={168} color="$brand3" />
         </div>
         <SizableText 
-          color="$gray12"
+          color="$gray11"
           size="$6"
           fontWeight={400}
           className="mb-0">No File Selected!</SizableText>
