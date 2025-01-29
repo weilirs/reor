@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import posthog from 'posthog-js'
 import { APIInterface, LLMAPIConfig } from 'electron/main/electron-store/storeConfig'
 import {
   anthropicDefaultAPIName,
@@ -31,10 +30,6 @@ const DefaultLLMAPISetupModal: React.FC<CloudLLMSetupModalProps> = ({ isOpen, on
 
   const handleSave = async () => {
     if (apiKey) {
-      posthog.capture('save_cloud_llm', {
-        provider: apiInterface,
-      })
-
       if (apiInterface === 'openai') {
         const api: LLMAPIConfig = {
           apiKey,
@@ -68,7 +63,7 @@ const DefaultLLMAPISetupModal: React.FC<CloudLLMSetupModalProps> = ({ isOpen, on
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] p-4">
         <DialogHeader>
           <DialogTitle>{LLMDisplayName} Setup</DialogTitle>
           <DialogDescription>Enter your {LLMDisplayName} API key below:</DialogDescription>

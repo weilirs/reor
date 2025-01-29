@@ -108,7 +108,7 @@ const CustomLLMAPISetupModal: React.FC<RemoteLLMModalProps> = ({ isOpen, onClose
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[525px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[525px] p-4">
         <DialogHeader>
           <DialogTitle>Remote LLM Setup</DialogTitle>
           <DialogDescription>
@@ -151,7 +151,7 @@ const CustomLLMAPISetupModal: React.FC<RemoteLLMModalProps> = ({ isOpen, onClose
             <label htmlFor="apiKey">Optional API Key</label>
             <Input
               id="apiKey"
-              type="password"
+              type="text"
               placeholder="API Key"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}

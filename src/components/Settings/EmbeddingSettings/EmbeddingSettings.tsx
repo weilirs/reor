@@ -62,82 +62,12 @@ const EmbeddingModelSettings: React.FC<EmbeddingModelManagerProps> = ({
   }
 
   return (
-    // <YStack 
-    //   px="$4"
-    //   backgroundColor="$gray1"
-    //   maxWidth="100%"
-    //   color="$gray13">
-
-    //   <h2 className="mb-0">Embedding Model</h2>{' '}
-
-    //   <YStack
-    //     pt="$4"
-    //     maxWidth="100%"
-    //     width="100%"
-    //     overflow="hidden"
-    //   >
-
-    //     <XStack>
-    //       <XStack 
-    //       justifyContent="space-between"
-    //       alignItems="center"
-    //       py="$3"
-    //       width="100%">
-    //         <YStack width="60%">
-    //           <SizableText
-    //             size="$3"
-    //             fontWeight="semi-bold"
-    //           >
-    //             Custom Embedding Model
-    //           </SizableText>
-    //           <SizableText
-    //             size="$1"
-    //             py="$2"
-    //           >
-    //             Reor will download a HuggingFace embedding model for you.
-    //           </SizableText>
-    //         </YStack>
-    //         <Button variant="secondary" onClick={() => setIsContextLengthModalOpen(true)}>
-    //           Attach
-    //         </Button>
-    //       </XStack>
-    //     </XStack>
-
-    //     <XStack className="h-[2px] w-full bg-neutral-700" />
-
-    //     <ChunkSizeSettings>
-    //       <div className="flex-col">
-    //         <SizableText size="$3">Change Chunk Size</SizableText>
-    //         <p className="text-xs text-gray-100 opacity-50">
-    //           A larger chunk size means more context is fed to the model at the cost of &quot;needle in a haystack&quot;
-    //           effects.
-    //         </p>
-    //       </div>
-    //     </ChunkSizeSettings>
-    //   </YStack>
-    //   {/* Warning message at the bottom */}
-    //   <p className="text-xs text-gray-100 opacity-50">
-    //     <i>
-    //       Note: If you notice some lag in the editor it is likely because you chose too large of an embedding model...
-    //     </i>
-    //   </p>{' '}
-    //   <NewRemoteEmbeddingModelModal
-    //     isOpen={isConextLengthModalOpen}
-    //     onClose={() => {
-    //       setIsContextLengthModalOpen(false)
-    //     }}
-    //     handleUserHasChangedModel={() => {
-    //       updateEmbeddingModels()
-    //       if (handleUserHasChangedModel) {
-    //         handleUserHasChangedModel()
-    //       }
-    //     }}
-    //   />
-    //   {userTriedToSubmit && !selectedModel && <p className="mt-1 text-sm text-red-500">{currentError}</p>}
-    // </YStack>
-    <SettingsSection title="LLM">
+    <SettingsSection 
+      title="Embedding Model"
+      footnote="Note: If you notice some lag in the editor it is likely because you chose too large of an embedding model..."
+    >
       <SettingsRow
-        title="DefaultLLM"
+        title="Embedding Model"
         control={
           <EmbeddingModelSelect
             selectedModel={selectedModel}
@@ -157,6 +87,26 @@ const EmbeddingModelSettings: React.FC<EmbeddingModelManagerProps> = ({
           </Button>
         }
         divider={true}
+      />
+
+      <SettingsRow
+        title='Change Chunk Size'
+        description='A larger chunk size means more context is fed to the model at the cost of "needle in a haystack" effects.'
+        control={<ChunkSizeSettings />}
+        divider={true}
+      />
+
+      <NewRemoteEmbeddingModelModal
+        isOpen={isConextLengthModalOpen}
+        onClose={() => {
+          setIsContextLengthModalOpen(false)
+        }}
+        handleUserHasChangedModel={() => {
+          updateEmbeddingModels()
+          if (handleUserHasChangedModel) {
+            handleUserHasChangedModel()
+          }
+        }}
       />
     </SettingsSection>
   )

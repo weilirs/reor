@@ -55,12 +55,12 @@ const NewRemoteEmbeddingModelModal: React.FC<NewRemoteEmbeddingModelModalProps> 
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] p-4">
         <DialogHeader>
           <DialogTitle>Custom embedding model</DialogTitle>
           <DialogDescription>
-            If you don&apos;t want to use one of our recommended embedding models, you can choose a Hugging Face model
-            and attach it here.
+            If you don&apos;t want to use one of our default embedding models, you can choose a Hugging Face model and
+            attach it here.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

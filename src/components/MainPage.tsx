@@ -18,7 +18,6 @@ import { ContentProvider, useContentContext } from '../contexts/ContentContext'
 import { ChatProvider, useChatContext } from '@/contexts/ChatContext'
 import { FileProvider, useFileContext } from '@/contexts/FileContext'
 import ModalProvider from '@/contexts/ModalContext'
-import { ThemeProvider } from '../contexts/ThemeContext'
 import CommonModals from './Common/CommonModals'
 import useAppShortcuts from '../lib/shortcuts/use-shortcut'
 import WindowControls from './ui/window-controls'
@@ -112,17 +111,15 @@ const MainPageContent: React.FC = () => {
 
 const MainPageComponent: React.FC = () => {
   return (
-    <ThemeProvider>
-      <FileProvider>
-        <ChatProvider>
-          <ContentProvider>
-            <ModalProvider>
-              <MainPageContent />
-            </ModalProvider>
-          </ContentProvider>
-        </ChatProvider>
-      </FileProvider>
-    </ThemeProvider>
+    <FileProvider>
+      <ChatProvider>
+        <ContentProvider>
+          <ModalProvider>
+            <MainPageContent />
+          </ModalProvider>
+        </ContentProvider>
+      </ChatProvider>
+    </FileProvider>
   )
 }
 
