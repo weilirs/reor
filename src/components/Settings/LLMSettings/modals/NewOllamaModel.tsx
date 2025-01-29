@@ -98,9 +98,11 @@ const NewOllamaModelModal: React.FC<NewOllamaModelModalProps> = ({ isOpen, onClo
             <Input
               type="text"
               value={modelNameBeingInputted}
-              onChange={(e) => setModelNameBeingInputted(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModelNameBeingInputted(e.target.value)}
               placeholder="llama3.2"
-              height={30}
+              size="$1"
+              py="$3"
+              px="$2"
             />
             <p className="text-xs italic text-muted-foreground">
               We recommended either nemotron-mini, llama3.2, or qwen2.5.
@@ -134,7 +136,7 @@ const NewOllamaModelModal: React.FC<NewOllamaModelModalProps> = ({ isOpen, onClo
             )}
           </div>
           <DialogFooter>
-            <Button onClick={downloadSelectedModel}>Download</Button>
+            <Button variant="secondary" onClick={downloadSelectedModel}>Download</Button>
           </DialogFooter>
         </DialogContent>
       </DialogOverlay>

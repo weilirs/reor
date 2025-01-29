@@ -54,7 +54,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             <XStack 
               height="80vh"
               maxWidth='70vw'
-              overflow="hidden"
               >
               <YStack 
                 backgroundColor="$gray12"

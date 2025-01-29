@@ -7,7 +7,8 @@ import {
   openAIDefaultLLMs,
 } from '@shared/defaultLLMs'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+// import { Input } from '@/components/ui/input'
+import { Input } from 'tamagui'
 import {
   Dialog,
   DialogContent,
@@ -68,20 +69,23 @@ const DefaultLLMAPISetupModal: React.FC<CloudLLMSetupModalProps> = ({ isOpen, on
           <DialogTitle>{LLMDisplayName} Setup</DialogTitle>
           <DialogDescription>Enter your {LLMDisplayName} API key below:</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4">
+        <div className="grid gap-4 pt-4">
           <Input
-            type="password"
             value={apiKey}
-            onChange={(e) => setAPIKey(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAPIKey(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder={`${LLMDisplayName} API Key`}
+            size="$1"
+            py="$3"
+            px="$2"
+            secureTextEntry
           />
           <p className="mt-0 text-xs text-muted-foreground">
             <i>You&apos;ll then be able to choose an {LLMDisplayName} model in the model dropdown...</i>
           </p>
         </div>
         <DialogFooter>
-          <Button onClick={handleSave}>Save</Button>
+          <Button variant="secondary" onClick={handleSave}>Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

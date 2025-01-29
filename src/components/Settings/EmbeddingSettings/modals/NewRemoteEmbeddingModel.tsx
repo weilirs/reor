@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { EmbeddingModelWithRepo } from 'electron/main/electron-store/storeConfig'
 import posthog from 'posthog-js'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+// import { Input } from '@/components/ui/input'
+import { Input } from 'tamagui'
 import {
   Dialog,
   DialogContent,
@@ -66,9 +67,12 @@ const NewRemoteEmbeddingModelModal: React.FC<NewRemoteEmbeddingModelModalProps> 
         <div className="grid gap-4 py-4">
           <Input
             value={huggingfaceRepo}
-            onChange={(e) => setHuggingfaceRepo(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHuggingfaceRepo(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Xenova/bge-base-en-v1.5"
+            size="$1"
+            py="$3"
+            px="$2"
           />
           <p className="text-xs italic text-muted-foreground">
             <ExternalLink href="https://huggingface.co/models?pipeline_tag=feature-extraction&sort=downloads&search=xenova">
