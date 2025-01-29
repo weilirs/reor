@@ -16,6 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogOverlay
 } from '@/components/ui/dialog'
 
 export interface CloudLLMSetupModalProps {
@@ -64,30 +65,32 @@ const DefaultLLMAPISetupModal: React.FC<CloudLLMSetupModalProps> = ({ isOpen, on
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px] p-4">
-        <DialogHeader>
-          <DialogTitle>{LLMDisplayName} Setup</DialogTitle>
-          <DialogDescription>Enter your {LLMDisplayName} API key below:</DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 pt-4">
-          <Input
-            value={apiKey}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAPIKey(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder={`${LLMDisplayName} API Key`}
-            size="$1"
-            py="$3"
-            px="$2"
-            secureTextEntry
-          />
-          <p className="mt-0 text-xs text-muted-foreground">
-            <i>You&apos;ll then be able to choose an {LLMDisplayName} model in the model dropdown...</i>
-          </p>
-        </div>
-        <DialogFooter>
-          <Button variant="secondary" onClick={handleSave}>Save</Button>
-        </DialogFooter>
-      </DialogContent>
+      <DialogOverlay>
+        <DialogContent className="sm:max-w-[425px] p-4">
+          <DialogHeader>
+            <DialogTitle>{LLMDisplayName} Setup</DialogTitle>
+            <DialogDescription>Enter your {LLMDisplayName} API key below:</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 pt-4">
+            <Input
+              value={apiKey}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAPIKey(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder={`${LLMDisplayName} API Key`}
+              size="$1"
+              py="$3"
+              px="$2"
+              secureTextEntry
+            />
+            <p className="mt-0 text-xs text-muted-foreground">
+              <i>You&apos;ll then be able to choose an {LLMDisplayName} model in the model dropdown...</i>
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="secondary" onClick={handleSave}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </DialogOverlay>
     </Dialog>
   )
 }

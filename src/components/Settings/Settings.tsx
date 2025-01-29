@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog'
 
 import AnalyticsSettings from './AnalyticsSettings'
 import EmbeddingModelSettings from './EmbeddingSettings/EmbeddingSettings'
-import GeneralSettings from './GeneralSettings'
+import EditorSettings from './GeneralSettings'
 
 import LLMSettingsContent from './LLMSettings/LLMSettingsContent'
 import { YStack, SizableText, XStack, ScrollView } from 'tamagui'
@@ -53,7 +53,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           <ScrollView>
             <XStack 
               height="80vh"
-              maxWidth='70vw'
+              width="100%"
               >
               <YStack 
                 backgroundColor="$gray12"
@@ -147,8 +147,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
               <XStack
                 maxWidth="calc(100% - 150px)"
+                flex={1}
               >
-                {activeTab === SettingsTab.GeneralSettingsTab && <GeneralSettings />}
+                {activeTab === SettingsTab.GeneralSettingsTab && <EditorSettings />}
                 {activeTab === SettingsTab.LLMSettingsTab && <LLMSettingsContent />}
                 {activeTab === SettingsTab.EmbeddingModelTab && (
                   <EmbeddingModelSettings handleUserHasChangedModel={() => setWillNeedToReIndex(true)} />
