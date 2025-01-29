@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, PropsWithChildren, FC } from 'react'
+import { createContext, useContext, useEffect, useState, PropsWithChildren, FC, useLayoutEffect } from 'react'
 import type { TamaguiThemeTypes } from 'electron/main/electron-store/storeConfig'
 import { TamaguiProvider } from 'tamagui'
 import tamaguiConfig from '../../tamagui.config'
@@ -57,20 +57,20 @@ export class ThemeManager {
  */
 export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
   const [theme, setTheme] = useState<TamaguiThemeTypes>('light')
-  const [manager] = useState(() => new ThemeManager(theme, setTheme))
+  const [manager, setManager] = useState<ThemeManager | null>(null)
 
-  // Fetches the theme and stores it
   useEffect(() => {
     const initTheme = async () => {
       const savedTheme = await window.electronStore.getTamaguiTheme()
-      if (savedTheme) {
-        setTheme(savedTheme)
-      }
+      console.log(`Fetched theme from store: ${savedTheme}`)
+      setTheme(savedTheme || 'light')
+      setManager(new ThemeManager(savedTheme || 'light', setTheme))
     }
 
     initTheme()
-  }, [manager])  
+  }, [])
 
+  if (!manager) return null // Prevent rendering before the theme is set
   return (
     <ThemeContext.Provider value={manager.getContextValue()}>
       <TamaguiProvider config={tamaguiConfig} defaultTheme={theme} themes={themes}>
@@ -83,8 +83,7 @@ export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
 // Custom hook for components to use
 export const useThemeManager = () => {
   const context = useContext(ThemeContext)
-  if (!context) {
+  if (!context)
     throw new Error('useThemeManager must be used within ThemeProvider')
-  }
   return context
 }

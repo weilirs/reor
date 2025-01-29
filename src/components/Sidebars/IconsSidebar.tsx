@@ -21,12 +21,11 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
   const { sidebarShowing, setSidebarShowing } = useChatContext()
   const { state, actions } = useThemeManager() // State => theme, actions => toggle, set, syncWithSystem
 
-  console.log(`State is: ${state}`)
   const { isSettingsModalOpen, setIsSettingsModalOpen, setIsNewDirectoryModalOpen } = useModalOpeners()
   const { createUntitledNote } = useContentContext()
 
   const determineColor = (sidebarName: string) => {
-    return sidebarShowing === sidebarName ? '$gray12' : '$gray11'
+    return sidebarShowing === sidebarName ? '$gray11' : '$gray9'
   }
 
   return (
@@ -38,37 +37,61 @@ const IconsSidebar: React.FC<IconsSidebarProps> = ({ getShortcutDescription }) =
         className=" flex h-8 w-full cursor-pointer items-center justify-center"
         onClick={() => setSidebarShowing('files')}
       >
-        <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
+        <YStack 
+          alignItems="center" 
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          backgroundColor={sidebarShowing === 'files' ? '$gray6' : ''}
+          className="flex size-4/5 items-center justify-center rounded"
+        >
           <Files 
             size={20} 
             color={determineColor('files')}
             title={getShortcutDescription('open-files') || 'Files'}
           />
-        </div>
+        </YStack>
       </div>
       <div
         className=" flex h-8 w-full cursor-pointer items-center justify-center"
         onClick={() => setSidebarShowing('chats')}
       >
-        <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
+        <YStack 
+          alignItems="center"
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          backgroundColor={sidebarShowing === 'chats' ? '$gray6' : ''}
+          className="flex size-4/5 items-center justify-center rounded"
+        >
           <MessageCircle 
             size={20}
             color={determineColor('chats')}  
             title={getShortcutDescription('open-chat-bot') || 'Open Chatbot'}
           />
-        </div>
+        </YStack>
       </div>
       <div
         className="flex h-8 w-full cursor-pointer items-center justify-center"
         onClick={() => setSidebarShowing('search')}
       >
-        <div className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700">
+        <YStack 
+          alignItems="center"
+          hoverStyle={{
+            backgroundColor: '$gray7',
+            backgroundFocus: '$gray8',
+          }}
+          backgroundColor={sidebarShowing === 'search' ? '$gray6' : ''}
+          className="flex size-4/5 items-center justify-center rounded hover:bg-neutral-700"
+        >
           <Search 
             size={20}
             color={determineColor('search')}
             title={getShortcutDescription('open-search') || 'Semantic Search'}
           />
-        </div>
+        </YStack>
       </div>
       <div
         className="flex h-8 w-full cursor-pointer items-center justify-center border-none bg-transparent "

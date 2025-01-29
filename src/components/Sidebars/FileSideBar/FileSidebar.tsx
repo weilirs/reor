@@ -32,7 +32,7 @@ interface FileExplorerProps {
 }
 
 const FileSidebar: React.FC<FileExplorerProps> = ({ lheight }) => {
-  const { state, actions } = useThemeManager()
+  // const { state, actions } = useThemeManager()
   const [listHeight, setListHeight] = useState(lheight ?? window.innerHeight - 50)
   const { vaultFilesTree, expandedDirectories, renameFile, setSelectedDirectory } = useFileContext()
 
@@ -67,28 +67,26 @@ const FileSidebar: React.FC<FileExplorerProps> = ({ lheight }) => {
   const filesAndIndentations = getFilesAndIndentationsForSidebar(vaultFilesTree, expandedDirectories)
   const itemCount = filesAndIndentations.length
   return (
-    <Theme name={state}>
-      <YStack
-        backgroundColor="$gray3"
-        color="$gray11"
-        className="h-full grow px-1 pt-2 "
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={handleClick}
+    <YStack
+      backgroundColor="$gray3"
+      color="$gray11"
+      className="h-full grow px-1 pt-2 "
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      onClick={handleClick}
+    >
+      <FixedSizeList
+        height={listHeight}
+        itemCount={itemCount}
+        itemSize={30}
+        width="100%"
+        itemData={{
+          filesAndIndentations,
+        }}
       >
-        <FixedSizeList
-          height={listHeight}
-          itemCount={itemCount}
-          itemSize={30}
-          width="100%"
-          itemData={{
-            filesAndIndentations,
-          }}
-        >
-          {FileItemRows}
-        </FixedSizeList>
-      </YStack>
-    </Theme>
+        {FileItemRows}
+      </FixedSizeList>
+    </YStack>
   )
 }
 
