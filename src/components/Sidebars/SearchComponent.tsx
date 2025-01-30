@@ -95,7 +95,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholder="Semantic search..."
-          fontSize="$1c"
+          fontSize="$1"
         />
       </XStack>
       {/* <div className="mt-2 w-full">

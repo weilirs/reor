@@ -78,12 +78,10 @@ export const DBSearchPreview: React.FC<DBSearchPreviewProps> = ({ dbResult: entr
       borderRadius="$4"
       borderWidth={1}
       borderColor="$borderColor"
-      backgroundColor="$backgroundDark"
       padding="$2"
       shadowColor="$gray7"
       shadowRadius="$2"
       hoverStyle={{
-        backgroundColor: "$backgroundDarker",
         shadowRadius: "$4",
       }}
       onPress={() => onSelect(entry.notepath)}

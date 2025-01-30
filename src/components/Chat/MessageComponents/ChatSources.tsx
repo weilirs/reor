@@ -7,6 +7,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/h
 import { useContentContext } from '@/contexts/ContentContext'
 import MarkdownRenderer from '@/components/Common/MarkdownRenderer'
 
+
 interface ChatSourcesProps {
   contextItems: FileInfoWithContent[] | DBEntry[]
 }
@@ -57,6 +58,9 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
             <HoverCardTrigger>
               <Card
                 className="flex h-10 w-28 shrink-0 cursor-pointer items-center justify-center bg-secondary"
+                hoverStyle={{
+                  shadowRadius: "$4",
+                }}
                 onClick={() => handleOpenContent(getItemPath(contextItem))}
               >
                 <CardDescription className="overflow-hidden break-all px-1 text-center text-xs">
