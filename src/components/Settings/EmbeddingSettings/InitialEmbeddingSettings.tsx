@@ -5,6 +5,7 @@ import { EmbeddingModelConfig } from 'electron/main/electron-store/storeConfig'
 
 import NewRemoteEmbeddingModelModal from './modals/NewRemoteEmbeddingModel'
 import EmbeddingModelSelect from './EmbeddingModelSelect'
+import { XStack, YStack, SizableText } from 'tamagui'
 
 interface InitialEmbeddingModelSettingsProps {
   setErrorMsg: (msg: string) => void
@@ -47,16 +48,16 @@ const InitialEmbeddingModelSettings: React.FC<InitialEmbeddingModelSettingsProps
   }
 
   return (
-    <div className="flex w-full items-center justify-between rounded bg-dark-gray-c-three">
-      <div className="flex flex-col">
-        <p className="mb-0 text-gray-100">Embedding Model</p>{' '}
-        <p className="text-xs text-gray-400">
+    <XStack className="flex w-full items-center justify-between rounded">
+      <YStack className="flex flex-col">
+        <SizableText color="$gray13" fontWeight={600} fontSize={16}>Embedding Model</SizableText>
+        <SizableText color="$black" fontSize={12} fontWeight={300} marginTop="$2">
           Choose a recommended model or a{' '}
           <a className="underline" onClick={() => setShowNewEmbeddingModelModal(true)}>
             custom embedding model
           </a>
-        </p>
-      </div>
+        </SizableText>
+      </YStack>
       <div className="w-[150px]">
         <EmbeddingModelSelect
           selectedModel={selectedModel}
@@ -74,7 +75,7 @@ const InitialEmbeddingModelSettings: React.FC<InitialEmbeddingModelSettingsProps
           updateEmbeddingModels()
         }}
       />
-    </div>
+    </XStack>
   )
 }
 

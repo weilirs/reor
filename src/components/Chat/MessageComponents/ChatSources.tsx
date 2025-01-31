@@ -2,11 +2,11 @@ import React from 'react'
 import { FileInfoWithContent } from 'electron/main/filesystem/types'
 import { DBEntry } from 'electron/main/vector-database/schema'
 import posthog from 'posthog-js'
-import { Card, CardDescription } from '@/components/ui/card'
+import { CardDescription } from '@/components/ui/card'
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card'
 import { useContentContext } from '@/contexts/ContentContext'
 import MarkdownRenderer from '@/components/Common/MarkdownRenderer'
-
+import { Card, ScrollView, CardFooter, YStack, CardHeader } from 'tamagui'
 
 interface ChatSourcesProps {
   contextItems: FileInfoWithContent[] | DBEntry[]
@@ -58,12 +58,9 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
             <HoverCardTrigger>
               <Card
                 className="flex h-10 w-28 shrink-0 cursor-pointer items-center justify-center bg-secondary"
-                hoverStyle={{
-                  shadowRadius: "$4",
-                }}
                 onClick={() => handleOpenContent(getItemPath(contextItem))}
               >
-                <CardDescription className="overflow-hidden break-all px-1 text-center text-xs">
+                <CardDescription className="overflow-hidden break-all text-center text-xs">
                   {truncateName(getItemName(contextItem), 20)}
                 </CardDescription>
               </Card>
