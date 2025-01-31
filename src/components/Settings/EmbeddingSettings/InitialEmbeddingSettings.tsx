@@ -6,6 +6,7 @@ import { EmbeddingModelConfig } from 'electron/main/electron-store/storeConfig'
 import NewRemoteEmbeddingModelModal from './modals/NewRemoteEmbeddingModel'
 import EmbeddingModelSelect from './EmbeddingModelSelect'
 import { XStack, YStack, SizableText } from 'tamagui'
+import { SettingsRow } from '../Shared/SettingsRow'
 
 interface InitialEmbeddingModelSettingsProps {
   setErrorMsg: (msg: string) => void
@@ -49,32 +50,34 @@ const InitialEmbeddingModelSettings: React.FC<InitialEmbeddingModelSettingsProps
 
   return (
     <XStack className="flex w-full items-center justify-between rounded">
-      <YStack className="flex flex-col">
-        <SizableText color="$gray13" fontWeight={600} fontSize={16}>Embedding Model</SizableText>
-        <SizableText color="$black" fontSize={12} fontWeight={300} marginTop="$2">
-          Choose a recommended model or a{' '}
-          <a className="underline" onClick={() => setShowNewEmbeddingModelModal(true)}>
-            custom embedding model
-          </a>
-        </SizableText>
-      </YStack>
-      <div className="w-[150px]">
-        <EmbeddingModelSelect
-          selectedModel={selectedModel}
-          embeddingModels={embeddingModels}
-          onModelChange={handleChangeOnModelSelect}
-        />
-      </div>
+      <XStack className="relative">
+        <YStack className="flex flex-col">
+          <SizableText color="$gray13" fontWeight={600} fontSize={16}>Embedding Model</SizableText>
+          <SizableText color="$black" fontSize={12} fontWeight={300} marginTop="$2">
+            Choose a recommended model or a{' '}
+            <a className="underline" onClick={() => setShowNewEmbeddingModelModal(true)}>
+              custom embedding model
+            </a>
+          </SizableText>
+        </YStack>
+        <YStack>
+          <EmbeddingModelSelect
+            selectedModel={selectedModel}
+            embeddingModels={embeddingModels}
+            onModelChange={handleChangeOnModelSelect}
+          />
+        </YStack>
 
-      <NewRemoteEmbeddingModelModal
-        isOpen={showNewEmbeddingModelModal}
-        onClose={() => {
-          setShowNewEmbeddingModelModal(false)
-        }}
-        handleUserHasChangedModel={() => {
-          updateEmbeddingModels()
-        }}
-      />
+        <NewRemoteEmbeddingModelModal
+          isOpen={showNewEmbeddingModelModal}
+          onClose={() => {
+            setShowNewEmbeddingModelModal(false)
+          }}
+          handleUserHasChangedModel={() => {
+            updateEmbeddingModels()
+          }}
+        />
+      </XStack>
     </XStack>
   )
 }

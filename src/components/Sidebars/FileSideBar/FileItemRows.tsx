@@ -129,11 +129,10 @@ const FileItemRows: React.FC<ListChildComponentProps> = ({ index, style, data })
                 backgroundColor: '$gray7',
                 backgroundFocus: '$gray8',
               }}
-              color={isSelected ? '$gray12' : ''}
               backgroundColor={isSelected ? '$gray7' : ''}
               onClick={clickOnFileOrDirectory} className={itemClasses}>
               {isDirectory && (
-                <span className="mr-2 mt-1 text-gray-200/20">
+                <span className="mr-2 mt-1">
                   {isExpanded ? (
                     // <FaChevronDown title="Collapse Directory" />
                     <ChevronDown

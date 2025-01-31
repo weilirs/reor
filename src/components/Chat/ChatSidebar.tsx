@@ -5,7 +5,7 @@ import { useChatContext } from '@/contexts/ChatContext'
 import { useContentContext } from '@/contexts/ContentContext'
 import { ChatMetadata } from '../../lib/llm/types'
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu'
-import { YStack, XStack } from 'tamagui'
+import { YStack, XStack, SizableText } from 'tamagui'
 
 export interface ChatItemProps {
   chatMetadata: ChatMetadata
@@ -17,9 +17,9 @@ export const ChatItem: React.FC<ChatItemProps> = ({ chatMetadata }) => {
 
   const isSelected = chatMetadata.id === currentChat?.id
   const itemClasses = `
-    flex items-center cursor-pointer py-2 px-3 rounded-md
+    flex items-center cursor-pointer py-2 px-3 rounded-md font-sans text-xs leading-relaxed
     transition-colors duration-150 ease-in-out
-    ${chatMetadata.id === currentChat?.id ? 'text-white' : 'text-gray-300 hover:bg-neutral-800'}
+    ${chatMetadata.id === currentChat?.id ? 'text-white' : 'text-gray-300'}
   `
 
   const handleDeleteChat = () => {
@@ -34,9 +34,14 @@ export const ChatItem: React.FC<ChatItemProps> = ({ chatMetadata }) => {
       <ContextMenuTrigger>
         <XStack 
           backgroundColor={isSelected ? "$gray7" : undefined}
+          gap="$2"
+          alignItems="center"
+          hoverStyle={{
+            backgroundColor: "$gray7",
+          }}
           onClick={() => openContent(chatMetadata.id)} className={itemClasses}>
           <IoChatbubbles />
-          <span className="ml-2 flex-1 truncate text-[11px] font-medium">{chatMetadata.displayName}</span>
+          <SizableText fontSize={11} fontWeight={500} ellipse className="flex-1">{chatMetadata.displayName}</SizableText>
         </XStack>
       </ContextMenuTrigger>
       <ContextMenuContent>
