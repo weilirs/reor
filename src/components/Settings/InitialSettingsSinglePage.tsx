@@ -34,7 +34,7 @@ const InitialSetupSinglePage: React.FC<OldInitialSettingsProps> = ({ readyForInd
             Reor is a private AI personal knowledge management tool. Each note will be saved as a markdown file to a
             vault directory on your machine.
           </SizableText>
-          <XStack className="mt-10 flex items-center justify-between border-0 border-b-2 border-solid border-neutral-700 pb-4">
+          <XStack className="mt-5 flex items-center justify-between border-0 border-b-2 border-solid border-neutral-700 pb-4">
             <YStack className="w-80 flex-col">
               <SizableText color="$gray13" fontWeight={600} fontSize={16}>Vault Directory</SizableText>
               <SizableText color="$black" fontSize={14} fontWeight={300} className="m-0 pt-1">
@@ -50,7 +50,9 @@ const InitialSetupSinglePage: React.FC<OldInitialSettingsProps> = ({ readyForInd
             <InitialEmbeddingModelSettings setErrorMsg={setEmbeddingErrorMsg} />
             {showError && embeddingErrorMsg && <p className="text-xs text-red-500">{embeddingErrorMsg}</p>}
           </div>
-          <InitialSetupLLMSettings />
+          <XStack className="flex border-0 border-b-2 border-solid border-neutral-700 pb-2">
+            <InitialSetupLLMSettings />
+          </XStack>
         </YStack>
         <div className="flex justify-end">
           <Button

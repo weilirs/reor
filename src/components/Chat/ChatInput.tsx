@@ -6,6 +6,7 @@ import { Button } from '../ui/button'
 import LLMSelectOrButton from '../Settings/LLMSettings/LLMSelectOrButton'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
+import { TextArea } from 'tamagui'
 
 interface ChatInputProps {
   userTextFieldInput: string
@@ -50,36 +51,27 @@ const ChatInput: React.FC<ChatInputProps> = ({
   return (
     <div className="flex w-full">
       <div className="z-50 flex w-full flex-col overflow-hidden rounded border-2 border-solid border-border bg-background focus-within:ring-1 focus-within:ring-ring">
-        {/* <Select value={selectedLLM}>
-          <SelectTrigger className="h-7 w-32 border-0 text-[10px] text-gray-300 focus:ring-0 focus:ring-offset-0">
-            <SelectValue placeholder="Tools" />
-          </SelectTrigger>
-          <SelectContent className="rounded-md border border-dark-gray-c-eight bg-[#1c1c1c]">
-            {allAvailableToolDefinitions.map((tool) => (
-              <SelectItem
-                key={tool.displayName}
-                value={tool.name}
-                className="cursor-pointer text-[10px] text-gray-300 hover:bg-[#252525] focus:bg-[#252525] focus:text-gray-200"
-              >
-                {tool.displayName}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select> */}
-        <textarea
+        <TextArea
           value={userTextFieldInput}
-          onKeyDown={(e) => {
+          onKeyPress={(e) => {
             if (!e.shiftKey && e.key === 'Enter') {
-              e.preventDefault()
-              handleSubmitNewMessage()
+              e.preventDefault();
+              handleSubmitNewMessage();
             }
           }}
-          className="h-[100px] w-full resize-none border-0 bg-transparent p-4 text-foreground caret-current focus:outline-none"
-          wrap="soft"
           placeholder="What can Reor help you with today?"
-          onChange={(e) => setUserTextFieldInput(e.target.value)}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
+          onChangeText={(text: string) => setUserTextFieldInput(text)}
           autoFocus
+          h={100}
+          w="100%"
+          resize="none"
+          borderWidth={0}
+          bg="transparent"
+          p="$4"
+          color="$foreground"
+          caretColor="current"
+          focusStyle={{ outline: 'none' }} 
+          fontSize={12}
         />
         <div className="mx-auto h-px w-[96%] bg-background/20" />
         <div className="flex h-10 flex-col items-center justify-between gap-2  py-2 md:flex-row md:gap-4">

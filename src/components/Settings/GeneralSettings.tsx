@@ -64,7 +64,6 @@ export const EditorSection = () => {
             }}
           />
         }
-        divider={true}
       />
       <SettingsRow
         title="Spell Check"
@@ -78,7 +77,6 @@ export const EditorSection = () => {
             inputProps={{ 'aria-label': 'controlled' }}
           />
         }
-        divider={true}
       />
       <SettingsRow
         title="Document Statistics"
@@ -92,7 +90,7 @@ export const EditorSection = () => {
             inputProps={{ 'aria-label': 'controlled' }}
           />
         }
-        divider={true}
+        divider={false}
       />
     </SettingsSection>  
   )

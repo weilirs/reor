@@ -5,8 +5,9 @@ import posthog from 'posthog-js'
 import { CardDescription } from '@/components/ui/card'
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card'
 import { useContentContext } from '@/contexts/ContentContext'
+import { Card, XStack, ScrollView } from 'tamagui'
+import { Tooltip } from '@/components/Editor/ui/src/tooltip'
 import MarkdownRenderer from '@/components/Common/MarkdownRenderer'
-import { Card, ScrollView, CardFooter, YStack, CardHeader } from 'tamagui'
 
 interface ChatSourcesProps {
   contextItems: FileInfoWithContent[] | DBEntry[]
@@ -54,23 +55,28 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
 
       <div className="scrollbar-thumb-rounded-full flex space-x-2 overflow-x-auto p-0 pb-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800">
         {contextItems.map((contextItem) => (
-          <HoverCard key={getItemPath(contextItem)} openDelay={600}>
-            <HoverCardTrigger>
-              <Card
-                className="flex h-10 w-28 shrink-0 cursor-pointer items-center justify-center bg-secondary"
-                onClick={() => handleOpenContent(getItemPath(contextItem))}
-              >
-                <CardDescription className="overflow-hidden break-all text-center text-xs">
-                  {truncateName(getItemName(contextItem), 20)}
-                </CardDescription>
-              </Card>
-            </HoverCardTrigger>
-            <HoverCardContent className="z-[100] max-h-[60vh] w-80 overflow-y-auto" sideOffset={5}>
-              <div className="">
-                <MarkdownRenderer content={getItemContent(contextItem)} />
-              </div>
-            </HoverCardContent>
-          </HoverCard>
+          <XStack>
+            <ScrollView overflowY="auto" maxHeight="300px">
+              <Tooltip content={getItemContent(contextItem)} renderMarkdown={true} placement='top'>
+                <Card
+                  cursor="pointer"
+                  overflow="hidden"
+                  borderRadius="$4"
+                  borderWidth={1}
+                  borderColor="$borderColor"
+                  shadowColor="$gray7"
+                  shadowRadius="$2"
+                  hoverStyle={{
+                    shadowRadius: "$4",
+                  }}
+                  onPress={() => handleOpenContent(getItemPath(contextItem))}
+                  color="$gray13"
+                > 
+                  <MarkdownRenderer content={truncateName(getItemName(contextItem), 20)} />
+                </Card>     
+              </Tooltip>
+            </ScrollView>
+          </XStack>
         ))}
       </div>
     </div>

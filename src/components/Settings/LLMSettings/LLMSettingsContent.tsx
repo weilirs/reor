@@ -35,7 +35,6 @@ const LLMSettingsContent: React.FC<LLMSettingsContentProps> = () => {
         control={
           <DefaultLLMSelector llmConfigs={llmConfigs} defaultLLM={defaultLLM} setDefaultLLM={setDefaultLLM} />
         } 
-        divider={true}
       />
 
      <SettingsRow
@@ -78,6 +77,7 @@ const LLMSettingsContent: React.FC<LLMSettingsContentProps> = () => {
             Custom LLM Setup
           </Button>
         }
+        divider={false}
       />
 
      <NewOllamaModelModal isOpen={openModal === 'newLocalModel'} onClose={closeModal} />

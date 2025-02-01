@@ -75,7 +75,6 @@ const EmbeddingModelSettings: React.FC<EmbeddingModelManagerProps> = ({
             onModelChange={handleChangeOnModelSelect}
           />
         }
-        divider={true}
       />
 
       <SettingsRow
@@ -86,14 +85,13 @@ const EmbeddingModelSettings: React.FC<EmbeddingModelManagerProps> = ({
             Attach
           </Button>
         }
-        divider={true}
       />
 
       <SettingsRow
         title='Change Chunk Size'
         description='A larger chunk size means more context is fed to the model at the cost of "needle in a haystack" effects.'
         control={<ChunkSizeSettings />}
-        divider={true}
+        divider={false}
       />
 
       <NewRemoteEmbeddingModelModal
