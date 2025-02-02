@@ -8,6 +8,7 @@ import { useContentContext } from '@/contexts/ContentContext'
 import { Card, XStack, ScrollView } from 'tamagui'
 import { Tooltip } from '@/components/Editor/ui/src/tooltip'
 import MarkdownRenderer from '@/components/Common/MarkdownRenderer'
+import { useThemeManager } from '@/contexts/ThemeContext'
 
 interface ChatSourcesProps {
   contextItems: FileInfoWithContent[] | DBEntry[]
@@ -19,6 +20,7 @@ const truncateName = (name: string, maxLength: number) => {
 }
 
 const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
+  const { state, actions } = useThemeManager()
   const { openContent } = useContentContext()
 
   const isDBEntry = (item: FileInfoWithContent | DBEntry): item is DBEntry => {
@@ -53,10 +55,10 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
     <div>
       <div className="mb-1 text-sm text-muted-foreground">Sources:</div>
 
-      <div className="scrollbar-thumb-rounded-full flex space-x-2 overflow-x-auto p-0 pb-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800">
+      <div className={`scrollbar-thumb-rounded-full flex space-x-2 overflow-x-auto p-0 pb-1 scrollbar-thin scrollbar-track-transparent 
+          ${state == 'light' ? 'scrollbar-thumb-gray-200' : 'scrollbar-thumb-gray-700'}`}>
         {contextItems.map((contextItem) => (
           <XStack>
-            <ScrollView overflowY="auto" maxHeight="300px">
               <Tooltip content={getItemContent(contextItem)} renderMarkdown={true} placement='top'>
                 <Card
                   cursor="pointer"
@@ -72,10 +74,11 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
                   onPress={() => handleOpenContent(getItemPath(contextItem))}
                   color="$gray13"
                 > 
-                  <MarkdownRenderer content={truncateName(getItemName(contextItem), 20)} />
+                  <ScrollView overflowY="auto" maxHeight="100px">
+                    <MarkdownRenderer content={truncateName(getItemName(contextItem), 20)} />
+                  </ScrollView>
                 </Card>     
               </Tooltip>
-            </ScrollView>
           </XStack>
         ))}
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
 import { EditorContent } from '@tiptap/react'
 import InEditorBacklinkSuggestionsDisplay from './BacklinkSuggestionsDisplay'
 import EditorContextMenu from './EditorContextMenu'
@@ -10,35 +10,12 @@ import { XStack, YStack } from 'tamagui'
 
 const EditorManager: React.FC = () => {
   const [showSearchBar, setShowSearchBar] = useState(false)
-  const [contextMenuVisible, setContextMenuVisible] = useState(false)
-  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
+
   const [editorFlex, setEditorFlex] = useState(true)
+  const [width, setWidth] = useState(0)
 
   const { editor, suggestionsState, vaultFilesFlattened } = useFileContext()
   const [showDocumentStats, setShowDocumentStats] = useState(false)
-  const { openContent } = useContentContext()
-
-  const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    setMenuPosition({
-      x: event.pageX,
-      y: event.pageY,
-    })
-    setContextMenuVisible(true)
-  }
-
-  const hideMenu = () => {
-    if (contextMenuVisible) setContextMenuVisible(false)
-  }
-
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const { target } = event
-    if (target instanceof HTMLElement && target.getAttribute('data-backlink') === 'true') {
-      event.preventDefault()
-      const backlinkPath = target.textContent
-      if (backlinkPath) openContent(backlinkPath)
-    }
-  }
 
   useEffect(() => {
     const initEditorContentCenter = async () => {
@@ -85,11 +62,11 @@ const EditorManager: React.FC = () => {
       )} */}
 
       <YStack
-        className={`py-4 relative h-full overflow-y-auto ${editorFlex ? 'flex justify-center px-24' : 'px-12'} ${showDocumentStats ? 'pb-3' : ''}`}
+        className={`py-4 relative h-full overflow-y-auto ${editorFlex && width >= 200 ? 'flex justify-center px-24' : 'px-12'} ${showDocumentStats ? 'pb-3' : ''}`}
       >
-        <YStack className="relative size-full ">
+        <YStack className="relative size-full overflow-x-hidden">
           {editor && (
-            <BlockNoteView editor={editor} >
+            <BlockNoteView editor={editor}>
               <FormattingToolbarPositioner editor={editor} />
               <SlashMenuPositioner editor={editor} />
             </BlockNoteView>

@@ -22,28 +22,28 @@ export function Tooltip({
   return content ? (
     <TTooltip placement={placement} delay={delay} open={open}>
       <TTooltip.Trigger asChild>{children}</TTooltip.Trigger>
-
-      <Theme inverse>
-        <TTooltip.Content
-          maxWidth="350px"
-          enterStyle={{x: 0, y: -5, opacity: 0, scale: 0.9}}
-          exitStyle={{x: 0, y: -5, opacity: 0, scale: 0.9}}
-          scale={1}
-          x={0}
-          y={0}
-          opacity={1}
-          paddingVertical="$1"
-          paddingHorizontal="$2"
-          animation={[
-            "fast",
-            {
-              opacity: {
-                overshootClamping: true,
-              },
+      <TTooltip.Content
+        maxWidth="350px"
+        backgroundColor="$gray4"
+        enterStyle={{x: 0, y: -5, opacity: 0, scale: 0.9}}
+        exitStyle={{x: 0, y: -5, opacity: 0, scale: 0.9}}
+        scale={1}
+        x={0}
+        y={0}
+        opacity={1}
+        paddingVertical="$1"
+        paddingHorizontal="$2"
+        animation={[
+          "fast",
+          {
+            opacity: {
+              overshootClamping: true,
             },
-          ]}
-        >
-          <TTooltip.Arrow />
+          },
+        ]}
+      >
+        <TTooltip.Arrow />
+        <ScrollView maxHeight="300px" overflowY="auto">
           <Text
             fontSize="$1"
             fontFamily="$body"
@@ -57,8 +57,8 @@ export function Tooltip({
               content
             )}
           </Text>
-        </TTooltip.Content>
-      </Theme>
+        </ScrollView>
+      </TTooltip.Content>
     </TTooltip>
   ) : (
     children

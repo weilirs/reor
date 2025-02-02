@@ -1,8 +1,8 @@
-import {
-  BlockNoteEditor,
+import { 
   BlockSchema,
   DefaultBlockSchema,
-} from '@/editor/blocknote/core'
+  BlockNoteEditor
+ } from '@/lib/blocknote/core'
 import Tippy from '@tippyjs/react'
 import {FC, useEffect, useMemo, useRef, useState} from 'react'
 import {sticky} from 'tippy.js'
