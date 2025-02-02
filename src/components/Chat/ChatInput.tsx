@@ -6,6 +6,7 @@ import { Button } from '../ui/button'
 import LLMSelectOrButton from '../Settings/LLMSettings/LLMSelectOrButton'
 import { Label } from '@/components/ui/label'
 import { TextArea, Switch } from 'tamagui'
+import { useThemeManager } from '@/contexts/ThemeContext'
 
 interface ChatInputProps {
   userTextFieldInput: string
@@ -28,7 +29,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   agentConfig,
   setAgentConfig,
 }) => {
-  // const [useStream, setUseStream] = React.useState(true)
+  const { state, actions } = useThemeManager()
 
   const handleDbSearchToggle = (checked: boolean) => {
     setAgentConfig((prevConfig) => {
@@ -111,7 +112,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
               onClick={handleSubmitNewMessage}
               disabled={loadingState !== 'idle'}
             >
-              <PiPaperPlaneRight className="size-4" />
+              <PiPaperPlaneRight className="size-4" color={state === 'light' ? 'black' : 'white'} />
             </Button>
           </div>
         </div>

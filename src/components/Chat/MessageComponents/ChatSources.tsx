@@ -68,6 +68,7 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
                   borderColor="$borderColor"
                   shadowColor="$gray7"
                   shadowRadius="$2"
+                  px="$3"
                   hoverStyle={{
                     shadowRadius: "$4",
                   }}
