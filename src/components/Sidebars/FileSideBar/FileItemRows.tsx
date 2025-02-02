@@ -129,7 +129,7 @@ const FileItemRows: React.FC<ListChildComponentProps> = ({ index, style, data })
                 backgroundColor: '$gray7',
                 backgroundFocus: '$gray8',
               }}
-              backgroundColor={isSelected ? '$gray7' : ''}
+              backgroundColor={(isSelected && !isDirectory) ? '$gray7' : ''}
               onClick={clickOnFileOrDirectory} className={itemClasses}>
               {isDirectory && (
                 <span className="mr-2 mt-1">
