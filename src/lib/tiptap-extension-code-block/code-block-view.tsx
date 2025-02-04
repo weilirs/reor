@@ -1,30 +1,19 @@
-import {Check, ChevronDown, ChevronUp, Select, XStack, YStack} from '@shm/ui'
-import {NodeViewProps} from '@tiptap/core'
-import {NodeViewContent} from '@tiptap/react'
-import {useState} from 'react'
+import { Check, ChevronDown, ChevronUp, Select, XStack, YStack } from '@shm/ui'
+import { NodeViewProps } from '@tiptap/core'
+import { NodeViewContent } from '@tiptap/react'
+import { useState } from 'react'
 
-export const CodeBlockView = ({
-  props,
-  languages,
-}: {
-  props: NodeViewProps
-  languages: string[]
-}) => {
-  const {node, updateAttributes} = props
+export const CodeBlockView = ({ props, languages }: { props: NodeViewProps; languages: string[] }) => {
+  const { node, updateAttributes } = props
   const [hovered, setHovered] = useState(false)
-  const [language, setLanguage] = useState(
-    node.attrs.language ? node.attrs.language : 'plaintext',
-  )
+  const [language, setLanguage] = useState(node.attrs.language ? node.attrs.language : 'plaintext')
   const handleChange = (newLanguage: string) => {
-    updateAttributes({language: newLanguage})
+    updateAttributes({ language: newLanguage })
     setLanguage(newLanguage)
   }
 
   return (
-    <YStack
-      onHoverIn={() => setHovered(true)}
-      onHoverOut={() => setHovered(false)}
-    >
+    <YStack onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)}>
       {hovered && (
         <XStack
           position="absolute"

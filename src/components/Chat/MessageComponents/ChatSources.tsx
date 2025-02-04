@@ -55,31 +55,33 @@ const ChatSources: React.FC<ChatSourcesProps> = ({ contextItems }) => {
     <div>
       <div className="mb-1 text-sm text-muted-foreground">Sources:</div>
 
-      <div className={`scrollbar-thumb-rounded-full flex space-x-2 overflow-x-auto p-0 pb-1 scrollbar-thin scrollbar-track-transparent 
-          ${state == 'light' ? 'scrollbar-thumb-gray-200' : 'scrollbar-thumb-gray-700'}`}>
+      <div
+        className={`scrollbar-thumb-rounded-full flex space-x-2 overflow-x-auto p-0 pb-1 scrollbar-thin scrollbar-track-transparent 
+          ${state == 'light' ? 'scrollbar-thumb-gray-200' : 'scrollbar-thumb-gray-700'}`}
+      >
         {contextItems.map((contextItem) => (
           <XStack>
-              <Tooltip content={getItemContent(contextItem)} renderMarkdown={true} placement='top'>
-                <Card
-                  cursor="pointer"
-                  overflow="hidden"
-                  borderRadius="$4"
-                  borderWidth={1}
-                  borderColor="$borderColor"
-                  shadowColor="$gray7"
-                  shadowRadius="$2"
-                  px="$3"
-                  hoverStyle={{
-                    shadowRadius: "$4",
-                  }}
-                  onPress={() => handleOpenContent(getItemPath(contextItem))}
-                  color="$gray13"
-                > 
-                  <ScrollView overflowY="auto" maxHeight="100px">
-                    <MarkdownRenderer content={truncateName(getItemName(contextItem), 20)} />
-                  </ScrollView>
-                </Card>     
-              </Tooltip>
+            <Tooltip content={getItemContent(contextItem)} renderMarkdown={true} placement="top">
+              <Card
+                cursor="pointer"
+                overflow="hidden"
+                borderRadius="$4"
+                borderWidth={1}
+                borderColor="$borderColor"
+                shadowColor="$gray7"
+                shadowRadius="$2"
+                px="$3"
+                hoverStyle={{
+                  shadowRadius: '$4',
+                }}
+                onPress={() => handleOpenContent(getItemPath(contextItem))}
+                color="$gray13"
+              >
+                <ScrollView overflowY="auto" maxHeight="100px">
+                  <MarkdownRenderer content={truncateName(getItemName(contextItem), 20)} />
+                </ScrollView>
+              </Card>
+            </Tooltip>
           </XStack>
         ))}
       </div>

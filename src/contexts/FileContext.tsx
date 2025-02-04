@@ -157,55 +157,6 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await loadFileIntoEditor(absolutePath)
   }
 
-  // const editor = useEditor({
-  //   autofocus: true,
-  //   onUpdate() {
-  //     setNeedToWriteEditorContentToDisk(true)
-  //     setNeedToIndexEditorContent(true)
-  //   },
-  //   editorProps: {},
-  //   extensions: [
-  //     StarterKit,
-  //     Document,
-  //     Paragraph,
-  //     Text,
-  //     TaskList,
-  //     MathExtension.configure({
-  //       evaluation: true,
-  //     }),
-  //     Table.configure({
-  //       resizable: true,
-  //     }),
-  //     TableRow,
-  //     TableHeader,
-  //     TableCell,
-  //     TextStyle,
-  //     SearchAndReplace.configure({
-  //       searchResultClass: 'bg-yellow-400',
-  //       disableRegex: false,
-  //     }),
-  //     Markdown.configure({
-  //       html: true,
-  //       tightLists: true,
-  //       tightListClass: 'tight',
-  //       bulletListMarker: '-',
-  //       linkify: true,
-  //       breaks: true,
-  //       transformPastedText: true,
-  //       transformCopiedText: false,
-  //     }),
-  //     TaskItem.configure({
-  //       nested: true,
-  //     }),
-  //     HighlightExtension(setHighlightData),
-  //     RichTextLink.configure({
-  //       linkOnPaste: true,
-  //       openOnClick: true,
-  //     }),
-  //     CharacterCount,
-  //   ],
-  // })
-
   const editor = useBlockNote<typeof hmBlockSchema>({
     onEditorContentChange(editor: BlockNoteEditor) {
       setNeedToWriteEditorContentToDisk(true)

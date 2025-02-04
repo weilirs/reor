@@ -89,9 +89,11 @@ const fileSystem = {
   getFilesTreeForWindow: createIPCHandler<() => Promise<FileInfoTree>>('get-files-tree-for-window'),
   readFile: createIPCHandler<(filePath: string, encoding: string) => Promise<string>>('read-file'),
   writeFile: createIPCHandler<(writeFileProps: WriteFileProps) => Promise<void>>('write-file'),
-  storeImage: createIPCHandler<(imageData: string, filePath: string, blockID: string) => Promise<string>>('store-image'),
+  storeImage:
+    createIPCHandler<(imageData: string, filePath: string, blockID: string) => Promise<string>>('store-image'),
   getImage: createIPCHandler<(fileName: string) => Promise<string | null>>('get-image'),
-  storeVideo: createIPCHandler<(videoData: string, filePath: string, blockID: string) => Promise<string>>('store-video'),
+  storeVideo:
+    createIPCHandler<(videoData: string, filePath: string, blockID: string) => Promise<string>>('store-video'),
   getVideo: createIPCHandler<(fileName: string) => Promise<string | null>>('get-video'),
   isDirectory: createIPCHandler<(filePath: string) => Promise<boolean>>('is-directory'),
   renameFile: createIPCHandler<(renameFileProps: RenameFileProps) => Promise<void>>('rename-file'),

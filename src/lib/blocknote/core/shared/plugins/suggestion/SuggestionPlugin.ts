@@ -1,23 +1,19 @@
-import {EditorState, Plugin, PluginKey} from 'prosemirror-state'
-import {Decoration, DecorationSet, EditorView} from 'prosemirror-view'
-import {BlockNoteEditor} from '../../../BlockNoteEditor'
-import {BlockSchema} from '../../../extensions/Blocks/api/blockTypes'
-import {findBlock} from '../../../extensions/Blocks/helpers/findBlock'
-import {BaseUiElementState} from '../../BaseUiElementTypes'
-import {SuggestionItem} from './SuggestionItem'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
+import { BlockNoteEditor } from '../../../BlockNoteEditor'
+import { BlockSchema } from '../../../extensions/Blocks/api/blockTypes'
+import { findBlock } from '../../../extensions/Blocks/helpers/findBlock'
+import { BaseUiElementState } from '../../BaseUiElementTypes'
+import { SuggestionItem } from './SuggestionItem'
 
-export type SuggestionsMenuState<T extends SuggestionItem> =
-  BaseUiElementState & {
-    // The suggested items to display.
-    filteredItems: T[]
-    // The index of the suggested item that's currently hovered by the keyboard.
-    keyboardHoveredItemIndex: number
-  }
+export type SuggestionsMenuState<T extends SuggestionItem> = BaseUiElementState & {
+  // The suggested items to display.
+  filteredItems: T[]
+  // The index of the suggested item that's currently hovered by the keyboard.
+  keyboardHoveredItemIndex: number
+}
 
-class SuggestionsMenuView<
-  T extends SuggestionItem,
-  BSchema extends BlockSchema,
-> {
+class SuggestionsMenuView<T extends SuggestionItem, BSchema extends BlockSchema> {
   private suggestionsMenuState?: SuggestionsMenuState<T>
   public updateSuggestionsMenu: () => void
 
@@ -26,9 +22,7 @@ class SuggestionsMenuView<
   constructor(
     private readonly editor: BlockNoteEditor<BSchema>,
     private readonly pluginKey: PluginKey,
-    updateSuggestionsMenu: (
-      suggestionsMenuState: SuggestionsMenuState<T>,
-    ) => void = () => {
+    updateSuggestionsMenu: (suggestionsMenuState: SuggestionsMenuState<T>) => void = () => {
       // noop
     },
   ) {
@@ -47,11 +41,8 @@ class SuggestionsMenuView<
 
   handleScroll = () => {
     if (this.suggestionsMenuState?.show) {
-      const decorationNode = document.querySelector(
-        `[data-decoration-id="${this.pluginState.decorationId}"]`,
-      )
-      this.suggestionsMenuState.referencePos =
-        decorationNode!.getBoundingClientRect()
+      const decorationNode = document.querySelector(`[data-decoration-id="${this.pluginState.decorationId}"]`)
+      this.suggestionsMenuState.referencePos = decorationNode!.getBoundingClientRect()
       this.updateSuggestionsMenu()
     }
   }
@@ -81,9 +72,7 @@ class SuggestionsMenuView<
       return
     }
 
-    const decorationNode = document.querySelector(
-      `[data-decoration-id="${this.pluginState.decorationId}"]`,
-    )
+    const decorationNode = document.querySelector(`[data-decoration-id="${this.pluginState.decorationId}"]`)
 
     if (this.editor.isEditable) {
       this.suggestionsMenuState = {
@@ -121,9 +110,7 @@ type SuggestionPluginState<T extends SuggestionItem> = {
   decorationId: string | undefined
 }
 
-function getDefaultPluginState<
-  T extends SuggestionItem,
->(): SuggestionPluginState<T> {
+function getDefaultPluginState<T extends SuggestionItem>(): SuggestionPluginState<T> {
   return {
     active: false,
     triggerCharacter: undefined,
@@ -145,22 +132,14 @@ function getDefaultPluginState<
  * - This version hides some unnecessary complexity from the user of the plugin.
  * - This version handles key events differently
  */
-export const setupSuggestionsMenu = <
-  T extends SuggestionItem,
-  BSchema extends BlockSchema,
->(
+export const setupSuggestionsMenu = <T extends SuggestionItem, BSchema extends BlockSchema>(
   editor: BlockNoteEditor<BSchema>,
-  updateSuggestionsMenu: (
-    suggestionsMenuState: SuggestionsMenuState<T>,
-  ) => void,
+  updateSuggestionsMenu: (suggestionsMenuState: SuggestionsMenuState<T>) => void,
 
   pluginKey: PluginKey,
   defaultTriggerCharacter: string,
   items: (query: string) => T[] = () => [],
-  onSelectItem: (props: {
-    item: T
-    editor: BlockNoteEditor<BSchema>
-  }) => void = () => {
+  onSelectItem: (props: { item: T; editor: BlockNoteEditor<BSchema> }) => void = () => {
     // noop
   },
 ) => {
@@ -172,7 +151,7 @@ export const setupSuggestionsMenu = <
   let suggestionsPluginView: SuggestionsMenuView<T, BSchema>
 
   const deactivate = (view: EditorView) => {
-    view.dispatch(view.state.tr.setMeta(pluginKey, {deactivate: true}))
+    view.dispatch(view.state.tr.setMeta(pluginKey, { deactivate: true }))
   }
 
   return {
@@ -206,8 +185,7 @@ export const setupSuggestionsMenu = <
           if (transaction.getMeta(pluginKey)?.activate) {
             return {
               active: true,
-              triggerCharacter:
-                transaction.getMeta(pluginKey)?.triggerCharacter || '',
+              triggerCharacter: transaction.getMeta(pluginKey)?.triggerCharacter || '',
               queryStartPos: newState.selection.from,
               items: items(''),
               keyboardHoveredItemIndex: 0,
@@ -223,27 +201,18 @@ export const setupSuggestionsMenu = <
             return prev
           }
 
-          const next = {...prev}
+          const next = { ...prev }
 
           // Updates which menu items to show by checking which items the current query (the text between the trigger
           // character and caret) matches with.
-          next.items = items(
-            newState.doc.textBetween(
-              prev.queryStartPos!,
-              newState.selection.from,
-            ),
-          )
+          next.items = items(newState.doc.textBetween(prev.queryStartPos!, newState.selection.from))
 
           // Updates notFoundCount if the query doesn't match any items.
           next.notFoundCount = 0
           if (next.items.length === 0) {
             // Checks how many characters were typed or deleted since the last transaction, and updates the notFoundCount
             // accordingly. Also ensures the notFoundCount does not become negative.
-            next.notFoundCount = Math.max(
-              0,
-              prev.notFoundCount! +
-                (newState.selection.from - oldState.selection.from),
-            )
+            next.notFoundCount = Math.max(0, prev.notFoundCount! + (newState.selection.from - oldState.selection.from))
           }
 
           // Hides the menu. This is done after items and notFoundCount are already updated as notFoundCount is needed to
@@ -269,12 +238,8 @@ export const setupSuggestionsMenu = <
 
           // Updates keyboardHoveredItemIndex if the up or down arrow key was
           // pressed, or resets it if the keyboard cursor moved.
-          if (
-            transaction.getMeta(pluginKey)?.selectedItemIndexChanged !==
-            undefined
-          ) {
-            let newIndex =
-              transaction.getMeta(pluginKey).selectedItemIndexChanged
+          if (transaction.getMeta(pluginKey)?.selectedItemIndexChanged !== undefined) {
+            let newIndex = transaction.getMeta(pluginKey).selectedItemIndexChanged
 
             // Allows selection to jump between first and last items.
             if (newIndex < 0) {
@@ -299,13 +264,10 @@ export const setupSuggestionsMenu = <
           // Shows the menu if the default trigger character was pressed and the menu isn't active.
           if (event.key === defaultTriggerCharacter && !menuIsActive) {
             view.dispatch(
-              view.state.tr
-                .insertText(defaultTriggerCharacter)
-                .scrollIntoView()
-                .setMeta(pluginKey, {
-                  activate: true,
-                  triggerCharacter: defaultTriggerCharacter,
-                }),
+              view.state.tr.insertText(defaultTriggerCharacter).scrollIntoView().setMeta(pluginKey, {
+                activate: true,
+                triggerCharacter: defaultTriggerCharacter,
+              }),
             )
 
             return true
@@ -317,12 +279,7 @@ export const setupSuggestionsMenu = <
           }
 
           // Handles keystrokes for navigating the menu.
-          const {
-            triggerCharacter,
-            queryStartPos,
-            items,
-            keyboardHoveredItemIndex,
-          } = pluginKey.getState(view.state)
+          const { triggerCharacter, queryStartPos, items, keyboardHoveredItemIndex } = pluginKey.getState(view.state)
 
           // Moves the keyboard selection to the previous item.
           if (event.key === 'ArrowUp') {
@@ -375,9 +332,7 @@ export const setupSuggestionsMenu = <
 
         // Setup decorator on the currently active suggestion.
         decorations(state) {
-          const {active, decorationId, queryStartPos, triggerCharacter} = (
-            this as Plugin
-          ).getState(state)
+          const { active, decorationId, queryStartPos, triggerCharacter } = (this as Plugin).getState(state)
 
           if (!active) {
             return null
@@ -389,29 +344,21 @@ export const setupSuggestionsMenu = <
             const blockNode = findBlock(state.selection)
             if (blockNode) {
               return DecorationSet.create(state.doc, [
-                Decoration.node(
-                  blockNode.pos,
-                  blockNode.pos + blockNode.node.nodeSize,
-                  {
-                    nodeName: 'span',
-                    class: 'suggestion-decorator',
-                    'data-decoration-id': decorationId,
-                  },
-                ),
+                Decoration.node(blockNode.pos, blockNode.pos + blockNode.node.nodeSize, {
+                  nodeName: 'span',
+                  class: 'suggestion-decorator',
+                  'data-decoration-id': decorationId,
+                }),
               ])
             }
           }
           // Creates an inline decoration around the trigger character.
           return DecorationSet.create(state.doc, [
-            Decoration.inline(
-              queryStartPos - triggerCharacter.length,
-              queryStartPos,
-              {
-                nodeName: 'span',
-                class: 'suggestion-decorator',
-                'data-decoration-id': decorationId,
-              },
-            ),
+            Decoration.inline(queryStartPos - triggerCharacter.length, queryStartPos, {
+              nodeName: 'span',
+              class: 'suggestion-decorator',
+              'data-decoration-id': decorationId,
+            }),
           ])
         },
       },

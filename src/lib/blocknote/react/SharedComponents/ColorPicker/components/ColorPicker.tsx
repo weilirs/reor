@@ -1,6 +1,6 @@
-import {Menu} from '@mantine/core'
-import {TiTick} from 'react-icons/ti'
-import {ColorIcon} from './ColorIcon'
+import { Menu } from '@mantine/core'
+import { TiTick } from 'react-icons/ti'
+import { ColorIcon } from './ColorIcon'
 
 export const ColorPicker = (props: {
   onClick?: () => void
@@ -13,18 +13,7 @@ export const ColorPicker = (props: {
   return (
     <>
       <Menu.Label>Text</Menu.Label>
-      {[
-        'default',
-        'gray',
-        'brown',
-        'red',
-        'orange',
-        'yellow',
-        'green',
-        'blue',
-        'purple',
-        'pink',
-      ].map((color) => (
+      {['default', 'gray', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink'].map((color) => (
         <Menu.Item
           onClick={() => {
             props.onClick && props.onClick()
@@ -36,9 +25,9 @@ export const ColorPicker = (props: {
           key={'text-color-' + color}
           rightSection={
             props.textColor === color ? (
-              <TiTick size={16} style={{paddingLeft: '8px'}} />
+              <TiTick size={16} style={{ paddingLeft: '8px' }} />
             ) : (
-              <div style={{width: '24px', padding: '0'}} />
+              <div style={{ width: '24px', padding: '0' }} />
             )
           }
         >
@@ -46,18 +35,7 @@ export const ColorPicker = (props: {
         </Menu.Item>
       ))}
       <Menu.Label>Background</Menu.Label>
-      {[
-        'default',
-        'gray',
-        'brown',
-        'red',
-        'orange',
-        'yellow',
-        'green',
-        'blue',
-        'purple',
-        'pink',
-      ].map((color) => (
+      {['default', 'gray', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink'].map((color) => (
         <Menu.Item
           onClick={() => {
             props.onClick && props.onClick()
@@ -69,9 +47,9 @@ export const ColorPicker = (props: {
           key={'background-color-' + color}
           rightSection={
             props.backgroundColor === color ? (
-              <TiTick size={16} style={{paddingLeft: '8px'}} />
+              <TiTick size={16} style={{ paddingLeft: '8px' }} />
             ) : (
-              <div style={{width: '24px', padding: '0'}} />
+              <div style={{ width: '24px', padding: '0' }} />
             )
           }
         >

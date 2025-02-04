@@ -2,7 +2,6 @@ import React, { useEffect, useState, ReactNode } from 'react'
 import Switch from '@mui/material/Switch'
 import SettingsSection, { SettingsRow } from './Shared/SettingsRow'
 
-
 export const EditorSection = () => {
   const [tempSpellCheckEnabled, setTempSpellCheckEnabled] = useState(false)
   const [documentStatsEnabled, setDocumentStatsEnabled] = useState(false)
@@ -92,7 +91,7 @@ export const EditorSection = () => {
         }
         divider={false}
       />
-    </SettingsSection>  
+    </SettingsSection>
   )
 }
 

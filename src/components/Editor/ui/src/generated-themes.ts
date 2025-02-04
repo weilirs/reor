@@ -10453,15 +10453,15 @@ export const dark_red_active_Tooltip = n423 as Theme
 export const dark_red_active_ProgressIndicator = n423 as Theme
 
 export const textSizes = {
-  '$1': {
+  $1: {
     fontSize: 8,
     lineHeight: 12,
   },
-  '$2': {
+  $2: {
     fontSize: 12,
     lineHeight: 16,
   },
-  '$3': {
+  $3: {
     fontSize: 14,
     lineHeight: 20,
   },

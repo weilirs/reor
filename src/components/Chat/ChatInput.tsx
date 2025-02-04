@@ -55,8 +55,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
           value={userTextFieldInput}
           onKeyPress={(e) => {
             if (!e.shiftKey && e.key === 'Enter') {
-              e.preventDefault();
-              handleSubmitNewMessage();
+              e.preventDefault()
+              handleSubmitNewMessage()
             }
           }}
           placeholder="What can Reor help you with today?"
@@ -93,15 +93,15 @@ const ChatInput: React.FC<ChatInputProps> = ({
                 onCheckedChange={handleDbSearchToggle}
                 className="scale-[0.6]"
               /> */}
-            <Switch
-              id="search-notes"
-              size="$1"
-              checked={!!agentConfig?.dbSearchFilters}
-              onCheckedChange={handleDbSearchToggle}
-              backgroundColor="$gray6" // Default background color
-            >
-              <Switch.Thumb animation="unset" backgroundColor="$blue9" width={20} />
-            </Switch>
+              <Switch
+                id="search-notes"
+                size="$1"
+                checked={!!agentConfig?.dbSearchFilters}
+                onCheckedChange={handleDbSearchToggle}
+                backgroundColor="$gray6" // Default background color
+              >
+                <Switch.Thumb animation="unset" backgroundColor="$blue9" width={20} />
+              </Switch>
               <Label htmlFor="stream-mode" className="mt-0 text-[8px] text-muted-foreground">
                 Search notes
               </Label>

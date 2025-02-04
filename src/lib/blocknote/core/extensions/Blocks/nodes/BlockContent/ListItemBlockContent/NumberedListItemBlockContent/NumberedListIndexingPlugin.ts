@@ -1,5 +1,5 @@
-import {Plugin, PluginKey} from 'prosemirror-state'
-import {getBlockInfoFromPos} from '../../../../helpers/getBlockInfoFromPos'
+import { Plugin, PluginKey } from 'prosemirror-state'
+import { getBlockInfoFromPos } from '../../../../helpers/getBlockInfoFromPos'
 
 // ProseMirror Plugin which automatically assigns indices to ordered list items per nesting level.
 const PLUGIN_KEY = new PluginKey(`numbered-list-indexing`)
@@ -16,10 +16,7 @@ export const NumberedListIndexingPlugin = () => {
       // same order they appear. This means the index of each list item block can be calculated by incrementing the
       // index of the previous list item block.
       newState.doc.descendants((node, pos) => {
-        if (
-          node.type.name === 'blockContainer' &&
-          node.firstChild!.type.name === 'numberedListItem'
-        ) {
+        if (node.type.name === 'blockContainer' && node.firstChild!.type.name === 'numberedListItem') {
           let newIndex = '1'
           const isFirstBlockInDoc = pos === 1
 
@@ -36,15 +33,13 @@ export const NumberedListIndexingPlugin = () => {
               return
             }
 
-            const isFirstBlockInNestingLevel =
-              blockInfo.depth !== prevBlockInfo.depth
+            const isFirstBlockInNestingLevel = blockInfo.depth !== prevBlockInfo.depth
 
             if (!isFirstBlockInNestingLevel) {
               const prevBlockContentNode = prevBlockInfo.contentNode
               const prevBlockContentType = prevBlockInfo.contentType
 
-              const isPrevBlockOrderedListItem =
-                prevBlockContentType.name === 'numberedListItem'
+              const isPrevBlockOrderedListItem = prevBlockContentType.name === 'numberedListItem'
 
               if (isPrevBlockOrderedListItem) {
                 const prevBlockIndex = prevBlockContentNode.attrs['index']

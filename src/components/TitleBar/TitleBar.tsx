@@ -22,9 +22,7 @@ const TitleBar: React.FC = () => {
   }, [])
 
   return (
-    <XStack 
-      backgroundColor="$gray3"
-      className="electron-drag flex justify-between bg-[#303030]">
+    <XStack backgroundColor="$gray3" className="electron-drag flex justify-between bg-[#303030]">
       <div className="mt-px flex" style={platform === 'darwin' ? { marginLeft: '65px' } : { marginLeft: '2px' }}>
         <NavigationButtons />
       </div>
@@ -34,11 +32,9 @@ const TitleBar: React.FC = () => {
         style={platform === 'win32' ? { marginRight: '8.5rem' } : { marginRight: '0.3rem' }}
       >
         <ExternalLink href="https://forms.gle/8H4GtEcE6MBnNAUa7" className="cursor-pointer">
-          <SizableText 
-            color="$gray13" 
-            fontSize={14} 
-            className="mr-2"
-          >Feedback</SizableText>
+          <SizableText color="$gray13" fontSize={14} className="mr-2">
+            Feedback
+          </SizableText>
         </ExternalLink>
         {showChatbot ? (
           <MessageSquareOff

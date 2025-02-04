@@ -1,6 +1,6 @@
-import {Selection} from 'prosemirror-state'
-import {Fragment, Node, ResolvedPos, Slice} from 'prosemirror-model'
-import {Mappable} from 'prosemirror-transform'
+import { Selection } from 'prosemirror-state'
+import { Fragment, Node, ResolvedPos, Slice } from 'prosemirror-model'
+import { Mappable } from 'prosemirror-transform'
 
 /**
  * This class represents an editor selection which spans multiple nodes/blocks. It's currently only used to allow users
@@ -75,13 +75,10 @@ export class MultipleNodeSelection extends Selection {
       return Selection.near(doc.resolve(toResult.pos))
     }
 
-    return new MultipleNodeSelection(
-      doc.resolve(fromResult.pos),
-      doc.resolve(toResult.pos),
-    )
+    return new MultipleNodeSelection(doc.resolve(fromResult.pos), doc.resolve(toResult.pos))
   }
 
   toJSON(): any {
-    return {type: 'node', anchor: this.anchor, head: this.head}
+    return { type: 'node', anchor: this.anchor, head: this.head }
   }
 }

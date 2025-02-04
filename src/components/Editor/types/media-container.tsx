@@ -1,10 +1,10 @@
 // import {DAEMON_FILE_UPLOAD_URL} from '@shm/shared'
-import {Button, Text, XStack, YStack, toast} from '@shm/ui'
-import {useState} from 'react'
-import {Block, BlockNoteEditor} from '@lib/blocknote'
+import { Button, Text, XStack, YStack, toast } from '@shm/ui'
+import { useState } from 'react'
+import { Block, BlockNoteEditor } from '@lib/blocknote'
 import { HMBlockSchema } from '../schema'
 import { InlineContent } from '@/lib/blocknote/react'
-import {MediaType} from './media-render'
+import { MediaType } from './media-render'
 
 interface ContainerProps {
   editor: BlockNoteEditor<HMBlockSchema>
@@ -81,11 +81,7 @@ export const MediaContainer = ({
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         const file = Array.from(e.dataTransfer.files)[0]
         if (!file.type.includes(`${mediaType}/`) && mediaType !== 'file') {
-          toast.error(
-            `The dragged file is not ${
-              mediaType === 'image' ? 'an' : 'a'
-            } ${mediaType}.`,
-          )
+          toast.error(`The dragged file is not ${mediaType === 'image' ? 'an' : 'a'} ${mediaType}.`)
           return
         }
         handleDragReplace(file)
@@ -93,30 +89,19 @@ export const MediaContainer = ({
       }
     },
     onDragOver: (e: React.DragEvent<HTMLDivElement>) => {
-      if (
-        e.dataTransfer &&
-        e.dataTransfer.types &&
-        Array.from(e.dataTransfer.types).includes('Files')
-      ) {
+      if (e.dataTransfer && e.dataTransfer.types && Array.from(e.dataTransfer.types).includes('Files')) {
         e.preventDefault()
         e.stopPropagation()
         setDrag(true)
       }
     },
     onDragEnter: (e: React.DragEvent<HTMLDivElement>) => {
-      if (
-        e.dataTransfer &&
-        e.dataTransfer.types &&
-        Array.from(e.dataTransfer.types).includes('Files')
-      ) {
+      if (e.dataTransfer && e.dataTransfer.types && Array.from(e.dataTransfer.types).includes('Files')) {
         const relatedTarget = e.relatedTarget as HTMLElement
         e.preventDefault()
         e.stopPropagation()
         setDrag(true)
-        if (
-          (!relatedTarget || !e.currentTarget.contains(relatedTarget)) &&
-          e.dataTransfer.effectAllowed !== 'move'
-        ) {
+        if ((!relatedTarget || !e.currentTarget.contains(relatedTarget)) && e.dataTransfer.effectAllowed !== 'move') {
           setSelected(true)
         }
       }
@@ -126,10 +111,7 @@ export const MediaContainer = ({
       e.preventDefault()
       e.stopPropagation()
       setDrag(false)
-      if (
-        (!relatedTarget || !e.currentTarget.contains(relatedTarget)) &&
-        e.dataTransfer.effectAllowed !== 'move'
-      ) {
+      if ((!relatedTarget || !e.currentTarget.contains(relatedTarget)) && e.dataTransfer.effectAllowed !== 'move') {
         setSelected(false)
       }
     },
@@ -202,13 +184,7 @@ export const MediaContainer = ({
               Drop to replace
             </Text>
           </XStack>
-          <XStack
-            opacity={0.75}
-            backgroundColor="$backgroundHover"
-            position="absolute"
-            fullscreen
-            zIndex={1}
-          />
+          <XStack opacity={0.75} backgroundColor="$backgroundHover" position="absolute" fullscreen zIndex={1} />
         </XStack>
       ) : null}
       <YStack
@@ -241,10 +217,7 @@ export const MediaContainer = ({
                       url: '',
                       name: '',
                       size: '0',
-                      width:
-                        mediaType === 'image'
-                          ? editor.domElement.firstElementChild!.clientWidth
-                          : undefined,
+                      width: mediaType === 'image' ? editor.domElement.firstElementChild!.clientWidth : undefined,
                     },
                     children: [],
                     content: [],

@@ -1,13 +1,8 @@
-import {isNodeSelection, isTextSelection, posToDOMRect} from '@tiptap/core'
-import {EditorState, Plugin, PluginKey} from 'prosemirror-state'
-import {EditorView} from 'prosemirror-view'
-import {
-  BaseUiElementCallbacks,
-  BaseUiElementState,
-  BlockNoteEditor,
-  BlockSchema,
-} from '../..'
-import {EventEmitter} from '../../shared/EventEmitter'
+import { isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import { BaseUiElementCallbacks, BaseUiElementState, BlockNoteEditor, BlockSchema } from '../..'
+import { EventEmitter } from '../../shared/EventEmitter'
 
 export type FormattingToolbarCallbacks = BaseUiElementCallbacks
 
@@ -21,20 +16,19 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
   public preventShow = false
   public prevWasEditable: boolean | null = null
 
-  public shouldShow: (props: {
-    view: EditorView
-    state: EditorState
-    from: number
-    to: number
-  }) => boolean = ({view, state, from, to}) => {
-    const {doc, selection} = state
-    const {empty} = selection
+  public shouldShow: (props: { view: EditorView; state: EditorState; from: number; to: number }) => boolean = ({
+    view,
+    state,
+    from,
+    to,
+  }) => {
+    const { doc, selection } = state
+    const { empty } = selection
 
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    const isEmptyTextBlock =
-      !doc.textBetween(from, to).length && isTextSelection(state.selection)
+    const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection)
 
     return !(
       !view.hasFocus() ||
@@ -48,9 +42,7 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
   constructor(
     private readonly editor: BlockNoteEditor<BSchema>,
     private readonly pmView: EditorView,
-    updateFormattingToolbar: (
-      formattingToolbarState: FormattingToolbarState,
-    ) => void,
+    updateFormattingToolbar: (formattingToolbarState: FormattingToolbarState) => void,
   ) {
     this.updateFormattingToolbar = () => {
       if (!this.formattingToolbarState) {
@@ -108,8 +100,7 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
       event &&
       event.relatedTarget &&
       // Element is inside the editor.
-      (editorWrapper === (event.relatedTarget as Node) ||
-        editorWrapper?.contains(event.relatedTarget as Node))
+      (editorWrapper === (event.relatedTarget as Node) || editorWrapper?.contains(event.relatedTarget as Node))
     ) {
       return
     }
@@ -128,23 +119,18 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
   }
 
   update(view: EditorView, oldState?: EditorState) {
-    const {state, composing} = view
-    const {doc, selection} = state
-    const isSame =
-      oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
+    const { state, composing } = view
+    const { doc, selection } = state
+    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
-    if (
-      (this.prevWasEditable === null ||
-        this.prevWasEditable === this.editor.isEditable) &&
-      (composing || isSame)
-    ) {
+    if ((this.prevWasEditable === null || this.prevWasEditable === this.editor.isEditable) && (composing || isSame)) {
       return
     }
 
     this.prevWasEditable = this.editor.isEditable
 
     // support for CellSelections
-    const {ranges} = selection
+    const { ranges } = selection
     const from = Math.min(...ranges.map((range) => range.$from.pos))
     const to = Math.max(...ranges.map((range) => range.$to.pos))
 
@@ -156,11 +142,7 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
     })
 
     // Checks if menu should be shown/updated.
-    if (
-      this.editor.isEditable &&
-      !this.preventShow &&
-      (shouldShow || this.preventHide)
-    ) {
+    if (this.editor.isEditable && !this.preventShow && (shouldShow || this.preventHide)) {
       this.formattingToolbarState = {
         show: true,
         referencePos: this.getSelectionBoundingBox(),
@@ -196,11 +178,11 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
   }
 
   getSelectionBoundingBox() {
-    const {state} = this.pmView
-    const {selection} = state
+    const { state } = this.pmView
+    const { selection } = state
 
     // support for CellSelections
-    const {ranges} = selection
+    const { ranges } = selection
     const from = Math.min(...ranges.map((range) => range.$from.pos))
     const to = Math.max(...ranges.map((range) => range.$to.pos))
 
@@ -216,13 +198,9 @@ export class FormattingToolbarView<BSchema extends BlockSchema> {
   }
 }
 
-export const formattingToolbarPluginKey = new PluginKey(
-  'FormattingToolbarPlugin',
-)
+export const formattingToolbarPluginKey = new PluginKey('FormattingToolbarPlugin')
 
-export class FormattingToolbarProsemirrorPlugin<
-  BSchema extends BlockSchema,
-> extends EventEmitter<any> {
+export class FormattingToolbarProsemirrorPlugin<BSchema extends BlockSchema> extends EventEmitter<any> {
   private view: FormattingToolbarView<BSchema> | undefined
   public readonly plugin: Plugin
 

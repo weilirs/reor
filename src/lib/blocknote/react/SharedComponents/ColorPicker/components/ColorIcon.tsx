@@ -1,4 +1,4 @@
-import {Box} from '@mantine/core'
+import { Box } from '@mantine/core'
 import { createStyles } from '@mantine/styles'
 
 export const ColorIcon = (
@@ -8,7 +8,7 @@ export const ColorIcon = (
     size: number | undefined
   }>,
 ) => {
-  const {classes} = createStyles({root: {}})(undefined, {
+  const { classes } = createStyles({ root: {} })(undefined, {
     name: 'ColorIcon',
   })
 

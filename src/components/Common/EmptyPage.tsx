@@ -16,12 +16,12 @@ const EmptyPage: React.FC = () => {
         <div className="opacity-10 mb-2">
           <File size={168} color="$brand3" />
         </div>
-        <SizableText 
-          color="$gray11"
-          size="$6"
-          fontWeight={400}
-          className="mb-0">No File Selected!</SizableText>
-        <SizableText color="$gray11" paddingTop={6}>Open a file and get back to work!</SizableText>
+        <SizableText color="$gray11" size="$6" fontWeight={400} className="mb-0">
+          No File Selected!
+        </SizableText>
+        <SizableText color="$gray11" paddingTop={6}>
+          Open a file and get back to work!
+        </SizableText>
         <YStack paddingTop={20}>
           <button
             className="cursor-pointer border-0 bg-transparent pb-1 pr-0 text-left text-2lg text-blue-500"

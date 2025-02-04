@@ -1,7 +1,7 @@
-import {getLinkMenuItems} from '@/editor/blocknote/core'
-import {linkMenuPluginKey} from '@/editor/blocknote/core/extensions/LinkMenu/LinkMenuPlugin'
-import {loadWebLinkMeta} from '@/models/web-links'
-import {toPlainMessage} from '@bufbuild/protobuf'
+import { getLinkMenuItems } from '@/editor/blocknote/core'
+import { linkMenuPluginKey } from '@/editor/blocknote/core/extensions/LinkMenu/LinkMenuPlugin'
+import { loadWebLinkMeta } from '@/models/web-links'
+import { toPlainMessage } from '@bufbuild/protobuf'
 import {
   GRPCClient,
   StateStream,
@@ -16,12 +16,12 @@ import {
   packHmId,
   unpackHmId,
 } from '@shm/shared'
-import {Editor} from '@tiptap/core'
-import {Mark, MarkType} from '@tiptap/pm/model'
-import {Plugin, PluginKey} from '@tiptap/pm/state'
-import {Decoration, DecorationSet} from '@tiptap/pm/view'
-import {find} from 'linkifyjs'
-import {nanoid} from 'nanoid'
+import { Editor } from '@tiptap/core'
+import { Mark, MarkType } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { find } from 'linkifyjs'
+import { nanoid } from 'nanoid'
 
 type PasteHandlerOptions = {
   grpcClient: GRPCClient
@@ -70,8 +70,8 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         return this.getState(state)
       },
       handlePaste: (view, event, slice) => {
-        const {state} = view
-        const {selection} = state
+        const { state } = view
+        const { selection } = state
 
         // Do not proceed if in code block.
         if (state.doc.resolve(selection.from).parent.type.spec.code) {
@@ -98,12 +98,9 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         }
 
         const hasPastedLink = pastedLinkMarks.length > 0
-        const link = find(textContent).find(
-          (item) => item.isLink && item.value === textContent,
-        )
+        const link = find(textContent).find((item) => item.isLink && item.value === textContent)
         const unpackedHmId =
-          isHypermediaScheme(textContent) ||
-          isPublicGatewayLink(textContent, options.gwUrl)
+          isHypermediaScheme(textContent) || isPublicGatewayLink(textContent, options.gwUrl)
             ? unpackHmId(textContent)
             : null
 
@@ -111,8 +108,8 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           const pastedLink = unpackedHmId
             ? packHmId(unpackedHmId)
             : hasPastedLink
-            ? pastedLinkMarks[0].attrs.href
-            : link?.href || null
+              ? pastedLinkMarks[0].attrs.href
+              : link?.href || null
           if (pastedLink) {
             if (unpackedHmId) {
               options.editor
@@ -125,7 +122,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
               let id = nanoid(8)
               options.editor
                 .chain()
-                .command(({tr}) => {
+                .command(({ tr }) => {
                   tr.setMeta('hmPlugin:uncheckedLink', id)
                   return true
                 })
@@ -164,7 +161,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           )
 
           fetchEntityTitle(unpackedHmId, options.grpcClient)
-            .then(({title}) => {
+            .then(({ title }) => {
               if (title) {
                 view.dispatch(
                   tr.insertText(title, pos).addMark(
@@ -423,7 +420,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           return true
         }
 
-        const {tr} = state
+        const { tr } = state
         let deleteOnly = false
 
         if (!selection.empty) {
@@ -446,19 +443,14 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
             fragmentLinks.forEach((fragmentLink) => {
               const linkStart = currentPos + fragmentLink.start
               const linkEnd = currentPos + fragmentLink.end
-              const hasMark = tr.doc.rangeHasMark(
-                linkStart,
-                linkEnd,
-                options.type,
-              )
+              const hasMark = tr.doc.rangeHasMark(linkStart, linkEnd, options.type)
 
               if (!hasMark) {
                 let id = nanoid(8)
-                tr.addMark(
-                  linkStart,
-                  linkEnd,
-                  options.type.create({href: fragmentLink.href, id}),
-                ).setMeta('hmPlugin:uncheckedLink', id)
+                tr.addMark(linkStart, linkEnd, options.type.create({ href: fragmentLink.href, id })).setMeta(
+                  'hmPlugin:uncheckedLink',
+                  id,
+                )
               }
             })
           }
@@ -484,13 +476,9 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
       const extensionArray = matchResult[0].split('.')
       const extension = extensionArray[extensionArray.length - 1]
       if (['png', 'jpg', 'jpeg'].includes(extension)) return [1, matchResult[0]]
-      else if (['pdf', 'xml', 'csv'].includes(extension))
-        return [2, matchResult[0]]
-      else if (['mp4', 'webm', 'ogg'].includes(extension))
-        return [3, matchResult[0]]
-    } else if (
-      ['youtu.be', 'youtube', 'vimeo'].some((value) => url.includes(value))
-    ) {
+      else if (['pdf', 'xml', 'csv'].includes(extension)) return [2, matchResult[0]]
+      else if (['mp4', 'webm', 'ogg'].includes(extension)) return [3, matchResult[0]]
+    } else if (['youtu.be', 'youtube', 'vimeo'].some((value) => url.includes(value))) {
       return [3, '']
     } else if (['twitter', 'x.com'].some((value) => url.includes(value))) {
       return [4, '']
@@ -501,10 +489,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
   return pastePlugin
 }
 
-async function fetchEntityTitle(
-  hmId: UnpackedHypermediaId,
-  grpcClient: GRPCClient,
-) {
+async function fetchEntityTitle(hmId: UnpackedHypermediaId, grpcClient: GRPCClient) {
   if (hmId.type == 'd') {
     const document = await grpcClient.documents.getDocument({
       account: hmId.uid,
@@ -527,10 +512,7 @@ async function fetchEntityTitle(
         })
 
         return {
-          title: `Comment from ${
-            profile.metadata?.alias ||
-            `${profile.id.slice(0, 5)}...${profile.id.slice(-5)}`
-          }`,
+          title: `Comment from ${profile.metadata?.alias || `${profile.id.slice(0, 5)}...${profile.id.slice(-5)}`}`,
         }
       } else {
         return {
@@ -539,8 +521,8 @@ async function fetchEntityTitle(
       }
     } catch (error) {
       console.error(`fetchEntityTitle error: ${JSON.stringify(error)}`)
-      return {title: null}
+      return { title: null }
     }
   }
-  return {title: null}
+  return { title: null }
 }

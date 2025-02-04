@@ -90,7 +90,7 @@ const AssistantMessage: React.FC<AssistantMessageProps> = ({ message, setCurrent
                 className="cursor-pointer items-center justify-center rounded px-1 hover:bg-neutral-700"
                 onClick={createNewNoteFromMessage}
               >
-                <HiOutlinePencilAlt color="gray" size={18} className="text-gray-200" title="New Note"  />
+                <HiOutlinePencilAlt color="gray" size={18} className="text-gray-200" title="New Note" />
               </YStack>
             </div>
           </div>

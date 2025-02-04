@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogOverlay
+  DialogOverlay,
 } from '@/components/ui/dialog'
 import ExternalLink from '@/components/Common/ExternalLink'
 import errorToStringRendererProcess from '@/lib/error'
@@ -90,8 +90,8 @@ const NewOllamaModelModal: React.FC<NewOllamaModelModalProps> = ({ isOpen, onClo
             <DialogTitle>New Local LLM</DialogTitle>
             <DialogDescription>
               Reor will automatically download an LLM. Please choose an LLM from the{' '}
-              <ExternalLink href="https://ollama.com/library">Ollama Library</ExternalLink> and paste the name of the LLM
-              below:
+              <ExternalLink href="https://ollama.com/library">Ollama Library</ExternalLink> and paste the name of the
+              LLM below:
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -136,7 +136,9 @@ const NewOllamaModelModal: React.FC<NewOllamaModelModalProps> = ({ isOpen, onClo
             )}
           </div>
           <DialogFooter>
-            <Button variant="secondary" onClick={downloadSelectedModel}>Download</Button>
+            <Button variant="secondary" onClick={downloadSelectedModel}>
+              Download
+            </Button>
           </DialogFooter>
         </DialogContent>
       </DialogOverlay>

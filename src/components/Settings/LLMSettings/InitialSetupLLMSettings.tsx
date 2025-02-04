@@ -22,13 +22,10 @@ const InitialSetupLLMSettings: React.FC<InitialSetupLLMSettingsProps> = () => {
   }
 
   return (
-    <XStack 
-      width="100%" 
-      justifyContent="space-between" 
-      alignItems="center"  
-      paddingTop="$2"
-    >
-      <SizableText color="$gray13" fontWeight={600}>LLM</SizableText>
+    <XStack width="100%" justifyContent="space-between" alignItems="center" paddingTop="$2">
+      <SizableText color="$gray13" fontWeight={600}>
+        LLM
+      </SizableText>
       <Dialog open={isSetupModalOpen} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
           <Button

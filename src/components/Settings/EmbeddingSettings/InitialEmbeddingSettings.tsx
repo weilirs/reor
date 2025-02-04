@@ -51,7 +51,9 @@ const InitialEmbeddingModelSettings: React.FC<InitialEmbeddingModelSettingsProps
   return (
     <XStack width="100%">
       <YStack flex={1}>
-        <SizableText color="$gray13" fontWeight={600} fontSize={16}>Embedding Model</SizableText>
+        <SizableText color="$gray13" fontWeight={600} fontSize={16}>
+          Embedding Model
+        </SizableText>
         <SizableText color="$black" fontSize={12} fontWeight={300} marginTop="$2">
           Choose a recommended model or a{' '}
           <a className="underline" onClick={() => setShowNewEmbeddingModelModal(true)}>

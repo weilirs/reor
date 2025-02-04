@@ -1,5 +1,5 @@
-import {Extension} from '@tiptap/core'
-import {Plugin, PluginKey} from 'prosemirror-state'
+import { Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 // based on https://github.com/ueberdosis/tiptap/blob/40a9404c94c7fef7900610c195536384781ae101/demos/src/Experiments/TrailingNode/Vue/trailing-node.ts
 
@@ -29,7 +29,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
       new Plugin({
         key: plugin,
         appendTransaction: (_, __, state) => {
-          const {doc, tr, schema} = state
+          const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size - 2
           const type = schema.nodes['blockContainer']
@@ -38,10 +38,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
             return
           }
 
-          return tr.insert(
-            endPosition,
-            type.create(undefined, contentType.create()),
-          )
+          return tr.insert(endPosition, type.create(undefined, contentType.create()))
         },
         state: {
           init: (_, _state) => {

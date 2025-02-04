@@ -46,8 +46,8 @@ export class ThemeManager {
         syncWithSystem: () => {
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
           this.updateTheme(prefersDark ? 'dark' : 'light')
-        }
-      }
+        },
+      },
     }
   }
 }
@@ -83,7 +83,6 @@ export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
 // Custom hook for components to use
 export const useThemeManager = () => {
   const context = useContext(ThemeContext)
-  if (!context)
-    throw new Error('useThemeManager must be used within ThemeProvider')
+  if (!context) throw new Error('useThemeManager must be used within ThemeProvider')
   return context
 }

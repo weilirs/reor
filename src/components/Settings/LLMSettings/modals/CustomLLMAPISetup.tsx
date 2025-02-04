@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogOverlay
+  DialogOverlay,
 } from '@/components/ui/dialog'
 import ExternalLink from '../../../Common/ExternalLink'
 import errorToStringRendererProcess from '@/lib/error'
@@ -40,10 +40,7 @@ const ModelNameInput: React.FC<ModelNameInputProps> = ({ modelNames, setModelNam
   return (
     <YStack className="">
       <h4 className="mb-1 font-medium">Model Names</h4>
-      <XStack
-        flex={1}
-        gap="$2"
-      >
+      <XStack flex={1} gap="$2">
         <Input
           type="text"
           className="mt-0 w-full"
@@ -180,7 +177,9 @@ const CustomLLMAPISetupModal: React.FC<RemoteLLMModalProps> = ({ isOpen, onClose
             {currentError && <p className="text-xs text-destructive">{currentError}</p>}
           </div>
           <DialogFooter>
-            <Button variant="secondary" onClick={handleSave}>Save</Button>
+            <Button variant="secondary" onClick={handleSave}>
+              Save
+            </Button>
           </DialogFooter>
         </DialogContent>
       </DialogOverlay>

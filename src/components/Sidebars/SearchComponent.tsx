@@ -8,7 +8,6 @@ import { useContentContext } from '@/contexts/ContentContext'
 import { Input, View, XStack, YStack } from 'tamagui'
 import { Search } from '@tamagui/lucide-icons'
 
-
 interface SearchComponentProps {
   searchQuery: string
   setSearchQuery: (query: string) => void
@@ -60,18 +59,8 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
   )
 
   return (
-    <YStack 
-      height="100%"
-      padding="$1"
-      overflowX="hidden"
-      overflowY="auto"
-    >
-      <XStack 
-        position="relative"
-        marginRight="$1"
-        borderRadius="$3"
-        padding="$2"
-      >
+    <YStack height="100%" padding="$1" overflowX="hidden" overflowY="auto">
+      <XStack position="relative" marginRight="$1" borderRadius="$3" padding="$2">
         <XStack position="absolute" left={0} top={14} alignItems="center" paddingLeft="$3">
           <Search size={14} color="$gray13" />
         </XStack>
@@ -87,10 +76,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
           borderWidth={1}
           borderColor="$gray13"
           focusStyle={{
-            borderColor: "$gray13",
+            borderColor: '$gray13',
             outlineWidth: 0,
             ringWidth: 1,
-            ringColor: "$gray13",
+            ringColor: '$gray13',
           }}
           value={searchQuery}
           onChangeText={setSearchQuery}

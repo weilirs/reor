@@ -10,14 +10,9 @@ import {
   EmbedComponent,
   // useDocContentContext,
 } from '@shm/ui'
-import {NodeSelection, TextSelection} from 'prosemirror-state'
-import {
-  ChangeEvent,
-  FunctionComponent,
-  SetStateAction,
-  useState,
-} from 'react'
-import {RiUpload2Fill} from 'react-icons/ri'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { ChangeEvent, FunctionComponent, SetStateAction, useState } from 'react'
+import { RiUpload2Fill } from 'react-icons/ri'
 import { Block, BlockNoteEditor, useEditorSelectionChange } from '@/lib/blocknote'
 import { MultipleNodeSelection } from '@/lib/blocknote/core/extensions/SideMenu/MultipleNodeSelection'
 // import {MaxFileSizeB, MaxFileSizeMB} from './file'
@@ -56,7 +51,8 @@ interface RenderProps {
     assignMedia: (props: MediaType) => void,
     queryType: string,
     url?: string,
-    setFileName?: any) => Promise<void>;
+    setFileName?: any,
+  ) => Promise<void>
   DisplayComponent: React.ComponentType<DisplayComponentProps>
   hideForm?: boolean
 }
@@ -66,29 +62,20 @@ export function updateSelection(
   block: Block<HMBlockSchema>,
   setSelected: (selected: boolean) => void,
 ) {
-  const {view} = editor._tiptapEditor
-  const {selection} = view.state
+  const { view } = editor._tiptapEditor
+  const { selection } = view.state
   let isSelected = false
 
   if (selection instanceof NodeSelection) {
     // If the selection is a NodeSelection, check if this block is the selected node
     const selectedNode = view.state.doc.resolve(selection.from).parent
-    if (
-      selectedNode &&
-      selectedNode.attrs &&
-      selectedNode.attrs.id === block.id
-    ) {
+    if (selectedNode && selectedNode.attrs && selectedNode.attrs.id === block.id) {
       isSelected = true
     }
-  } else if (
-    selection instanceof TextSelection ||
-    selection instanceof MultipleNodeSelection
-  ) {
+  } else if (selection instanceof TextSelection || selection instanceof MultipleNodeSelection) {
     // If it's a TextSelection or MultipleNodeSelection (TODO Fix for drag), check if this block's node is within the selection range
     const selectedNodes = getNodesInSelection(view)
-    isSelected = selectedNodes.some(
-      (node) => node.attrs && node.attrs.id === block.id,
-    )
+    isSelected = selectedNodes.some((node) => node.attrs && node.attrs.id === block.id)
   }
 
   setSelected(isSelected)
@@ -101,15 +88,12 @@ export const MediaRender: React.FC<RenderProps> = ({
   submit,
   DisplayComponent,
   hideForm,
-}) => {  
+}) => {
   const [selected, setSelected] = useState(false)
   const [uploading, setUploading] = useState(false)
   const hasSrc = !!block.props?.src
-  useEditorSelectionChange(editor, () =>
-    updateSelection(editor, block, setSelected),
-  )
+  useEditorSelectionChange(editor, () => updateSelection(editor, block, setSelected))
 
-  
   const assignMedia = (props: any) => {
     editor.updateBlock(block.id, props)
   }
@@ -125,11 +109,7 @@ export const MediaRender: React.FC<RenderProps> = ({
           DisplayComponent={DisplayComponent}
         />
       ) : (
-        <EmbedComponent 
-          props={mediaConfig[mediaType]} 
-          submit={submit} 
-          assign={assignMedia}  
-        />
+        <EmbedComponent props={mediaConfig[mediaType]} submit={submit} assign={assignMedia} />
       )}
     </YStack>
   )
@@ -151,13 +131,7 @@ function MediaComponent({
   DisplayComponent: React.ComponentType<DisplayComponentProps>
 }) {
   return (
-    <DisplayComponent
-      editor={editor}
-      block={block}
-      selected={selected}
-      setSelected={setSelected}
-      assign={assign}
-    />
+    <DisplayComponent editor={editor} block={block} selected={selected} setSelected={setSelected} assign={assign} />
   )
 }
 
@@ -176,13 +150,8 @@ function MediaForm({
   editor: BlockNoteEditor<HMBlockSchema>
   selected: boolean
   mediaType: string
-  submit?: (
-    url: string,
-    assign: any,
-    setFileName: any,
-    setLoading: any,
-  ) => Promise<void> | void | undefined
-  icon: JSX.Element | FunctionComponent<{color?: string; size?: number}> | null
+  submit?: (url: string, assign: any, setFileName: any, setLoading: any) => Promise<void> | void | undefined
+  icon: JSX.Element | FunctionComponent<{ color?: string; size?: number }> | null
   CustomInput?: React.ComponentType<{
     editor: BlockNoteEditor<HMBlockSchema>
     assign: any
@@ -220,9 +189,7 @@ function MediaForm({
           if (!file.type.includes(`${mediaType}/`)) {
             setFileName({
               name: `File ${
-                file.name.length < 36
-                  ? file.name
-                  : file.name.slice(0, 32) + '...'
+                file.name.length < 36 ? file.name : file.name.slice(0, 32) + '...'
               } is not ${mediaType === 'image' ? 'an' : 'a'} ${mediaType}.`,
               color: 'red',
             })
@@ -341,9 +308,7 @@ function MediaForm({
   return (
     <YStack
       position="relative"
-      borderColor={
-        drag ? '$color8' : selected ? '$color8' : '$colorTransparent'
-      }
+      borderColor={drag ? '$color8' : selected ? '$color8' : '$colorTransparent'}
       borderWidth={3}
       backgroundColor={selected ? '$color4' : '$color4'}
       borderRadius="$2"
@@ -394,18 +359,14 @@ function MediaForm({
                   paddingLeft="$3"
                   height="$3"
                   width="100%"
-                  placeholder={`Input ${
-                    mediaType === 'web-embed' ? 'X.com' : mediaType
-                  } URL here...`}
+                  placeholder={`Input ${mediaType === 'web-embed' ? 'X.com' : mediaType} URL here...`}
                   hoverStyle={{
                     borderColor: '$color11',
                   }}
                   focusStyle={{
                     borderColor: '$color11',
                   }}
-                  onChange={(e: {
-                    nativeEvent: {text: SetStateAction<string>}
-                  }) => {
+                  onChange={(e: { nativeEvent: { text: SetStateAction<string> } }) => {
                     setUrl(e.nativeEvent.text)
                     if (fileName.color)
                       setFileName({
@@ -418,10 +379,7 @@ function MediaForm({
               )}
               {['image', 'video'].includes(mediaType) ? (
                 <>
-                  <Tooltip
-                    content="Select file if the input is empty"
-                    placement="top"
-                  >
+                  <Tooltip content="Select file if the input is empty" placement="top">
                     <Button
                       alignItems="center"
                       justifyContent="center"
@@ -429,16 +387,14 @@ function MediaForm({
                       borderRadius="$2"
                       fontWeight="normal"
                       size="$3"
-                      backgroundColor={
-                        fileName.color === 'red' ? '$color5' : '$color7'
-                      }
+                      backgroundColor={fileName.color === 'red' ? '$color5' : '$color7'}
                       disabled={fileName.color === 'red'}
                       hoverStyle={
                         fileName.color !== 'red'
                           ? {
                               backgroundColor: '$color5',
                             }
-                          : {cursor: 'auto'}
+                          : { cursor: 'auto' }
                       }
                       onClick={(event: any) => {
                         if (url) {
@@ -446,21 +402,11 @@ function MediaForm({
                           submit!(url, assign, setFileName, setLoading)
                         } else {
                           // Trigger the file picker dialog if input is empty
-                          document
-                            .getElementById('file-upload' + block.id)
-                            ?.click()
+                          document.getElementById('file-upload' + block.id)?.click()
                         }
                       }}
                     >
-                      {loading ? (
-                        <Spinner
-                          size="small"
-                          color="$green9"
-                          paddingHorizontal="$3"
-                        />
-                      ) : (
-                        'UPLOAD'
-                      )}
+                      {loading ? <Spinner size="small" color="$green9" paddingHorizontal="$3" /> : 'UPLOAD'}
                     </Button>
                   </Tooltip>
                   <input
@@ -487,16 +433,14 @@ function MediaForm({
                   borderRadius="$2"
                   fontWeight="normal"
                   size="$3"
-                  backgroundColor={
-                    fileName.color === 'red' ? '$color5' : '$color7'
-                  }
+                  backgroundColor={fileName.color === 'red' ? '$color5' : '$color7'}
                   disabled={fileName.color === 'red'}
                   hoverStyle={
                     fileName.color !== 'red'
                       ? {
                           backgroundColor: '$color5',
                         }
-                      : {cursor: 'auto'}
+                      : { cursor: 'auto' }
                   }
                   onClick={(event: any) => {
                     if (url) {
@@ -504,15 +448,7 @@ function MediaForm({
                     }
                   }}
                 >
-                  {loading ? (
-                    <Spinner
-                      size="small"
-                      color="$green9"
-                      paddingHorizontal="$3"
-                    />
-                  ) : (
-                    'UPLOAD'
-                  )}
+                  {loading ? <Spinner size="small" color="$green9" paddingHorizontal="$3" /> : 'UPLOAD'}
                 </Button>
               )}
             </XStack>
@@ -523,12 +459,7 @@ function MediaForm({
             )}
           </YStack>
         ) : (
-          <XStack
-            alignItems="center"
-            backgroundColor="$background"
-            width="100%"
-            height="$3"
-          >
+          <XStack alignItems="center" backgroundColor="$background" width="100%" height="$3">
             <Label
               htmlFor={'file-upload' + block.id}
               borderColor="$color12"
@@ -544,12 +475,7 @@ function MediaForm({
               {!drag && (
                 <>
                   <RiUpload2Fill size="18" />
-                  <SizableText
-                    padding="$2"
-                    overflow="hidden"
-                    whiteSpace="nowrap"
-                    textOverflow="ellipsis"
-                  >
+                  <SizableText padding="$2" overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
                     Upload File
                   </SizableText>
                 </>

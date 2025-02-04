@@ -1,12 +1,12 @@
 import { updateGroup } from '@/lib/utils'
 import { BlockNoteEditor, BlockSchema } from '@/lib/blocknote/core'
-import {useMemo, useState} from 'react'
-import {IconType} from 'react-icons'
-import {RiH2, RiListOrdered, RiListUnordered, RiText} from 'react-icons/ri'
-import {ToolbarDropdown} from '../../../SharedComponents/Toolbar/components/ToolbarDropdown'
-import {ToolbarDropdownItemProps} from '../../../SharedComponents/Toolbar/components/ToolbarDropdownItem'
-import {useEditorContentChange} from '../../../hooks/useEditorContentChange'
-import {useEditorSelectionChange} from '../../../hooks/useEditorSelectionChange'
+import { useMemo, useState } from 'react'
+import { IconType } from 'react-icons'
+import { RiH2, RiListOrdered, RiListUnordered, RiText } from 'react-icons/ri'
+import { ToolbarDropdown } from '../../../SharedComponents/Toolbar/components/ToolbarDropdown'
+import { ToolbarDropdownItemProps } from '../../../SharedComponents/Toolbar/components/ToolbarDropdownItem'
+import { useEditorContentChange } from '../../../hooks/useEditorContentChange'
+import { useEditorSelectionChange } from '../../../hooks/useEditorSelectionChange'
 
 export type BlockTypeDropdownItem = {
   name: string
@@ -24,7 +24,7 @@ export const defaultBlockTypeDropdownItems: BlockTypeDropdownItem[] = [
   {
     name: 'Heading',
     type: 'heading',
-    props: {level: '2'},
+    props: { level: '2' },
     icon: RiH2,
   },
   // {
@@ -74,10 +74,7 @@ export const BlockTypeDropdown = <BSchema extends BlockSchema>(props: {
         }
 
         // Checks if the prop's value is valid
-        if (
-          propSchema[prop].values !== undefined &&
-          !propSchema[prop].values!.includes(value)
-        ) {
+        if (propSchema[prop].values !== undefined && !propSchema[prop].values!.includes(value)) {
           return false
         }
       }

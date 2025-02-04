@@ -1,12 +1,12 @@
-import {Decoration, DecorationSet} from '@tiptap/pm/view'
-import {EditorState, Plugin, PluginKey} from 'prosemirror-state'
-import {EditorView} from 'prosemirror-view'
-import {BlockNoteEditor} from '../../BlockNoteEditor'
-import {BaseUiElementState} from '../../shared/BaseUiElementTypes'
-import {EventEmitter} from '../../shared/EventEmitter'
-import {BlockSchema} from '../Blocks/api/blockTypes'
-import {findBlock} from '../Blocks/helpers/findBlock'
-import {LinkMenuItem} from './LinkMenuItem'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import { BlockNoteEditor } from '../../BlockNoteEditor'
+import { BaseUiElementState } from '../../shared/BaseUiElementTypes'
+import { EventEmitter } from '../../shared/EventEmitter'
+import { BlockSchema } from '../Blocks/api/blockTypes'
+import { findBlock } from '../Blocks/helpers/findBlock'
+import { LinkMenuItem } from './LinkMenuItem'
 
 export const linkMenuPluginKey = new PluginKey('LinkMenuPlugin')
 
@@ -50,9 +50,7 @@ export class LinkMenuView<LinkMenuItem, BSchema extends BlockSchema> {
     private readonly editor: BlockNoteEditor<BSchema>,
     private readonly pluginKey: PluginKey,
     // private readonly pmView: EditorView,
-    updateLinkMenu: (
-      linkMenuState: LinkMenuState<LinkMenuItem>,
-    ) => void = () => {
+    updateLinkMenu: (linkMenuState: LinkMenuState<LinkMenuItem>) => void = () => {
       // noop
     },
   ) {
@@ -71,9 +69,7 @@ export class LinkMenuView<LinkMenuItem, BSchema extends BlockSchema> {
 
   handleScroll = () => {
     if (this.linkMenuState?.show) {
-      const decorationNode = document.querySelector(
-        `[data-decoration-id="${this.pluginState.decorationId}"]`,
-      )
+      const decorationNode = document.querySelector(`[data-decoration-id="${this.pluginState.decorationId}"]`)
       this.linkMenuState.referencePos = decorationNode!.getBoundingClientRect()
       this.updateLinkMenu()
     }
@@ -104,9 +100,7 @@ export class LinkMenuView<LinkMenuItem, BSchema extends BlockSchema> {
       return
     }
 
-    const decorationNode = document.querySelector(
-      `[data-decoration-id="${this.pluginState.decorationId}"]`,
-    )
+    const decorationNode = document.querySelector(`[data-decoration-id="${this.pluginState.decorationId}"]`)
 
     if (this.editor.isEditable) {
       this.linkMenuState = {
@@ -152,10 +146,7 @@ export class LinkMenuProsemirrorPlugin<
   }
 }
 
-export const setupLinkMenu = <
-  MenuItem extends LinkMenuItem<BSchema>,
-  BSchema extends BlockSchema,
->(
+export const setupLinkMenu = <MenuItem extends LinkMenuItem<BSchema>, BSchema extends BlockSchema>(
   editor: BlockNoteEditor<BSchema>,
   updateLinkMenu: (linkMenuState: LinkMenuState<MenuItem>) => void,
 
@@ -164,7 +155,7 @@ export const setupLinkMenu = <
   let linkPluginView: LinkMenuView<MenuItem, BSchema>
 
   const deactivate = (view: EditorView) => {
-    view.dispatch(view.state.tr.setMeta(pluginKey, {deactivate: true}))
+    view.dispatch(view.state.tr.setMeta(pluginKey, { deactivate: true }))
   }
 
   return {
@@ -188,12 +179,7 @@ export const setupLinkMenu = <
         },
 
         // Apply changes to the plugin state from an editor transaction.
-        apply(
-          transaction,
-          prev,
-          oldState,
-          newState,
-        ): LinkPluginState<MenuItem> {
+        apply(transaction, prev, oldState, newState): LinkPluginState<MenuItem> {
           // TODO: More clearly define which transactions should be ignored.
           if (transaction.getMeta('orderedListIndexing') !== undefined) {
             return prev
@@ -218,7 +204,7 @@ export const setupLinkMenu = <
             return prev
           }
 
-          const next = {...prev}
+          const next = { ...prev }
           if (items) next.items = items
           if (link) next.link = link
 
@@ -239,12 +225,8 @@ export const setupLinkMenu = <
 
           // Updates keyboardHoveredItemIndex if the up or down arrow key was
           // pressed, or resets it if the keyboard cursor moved.
-          if (
-            transaction.getMeta(pluginKey)?.selectedItemIndexChanged !==
-            undefined
-          ) {
-            let newIndex =
-              transaction.getMeta(pluginKey).selectedItemIndexChanged
+          if (transaction.getMeta(pluginKey)?.selectedItemIndexChanged !== undefined) {
+            let newIndex = transaction.getMeta(pluginKey).selectedItemIndexChanged
 
             // Allows selection to jump between first and last items.
             if (newIndex < 0) {
@@ -273,9 +255,7 @@ export const setupLinkMenu = <
           }
 
           // Handles keystrokes for navigating the menu.
-          const {items, keyboardHoveredItemIndex} = pluginKey.getState(
-            view.state,
-          )
+          const { items, keyboardHoveredItemIndex } = pluginKey.getState(view.state)
 
           // Moves the keyboard selection to the previous item.
           if (event.key === 'ArrowUp') {
@@ -317,7 +297,7 @@ export const setupLinkMenu = <
 
         // Setup decorator on the currently active item (link).
         decorations(state) {
-          const {active, decorationId} = (this as Plugin).getState(state)
+          const { active, decorationId } = (this as Plugin).getState(state)
 
           if (!active) {
             return null
@@ -326,16 +306,12 @@ export const setupLinkMenu = <
           const blockNode = findBlock(state.selection)
           if (blockNode) {
             return DecorationSet.create(state.doc, [
-              Decoration.node(
-                blockNode.pos,
-                blockNode.pos + blockNode.node.nodeSize,
-                {
-                  nodeName: 'span',
-                  class: 'link-dropdown-decorator',
-                  'data-decoration-id': decorationId,
-                  'data-decoration-type': 'link-dropdown',
-                },
-              ),
+              Decoration.node(blockNode.pos, blockNode.pos + blockNode.node.nodeSize, {
+                nodeName: 'span',
+                class: 'link-dropdown-decorator',
+                'data-decoration-id': decorationId,
+                'data-decoration-type': 'link-dropdown',
+              }),
             ])
           }
         },

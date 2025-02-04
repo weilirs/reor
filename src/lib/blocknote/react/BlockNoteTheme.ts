@@ -1,5 +1,5 @@
 import { bnBlockStyles } from '../core'
-import {MantineThemeOverride} from '@mantine/core'
+import { MantineThemeOverride } from '@mantine/core'
 import { CSSObject } from '@mantine/styles'
 import _ from 'lodash'
 
@@ -210,16 +210,13 @@ export const blockNoteToMantineTheme = (theme: Theme): MantineThemeOverride => {
                 },
               // Highlight text colors
               ...(Object.fromEntries(
-                Object.entries(textColors).map(([key, value]) => [
-                  `[data-text-color="${key}"]`,
-                  {color: value},
-                ]),
+                Object.entries(textColors).map(([key, value]) => [`[data-text-color="${key}"]`, { color: value }]),
               ) as CSSObject),
               // Highlight background colors
               ...(Object.fromEntries(
                 Object.entries(backgroundColors).map(([key, value]) => [
                   `[data-background-color="${key}"]`,
-                  {backgroundColor: value},
+                  { backgroundColor: value },
                 ]),
               ) as CSSObject),
             },

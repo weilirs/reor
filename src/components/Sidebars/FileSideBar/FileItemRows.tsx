@@ -124,27 +124,23 @@ const FileItemRows: React.FC<ListChildComponentProps> = ({ index, style, data })
             onDrop={handleDrop}
             onDragLeave={handleDragLeave}
           >
-            <XStack 
+            <XStack
               hoverStyle={{
                 backgroundColor: '$gray7',
                 backgroundFocus: '$gray8',
               }}
-              backgroundColor={(isSelected && !isDirectory) ? '$gray7' : ''}
-              onClick={clickOnFileOrDirectory} className={itemClasses}>
+              backgroundColor={isSelected && !isDirectory ? '$gray7' : ''}
+              onClick={clickOnFileOrDirectory}
+              className={itemClasses}
+            >
               {isDirectory && (
                 <span className="mr-2 mt-1">
                   {isExpanded ? (
                     // <FaChevronDown title="Collapse Directory" />
-                    <ChevronDown
-                      title="Collapse Directory"
-                      size={14}
-                      color="$gray10"/>
+                    <ChevronDown title="Collapse Directory" size={14} color="$gray10" />
                   ) : (
                     // <FaChevronRight title="Open Directory" />
-                    <ChevronRight 
-                      title="Open Directory" 
-                      size={14} 
-                      color="$gray10"/>
+                    <ChevronRight title="Open Directory" size={14} color="$gray10" />
                   )}
                 </span>
               )}

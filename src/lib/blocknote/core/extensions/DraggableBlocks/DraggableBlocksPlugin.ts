@@ -1,31 +1,28 @@
-import {Editor} from '@tiptap/core'
-import {Node} from 'prosemirror-model'
-import {NodeSelection, Plugin, PluginKey, Selection} from 'prosemirror-state'
+import { Editor } from '@tiptap/core'
+import { Node } from 'prosemirror-model'
+import { NodeSelection, Plugin, PluginKey, Selection } from 'prosemirror-state'
 import * as pv from 'prosemirror-view'
-import {EditorView} from 'prosemirror-view'
-import {BlockNoteEditor} from '../../BlockNoteEditor'
+import { EditorView } from 'prosemirror-view'
+import { BlockNoteEditor } from '../../BlockNoteEditor'
 import styles from '../../editor.module.css'
-import {BlockSchema} from '../Blocks/api/blockTypes'
-import {getBlockInfoFromPos} from '../Blocks/helpers/getBlockInfoFromPos'
-import {SlashMenuPluginKey} from '../SlashMenu/SlashMenuExtension'
+import { BlockSchema } from '../Blocks/api/blockTypes'
+import { getBlockInfoFromPos } from '../Blocks/helpers/getBlockInfoFromPos'
+import { SlashMenuPluginKey } from '../SlashMenu/SlashMenuExtension'
 import {
   BlockSideMenu,
   BlockSideMenuDynamicParams,
   BlockSideMenuFactory,
   BlockSideMenuStaticParams,
 } from './BlockSideMenuFactoryTypes'
-import {DraggableBlocksOptions} from './DraggableBlocksExtension'
-import {MultipleNodeSelection} from './MultipleNodeSelection'
+import { DraggableBlocksOptions } from './DraggableBlocksExtension'
+import { MultipleNodeSelection } from './MultipleNodeSelection'
 
 const serializeForClipboard = (pv as any).__serializeForClipboard
 // code based on https://github.com/ueberdosis/tiptap/issues/323#issuecomment-506637799
 
 let dragImageElement: Element | undefined
 
-function getDraggableBlockFromCoords(
-  coords: {left: number; top: number},
-  view: EditorView,
-) {
+function getDraggableBlockFromCoords(coords: { left: number; top: number }, view: EditorView) {
   if (!view.dom.isConnected) {
     // view is not connected to the DOM, this can cause posAtCoords to fail
     // (Cannot read properties of null (reading 'nearestDesc'), https://github.com/TypeCellOS/BlockNote/issues/123)
@@ -50,24 +47,16 @@ function getDraggableBlockFromCoords(
     } else return undefined
   }
 
-  while (
-    node &&
-    node.parentNode &&
-    node.parentNode !== view.dom &&
-    !node.hasAttribute?.('data-id')
-  ) {
+  while (node && node.parentNode && node.parentNode !== view.dom && !node.hasAttribute?.('data-id')) {
     node = node.parentNode as HTMLElement
   }
   if (!node) {
     return undefined
   }
-  return {node, id: node.getAttribute('data-id')!}
+  return { node, id: node.getAttribute('data-id')! }
 }
 
-function blockPositionFromCoords(
-  coords: {left: number; top: number},
-  view: EditorView,
-) {
+function blockPositionFromCoords(coords: { left: number; top: number }, view: EditorView) {
   let block = getDraggableBlockFromCoords(coords, view)
 
   if (block && block.node.nodeType === 1) {
@@ -94,10 +83,8 @@ function blockPositionsFromSelection(selection: Selection, doc: Node) {
   // the same blocks again. If this happens, the anchor & head move out of the block content node they were originally
   // in. If the anchor should update but the head shouldn't and vice versa, it means the user selection is outside a
   // block content node, which should never happen.
-  const selectionStartInBlockContent =
-    doc.resolve(selection.from).node().type.spec.group === 'blockContent'
-  const selectionEndInBlockContent =
-    doc.resolve(selection.to).node().type.spec.group === 'blockContent'
+  const selectionStartInBlockContent = doc.resolve(selection.from).node().type.spec.group === 'blockContent'
+  const selectionEndInBlockContent = doc.resolve(selection.to).node().type.spec.group === 'blockContent'
 
   // Ensures that entire outermost nodes are selected if the selection spans multiple nesting levels.
   const minDepth = Math.min(selection.$anchor.depth, selection.$head.depth)
@@ -117,7 +104,7 @@ function blockPositionsFromSelection(selection: Selection, doc: Node) {
     afterLastBlockPos = selection.to
   }
 
-  return {from: beforeFirstBlockPos, to: afterLastBlockPos}
+  return { from: beforeFirstBlockPos, to: afterLastBlockPos }
 }
 
 function setDragImage(view: EditorView, from: number, to = from) {
@@ -159,19 +146,11 @@ function setDragImage(view: EditorView, from: number, to = from) {
   const classes = view.dom.className.split(' ')
   const inheritedClasses = classes
     .filter(
-      (className) =>
-        !className.includes('bn') &&
-        !className.includes('ProseMirror') &&
-        !className.includes('editor'),
+      (className) => !className.includes('bn') && !className.includes('ProseMirror') && !className.includes('editor'),
     )
     .join(' ')
 
-  dragImageElement.className =
-    dragImageElement.className +
-    ' ' +
-    styles.dragPreview +
-    ' ' +
-    inheritedClasses
+  dragImageElement.className = dragImageElement.className + ' ' + styles.dragPreview + ' ' + inheritedClasses
 
   document.body.appendChild(dragImageElement)
 }
@@ -200,34 +179,29 @@ function dragStart(e: DragEvent, view: EditorView) {
     const selection = view.state.selection
     const doc = view.state.doc
 
-    const {from, to} = blockPositionsFromSelection(selection, doc)
+    const { from, to } = blockPositionsFromSelection(selection, doc)
 
     const draggedBlockInSelection = from <= pos && pos < to
     const multipleBlocksSelected =
-      selection.$anchor.node() !== selection.$head.node() ||
-      selection instanceof MultipleNodeSelection
+      selection.$anchor.node() !== selection.$head.node() || selection instanceof MultipleNodeSelection
 
     if (draggedBlockInSelection && multipleBlocksSelected) {
-      view.dispatch(
-        view.state.tr.setSelection(MultipleNodeSelection.create(doc, from, to)),
-      )
+      view.dispatch(view.state.tr.setSelection(MultipleNodeSelection.create(doc, from, to)))
       setDragImage(view, from, to)
     } else {
-      view.dispatch(
-        view.state.tr.setSelection(NodeSelection.create(view.state.doc, pos)),
-      )
+      view.dispatch(view.state.tr.setSelection(NodeSelection.create(view.state.doc, pos)))
       setDragImage(view, pos)
     }
 
     let slice = view.state.selection.content()
-    let {dom, text} = serializeForClipboard(view, slice)
+    let { dom, text } = serializeForClipboard(view, slice)
 
     e.dataTransfer.clearData()
     e.dataTransfer.setData('text/html', dom.innerHTML)
     e.dataTransfer.setData('text/plain', text)
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.setDragImage(dragImageElement!, 0, 0)
-    view.dragging = {slice, move: true}
+    view.dragging = { slice, move: true }
   }
 }
 
@@ -259,18 +233,11 @@ export class BlockMenuView<BSchema extends BlockSchema> {
 
   private lastPosition: DOMRect | undefined
 
-  constructor({
-    tiptapEditor,
-    editor,
-    blockMenuFactory,
-    horizontalPosAnchoredAtRoot,
-  }: BlockMenuViewProps<BSchema>) {
+  constructor({ tiptapEditor, editor, blockMenuFactory, horizontalPosAnchoredAtRoot }: BlockMenuViewProps<BSchema>) {
     this.editor = editor
     this.ttEditor = tiptapEditor
     this.horizontalPosAnchoredAtRoot = horizontalPosAnchoredAtRoot
-    this.horizontalPosAnchor = (
-      this.ttEditor.view.dom.firstChild! as HTMLElement
-    ).getBoundingClientRect().x
+    this.horizontalPosAnchor = (this.ttEditor.view.dom.firstChild! as HTMLElement).getBoundingClientRect().x
 
     this.blockMenu = blockMenuFactory(this.getStaticParams())
 
@@ -312,9 +279,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
 
     if (!pos || pos.inside === -1) {
       const evt = new Event('drop', event) as any
-      const editorBoundingBox = (
-        this.ttEditor.view.dom.firstChild! as HTMLElement
-      ).getBoundingClientRect()
+      const editorBoundingBox = (this.ttEditor.view.dom.firstChild! as HTMLElement).getBoundingClientRect()
       evt.clientX = editorBoundingBox.left + editorBoundingBox.width / 2
       evt.clientY = event.clientY
       evt.dataTransfer = event.dataTransfer
@@ -341,9 +306,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
 
     if (!pos || pos.inside === -1) {
       const evt = new Event('dragover', event) as any
-      const editorBoundingBox = (
-        this.ttEditor.view.dom.firstChild! as HTMLElement
-      ).getBoundingClientRect()
+      const editorBoundingBox = (this.ttEditor.view.dom.firstChild! as HTMLElement).getBoundingClientRect()
       evt.clientX = editorBoundingBox.left + editorBoundingBox.width / 2
       evt.clientY = event.clientY
       evt.dataTransfer = event.dataTransfer
@@ -381,9 +344,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
 
     this.menuFrozen = false
 
-    const editorBoundingBox = (
-      this.ttEditor.view.dom.firstChild! as HTMLElement
-    ).getBoundingClientRect()
+    const editorBoundingBox = (this.ttEditor.view.dom.firstChild! as HTMLElement).getBoundingClientRect()
 
     // Gets block at mouse cursor's vertical position.
     const coords = {
@@ -398,11 +359,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
       if (event.clientX < editorBoundingBox.left) {
         this.ttEditor.commands.focus(pos.inside)
       } else if (event.clientX > editorBoundingBox.right) {
-        this.ttEditor.commands.focus(
-          pos.inside +
-            this.ttEditor.state.doc.resolve(pos.pos).node().nodeSize -
-            1,
-        )
+        this.ttEditor.commands.focus(pos.inside + this.ttEditor.state.doc.resolve(pos.pos).node().nodeSize - 1)
       }
     }
     // else {
@@ -430,13 +387,10 @@ export class BlockMenuView<BSchema extends BlockSchema> {
     // size/position, so we get the boundingRect of the first child (i.e. the
     // blockGroup that wraps all blocks in the editor) for more accurate side
     // menu placement.
-    const editorBoundingBox = (
-      this.ttEditor.view.dom.firstChild! as HTMLElement
-    ).getBoundingClientRect()
+    const editorBoundingBox = (this.ttEditor.view.dom.firstChild! as HTMLElement).getBoundingClientRect()
     // We want the full area of the editor to check if the cursor is hovering
     // above it though.
-    const editorOuterBoundingBox =
-      this.ttEditor.view.dom.getBoundingClientRect()
+    const editorOuterBoundingBox = this.ttEditor.view.dom.getBoundingClientRect()
     const cursorWithinEditor =
       event.clientX >= editorOuterBoundingBox.left &&
       event.clientX <= editorOuterBoundingBox.right &&
@@ -550,7 +504,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
       return
     }
 
-    const {contentNode, endPos} = blockInfo
+    const { contentNode, endPos } = blockInfo
 
     // Creates a new block if current one is not empty for the suggestion menu to open in.
     if (contentNode.textContent.length !== 0) {
@@ -560,7 +514,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
       this.ttEditor
         .chain()
         .BNCreateBlock(newBlockInsertionPos)
-        .BNUpdateBlock(newBlockContentPos, {type: 'paragraph', props: {}})
+        .BNUpdateBlock(newBlockContentPos, { type: 'paragraph', props: {} })
         .setTextSelection(newBlockContentPos)
         .run()
     } else {
@@ -597,9 +551,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
       getReferenceRect: () => {
         if (!this.menuOpen) {
           if (this.lastPosition === undefined) {
-            throw new Error(
-              'Attempted to access block reference rect before rendering block side menu.',
-            )
+            throw new Error('Attempted to access block reference rect before rendering block side menu.')
           }
           return this.lastPosition
         }
@@ -621,9 +573,7 @@ export class BlockMenuView<BSchema extends BlockSchema> {
   }
 }
 
-export const createDraggableBlocksPlugin = <BSchema extends BlockSchema>(
-  options: DraggableBlocksOptions<BSchema>,
-) => {
+export const createDraggableBlocksPlugin = <BSchema extends BlockSchema>(options: DraggableBlocksOptions<BSchema>) => {
   return new Plugin({
     key: new PluginKey('DraggableBlocksPlugin'),
     view: () =>

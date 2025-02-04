@@ -1,5 +1,5 @@
-import {BlockNoteEditor, BlockSchema} from '@/editor/blocknote/core'
-import {useEffect} from 'react'
+import { BlockNoteEditor, BlockSchema } from '@/editor/blocknote/core'
+import { useEffect } from 'react'
 
 export function useEditorContentChange<BSchema extends BlockSchema>(
   editor: BlockNoteEditor<BSchema>,

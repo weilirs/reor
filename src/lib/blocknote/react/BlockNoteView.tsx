@@ -1,15 +1,11 @@
-import {
-  BlockNoteEditor,
-  BlockSchema,
-  mergeCSSClasses,
-} from '../core'
+import { BlockNoteEditor, BlockSchema, mergeCSSClasses } from '../core'
 import { MantineProvider } from '@mantine/core'
 import { createStyles } from '@mantine/styles'
-import {EditorContent} from '@tiptap/react'
-import {HTMLAttributes, ReactNode, useMemo} from 'react'
-import {usePrefersColorScheme} from 'use-prefers-color-scheme'
-import {Theme, blockNoteToMantineTheme} from './BlockNoteTheme'
-import {darkDefaultTheme, lightDefaultTheme} from './defaultThemes'
+import { EditorContent } from '@tiptap/react'
+import { HTMLAttributes, ReactNode, useMemo } from 'react'
+import { usePrefersColorScheme } from 'use-prefers-color-scheme'
+import { Theme, blockNoteToMantineTheme } from './BlockNoteTheme'
+import { darkDefaultTheme, lightDefaultTheme } from './defaultThemes'
 
 // Renders the editor as well as all menus & toolbars using default styles.
 function BaseBlockNoteView<BSchema extends BlockSchema>(
@@ -18,11 +14,11 @@ function BaseBlockNoteView<BSchema extends BlockSchema>(
     children?: ReactNode
   } & HTMLAttributes<HTMLDivElement>,
 ) {
-  const {classes} = createStyles({root: {}})(undefined, {
+  const { classes } = createStyles({ root: {} })(undefined, {
     name: 'Editor',
   })
 
-  const {editor, children, className, ...rest} = props
+  const { editor, children, className, ...rest } = props
 
   return (
     <EditorContent
@@ -56,8 +52,7 @@ export function BlockNoteView<BSchema extends BlockSchema>(
     children?: ReactNode
   } & HTMLAttributes<HTMLDivElement>,
 ) {
-  const {theme = {light: lightDefaultTheme, dark: darkDefaultTheme}, ...rest} =
-    props
+  const { theme = { light: lightDefaultTheme, dark: darkDefaultTheme }, ...rest } = props
 
   const preferredTheme = usePrefersColorScheme()
 
@@ -71,9 +66,7 @@ export function BlockNoteView<BSchema extends BlockSchema>(
     }
 
     if ('light' in theme && 'dark' in theme) {
-      return blockNoteToMantineTheme(
-        theme[preferredTheme === 'dark' ? 'dark' : 'light'],
-      )
+      return blockNoteToMantineTheme(theme[preferredTheme === 'dark' ? 'dark' : 'light'])
     }
 
     return blockNoteToMantineTheme(theme)

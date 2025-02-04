@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogOverlay
+  DialogOverlay,
 } from '@/components/ui/dialog'
 
 export interface CloudLLMSetupModalProps {
@@ -87,7 +87,9 @@ const DefaultLLMAPISetupModal: React.FC<CloudLLMSetupModalProps> = ({ isOpen, on
             </p>
           </div>
           <DialogFooter>
-            <Button variant="secondary" onClick={handleSave}>Save</Button>
+            <Button variant="secondary" onClick={handleSave}>
+              Save
+            </Button>
           </DialogFooter>
         </DialogContent>
       </DialogOverlay>

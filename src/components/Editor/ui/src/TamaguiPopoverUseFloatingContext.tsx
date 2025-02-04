@@ -4,26 +4,12 @@
 // Because if we use @tamagui/popper, it fails because Popper.tsx imports from RN (not RNW), and the rewrite is failing. So here we change the imports to RNW.
 ///////////////////////
 
-import type {UseFloatingOptions} from "@floating-ui/react";
-import {
-  safePolygon,
-  useDismiss,
-  useFloating,
-  useFocus,
-  useHover,
-  useInteractions,
-  useRole,
-} from "@floating-ui/react";
-import React from "react";
+import type { UseFloatingOptions } from '@floating-ui/react'
+import { safePolygon, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react'
+import React from 'react'
 
 // Custom floating context to override the Popper on web
-export const useFloatingContext = ({
-  open,
-  setOpen,
-  disable,
-  disableFocus,
-  hoverable,
-}) => {
+export const useFloatingContext = ({ open, setOpen, disable, disableFocus, hoverable }) => {
   return React.useCallback(
     (props: UseFloatingOptions) => {
       const floating = useFloating({
@@ -31,15 +17,13 @@ export const useFloatingContext = ({
         open,
         onOpenChange: (val, event) => {
           const type =
-            event?.type === "mousemove" ||
-            event?.type === "mouseenter" ||
-            event?.type === "mouseleave"
-              ? "hover"
-              : "press";
-          setOpen(val, type);
+            event?.type === 'mousemove' || event?.type === 'mouseenter' || event?.type === 'mouseleave'
+              ? 'hover'
+              : 'press'
+          setOpen(val, type)
         },
-      }) as any;
-      const {getReferenceProps, getFloatingProps} = useInteractions([
+      }) as any
+      const { getReferenceProps, getFloatingProps } = useInteractions([
         hoverable
           ? useHover(floating.context, {
               enabled: !disable && hoverable,
@@ -48,7 +32,7 @@ export const useFloatingContext = ({
                 blockPointerEvents: true,
                 buffer: 1,
               }),
-              ...(hoverable && typeof hoverable === "object" && hoverable),
+              ...(hoverable && typeof hoverable === 'object' && hoverable),
             })
           : useHover(floating.context, {
               enabled: false,
@@ -57,18 +41,18 @@ export const useFloatingContext = ({
           enabled: !disable && !disableFocus,
           visibleOnly: true,
         }),
-        useRole(floating.context, {role: "dialog"}),
+        useRole(floating.context, { role: 'dialog' }),
         useDismiss(floating.context, {
           enabled: !disable,
         }),
-      ]);
+      ])
       return {
         ...floating,
         open,
         getReferenceProps,
         getFloatingProps,
-      };
+      }
     },
-    [open, setOpen, disable, disableFocus, hoverable]
-  );
-};
+    [open, setOpen, disable, disableFocus, hoverable],
+  )
+}

@@ -1,24 +1,24 @@
-import {DOMParser, DOMSerializer, Schema} from 'prosemirror-model'
+import { DOMParser, DOMSerializer, Schema } from 'prosemirror-model'
 import rehypeParse from 'rehype-parse'
 import rehypeRemark from 'rehype-remark'
 import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
-import remarkRehype, {defaultHandlers} from 'remark-rehype'
+import remarkRehype, { defaultHandlers } from 'remark-rehype'
 import remarkStringify from 'remark-stringify'
-import {unified} from 'unified'
-import {Block, BlockSchema} from '../../extensions/Blocks/api/blockTypes'
+import { unified } from 'unified'
+import { Block, BlockSchema } from '../../extensions/Blocks/api/blockTypes'
 
-import {blockToNode, nodeToBlock} from '../nodeConversions/nodeConversions'
-import {simplifyBlocks} from './simplifyBlocksRehypePlugin'
-import {removeSingleSpace, preserveEmptyParagraphs, code, videos} from './customRehypePlugins'
-import {Styles, InlineContent} from "@lib/blocknote/core/extensions/Blocks/api/inlineContentTypes"
+import { blockToNode, nodeToBlock } from '../nodeConversions/nodeConversions'
+import { simplifyBlocks } from './simplifyBlocksRehypePlugin'
+import { removeSingleSpace, preserveEmptyParagraphs, code, videos } from './customRehypePlugins'
+import { Styles, InlineContent } from '@lib/blocknote/core/extensions/Blocks/api/inlineContentTypes'
 
 /**
  * Converts our blocks to HTML:
- * 
+ *
  *  ImageBlock -> <img src=".." alt=".." />
- * 
+ *
  * @param blocks Blocks created and stored by our editor
  * @param schema  The schema of the editor
  * @returns Returns the blocks in HTML format
@@ -38,7 +38,7 @@ export async function blocksToHTML<BSchema extends BlockSchema>(
 
   const htmlString = await unified()
     // @ts-expect-error
-    .use(rehypeParse, {fragment: true})
+    .use(rehypeParse, { fragment: true })
     .use(simplifyBlocks, {
       orderedListItemBlockTypes: new Set<string>(['numberedListItem']),
       unorderedListItemBlockTypes: new Set<string>(['bulletListItem']),
@@ -51,13 +51,13 @@ export async function blocksToHTML<BSchema extends BlockSchema>(
 
 /**
  * Converts an HTML element to our custom block
- * 
+ *
  * <img src=".." alt=".." /> -> ImageBlock
- * 
+ *
  * @param html The HTML string that we want to convert to our custom blocks
  * @param blockSchema The schema of the block
  * @param schema Schema of the tiptap editor
- * @returns 
+ * @returns
  */
 export async function HTMLToBlocks<BSchema extends BlockSchema>(
   html: string,
@@ -80,41 +80,41 @@ export async function HTMLToBlocks<BSchema extends BlockSchema>(
 }
 
 /**
- * Media is stored with a local prefix. When we want to parse them, 
+ * Media is stored with a local prefix. When we want to parse them,
  *  we need to remove it and get the actual image data.
- * 
+ *
  * @param html The HTML string we want to convert to fit our format
  * @returns The decoded media data in base64
  */
 async function replaceLocalUrls(html: string) {
-  const imgRegex = /<img[^>]*?src="(local:\/\/[^"]*?)"[^>]*?>/g;
-  let result = html;
-  const matches = Array.from(html.matchAll(imgRegex));
-  
+  const imgRegex = /<img[^>]*?src="(local:\/\/[^"]*?)"[^>]*?>/g
+  let result = html
+  const matches = Array.from(html.matchAll(imgRegex))
+
   for (const match of matches) {
-    const [fullImg, src] = match;
-    const fileName = src.replace('local://', '');
+    const [fullImg, src] = match
+    const fileName = src.replace('local://', '')
     try {
-      const imageData = await window.fileSystem.getImage(fileName);
+      const imageData = await window.fileSystem.getImage(fileName)
       if (imageData) {
-        const newImg = fullImg.replace(src, imageData);
-        result = result.replace(fullImg, newImg);
+        const newImg = fullImg.replace(src, imageData)
+        result = result.replace(fullImg, newImg)
       }
     } catch (error) {
-      console.error('Failed to load image:', fileName, error);
+      console.error('Failed to load image:', fileName, error)
     }
   }
-  
-  return result;
+
+  return result
 }
 
 /**
- * 
+ *
  * **Hello** -> <b>Hello</b>
- * 
+ *
  * @param text The text to apply the style to
  * @param styles The styles to apply to the text
- * @returns 
+ * @returns
  */
 const applyStyles = (text: string, styles: Styles) => {
   if (styles.bold) text = `<b>${text}</b>`
@@ -127,23 +127,18 @@ const applyStyles = (text: string, styles: Styles) => {
 
 /**
  * Converts link to HTML with css properties.
- * 
+ *
  * @param contentItem The content item to convert to HTML
- * @returns 
+ * @returns
  */
-const convertContentItemToHtml = (
-  contentItem: any,
-) => {
+const convertContentItemToHtml = (contentItem: any) => {
   let text = contentItem.text || ''
-  const {styles = {}} = contentItem
+  const { styles = {} } = contentItem
 
   text = applyStyles(text, styles)
 
   if (contentItem.type === 'link') {
-    const linkText = applyStyles(
-      contentItem.content[0].text,
-      contentItem.content[0].styles || {},
-    )
+    const linkText = applyStyles(contentItem.content[0].text, contentItem.content[0].styles || {})
     let docPath = contentItem.href
     return `<a href="${docPath}">${linkText}</a>`
   } else {
@@ -153,41 +148,28 @@ const convertContentItemToHtml = (
 
 /**
  * Converts a block to HTML
- * 
+ *
  * @param block The block to convert to HTML
  * @param isListItem True if this is a list item (needs a <li> tag)
- * @returns 
+ * @returns
  */
-function convertBlockToHtml<BSchema extends BlockSchema>(
-  block: Block<BSchema>,
-  isListItem = false,
-) {
+function convertBlockToHtml<BSchema extends BlockSchema>(block: Block<BSchema>, isListItem = false) {
   let childrenHtml = ''
   if (block.children) {
     const childrenContent = block.children
-      .map((child) =>
-        convertBlockToHtml(
-          child,
-          block.props.childrenType === 'ul' ||
-            block.props.childrenType === 'ol',
-        ),
-      )
+      .map((child) => convertBlockToHtml(child, block.props.childrenType === 'ul' || block.props.childrenType === 'ol'))
       .join('\n')
     if (block.props.childrenType === 'ul') {
       childrenHtml = `<ul>${childrenContent}</ul>`
     } else if (block.props.childrenType === 'ol') {
-      childrenHtml = `<ol start="${
-        block.props.start || 1
-      }">${childrenContent}</ol>`
+      childrenHtml = `<ol start="${block.props.start || 1}">${childrenContent}</ol>`
     } else {
       childrenHtml = childrenContent
     }
   }
 
   const contentHtml = block.content
-    ? block.content
-        .map((contentItem) => convertContentItemToHtml(contentItem))
-        .join('')
+    ? block.content.map((contentItem) => convertContentItemToHtml(contentItem)).join('')
     : ''
 
   const blockHtml = (() => {
@@ -199,9 +181,7 @@ function convertBlockToHtml<BSchema extends BlockSchema>(
       case 'image':
         return `<img src="${block.props.url}" alt="${block.props.name}" />`
       case 'code-block':
-        return `<pre><code class="language-${
-          block.props.language || 'plaintext'
-        }">${contentHtml}</code></pre>`
+        return `<pre><code class="language-${block.props.language || 'plaintext'}">${contentHtml}</code></pre>`
       case 'video':
         return `<p>!video[${block.props.name}](${block.props.url})</p>`
       default:
@@ -220,26 +200,21 @@ function convertBlockToHtml<BSchema extends BlockSchema>(
 
 /**
  * Converts a series of blocks to HTML
- * 
+ *
  * @param blocks The blocks to convert to HTML
- * @returns 
+ * @returns
  */
-function convertBlocksToHtml<BSchema extends BlockSchema>(
-  blocks: Block<BSchema>[],
-) {
-  const htmlContent: string = blocks
-    .map((block) => convertBlockToHtml(block, undefined))
-    .join('\n\n')
+function convertBlocksToHtml<BSchema extends BlockSchema>(blocks: Block<BSchema>[]) {
+  const htmlContent: string = blocks.map((block) => convertBlockToHtml(block, undefined)).join('\n\n')
   return htmlContent
 }
 
-
 /**
  * Converts a series of blocks into markdown
- * 
+ *
  * @param blocks Blocks that we want to convert to markdown
  * @param schema the schema of our editor
- * @returns 
+ * @returns
  */
 export async function blocksToMarkdown<BSchema extends BlockSchema>(
   blocks: Block<BSchema>[],
@@ -247,8 +222,8 @@ export async function blocksToMarkdown<BSchema extends BlockSchema>(
 ): Promise<string> {
   const tmpMarkdownString = await unified()
     // @ts-expect-error
-    .use(rehypeParse, {fragment: true})
-    .use(preserveEmptyParagraphs) 
+    .use(rehypeParse, { fragment: true })
+    .use(preserveEmptyParagraphs)
     // @ts-expect-error
     .use(rehypeRemark)
     // @ts-expect-error
@@ -261,11 +236,11 @@ export async function blocksToMarkdown<BSchema extends BlockSchema>(
 
 /**
  * Converts markdown to blocks
- * 
+ *
  * @param markdown markdown we stored
  * @param blockSchema the schema of our editor
  * @param schema tiptap's schema
- * @returns 
+ * @returns
  */
 export async function markdownToBlocks<BSchema extends BlockSchema>(
   markdown: string,

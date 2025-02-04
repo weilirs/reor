@@ -58,10 +58,7 @@ const ReorModal: React.FC<ModalProps> = ({
         padding="$4"
       >
         {!hideCloseButton && (
-          <XStack 
-            position="absolute" 
-            top={10}
-            right={15}>
+          <XStack position="absolute" top={10} right={15}>
             <button onClick={onClose} style={{ background: 'transparent', border: 'none' }}>
               <span style={{ fontSize: 24, cursor: 'pointer' }}>&times;</span>
             </button>

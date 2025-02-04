@@ -29,15 +29,13 @@ const LLMSettingsContent: React.FC<LLMSettingsContentProps> = () => {
 
   return (
     <SettingsSection title="LLM">
-      <SettingsRow 
-        title="Default LLM" 
+      <SettingsRow
+        title="Default LLM"
         description="Select your default language model"
-        control={
-          <DefaultLLMSelector llmConfigs={llmConfigs} defaultLLM={defaultLLM} setDefaultLLM={setDefaultLLM} />
-        } 
+        control={<DefaultLLMSelector llmConfigs={llmConfigs} defaultLLM={defaultLLM} setDefaultLLM={setDefaultLLM} />}
       />
 
-     <SettingsRow
+      <SettingsRow
         title="Local LLM"
         description="Attach a local LLM. Reor will download the model for you."
         control={
@@ -48,8 +46,9 @@ const LLMSettingsContent: React.FC<LLMSettingsContentProps> = () => {
       />
 
       <SettingsRow
-        title="Setup Cloud LLM API" description="Add your API key (OpenAI or Anthropic)"
-         control={
+        title="Setup Cloud LLM API"
+        description="Add your API key (OpenAI or Anthropic)"
+        control={
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary">Attach Cloud LLM</Button>
@@ -66,7 +65,7 @@ const LLMSettingsContent: React.FC<LLMSettingsContentProps> = () => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-         }
+        }
       />
 
       <SettingsRow
@@ -80,10 +79,10 @@ const LLMSettingsContent: React.FC<LLMSettingsContentProps> = () => {
         divider={false}
       />
 
-     <NewOllamaModelModal isOpen={openModal === 'newLocalModel'} onClose={closeModal} />
-     <CustomLLMAPISetupModal isOpen={openModal === 'remoteLLM'} onClose={closeModal} />
-     <DefaultLLMAPISetupModal isOpen={openModal === 'openai'} onClose={closeModal} apiInterface="openai" />
-     <DefaultLLMAPISetupModal isOpen={openModal === 'anthropic'} onClose={closeModal} apiInterface="anthropic" />
+      <NewOllamaModelModal isOpen={openModal === 'newLocalModel'} onClose={closeModal} />
+      <CustomLLMAPISetupModal isOpen={openModal === 'remoteLLM'} onClose={closeModal} />
+      <DefaultLLMAPISetupModal isOpen={openModal === 'openai'} onClose={closeModal} apiInterface="openai" />
+      <DefaultLLMAPISetupModal isOpen={openModal === 'anthropic'} onClose={closeModal} apiInterface="anthropic" />
     </SettingsSection>
   )
 }

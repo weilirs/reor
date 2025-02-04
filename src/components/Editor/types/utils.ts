@@ -1,11 +1,10 @@
-import {Editor} from '@tiptap/core'
-import {Node as TipTapNode} from '@tiptap/pm/model'
-import {EditorView} from '@tiptap/pm/view'
-import {Block, BlockSchema} from '@/lib/blocknote'
+import { Editor } from '@tiptap/core'
+import { Node as TipTapNode } from '@tiptap/pm/model'
+import { EditorView } from '@tiptap/pm/view'
+import { Block, BlockSchema } from '@/lib/blocknote'
 
 export function youtubeParser(url: string) {
-  var regExp =
-    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
   var match = url.match(regExp)
   return match && match[7].length == 11 ? match[7] : false
 }
@@ -25,32 +24,16 @@ export function camelToFlat(camel: string) {
   return camelCase
 }
 
-export const timeoutPromise = (
-  promise: Promise<any>, 
-  delay: number, 
-  reason?: any
-): Promise<any> =>
+export const timeoutPromise = (promise: Promise<any>, delay: number, reason?: any): Promise<any> =>
   Promise.race([
     promise,
-    new Promise((resolve, reject) =>
-      setTimeout(
-        () => (reason === undefined ? resolve(null) : reject(reason)),
-        delay,
-      ),
-    ),
+    new Promise((resolve, reject) => setTimeout(() => (reason === undefined ? resolve(null) : reject(reason)), delay)),
   ])
 
-export function setGroupTypes(
-  tiptap: Editor,
-  blocks: Array<Partial<Block<BlockSchema>>>,
-) {
+export function setGroupTypes(tiptap: Editor, blocks: Array<Partial<Block<BlockSchema>>>) {
   blocks.forEach((block: Partial<Block<BlockSchema>>) => {
     tiptap.state.doc.descendants((node: TipTapNode, pos: number) => {
-      if (
-        node.attrs.id === block.id &&
-        block.props &&
-        block.props.childrenType
-      ) {
+      if (node.attrs.id === block.id && block.props && block.props.childrenType) {
         node.descendants((child: TipTapNode, childPos: number) => {
           if (child.type.name === 'blockGroup') {
             setTimeout(() => {
@@ -79,8 +62,8 @@ export function setGroupTypes(
 }
 
 export function getNodesInSelection(view: EditorView) {
-  const {state} = view
-  const {from, to} = state.selection
+  const { state } = view
+  const { from, to } = state.selection
   const nodes: TipTapNode[] = []
 
   state.doc.nodesBetween(from, to, (node) => {

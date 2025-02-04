@@ -1,6 +1,6 @@
-import {Box, Menu, Text} from '@mantine/core'
+import { Box, Menu, Text } from '@mantine/core'
 import { createStyles } from '@mantine/styles'
-import {useEffect, useRef} from 'react'
+import { useEffect, useRef } from 'react'
 
 const MIN_LEFT_MARGIN = 5
 
@@ -15,7 +15,7 @@ export type LinkMenuItemProps = {
 
 export function LinkMenuItem(props: LinkMenuItemProps) {
   const itemRef = useRef<HTMLButtonElement>(null)
-  const {classes} = createStyles({root: {}})(undefined, {
+  const { classes } = createStyles({ root: {} })(undefined, {
     name: 'SuggestionListItem',
   })
 

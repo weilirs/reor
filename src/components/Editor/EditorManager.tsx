@@ -47,10 +47,7 @@ const EditorManager: React.FC = () => {
   }, [])
 
   return (
-    <YStack
-      className="relative size-full cursor-text overflow-hidden py-4 "
-      onClick={() => editor?.focus()}
-    >
+    <YStack className="relative size-full cursor-text overflow-hidden py-4 " onClick={() => editor?.focus()}>
       {/* <SearchBar editor={editor} showSearch={showSearchBar} setShowSearch={setShowSearchBar} /> */}
       {/* {contextMenuVisible && (
         <EditorContextMenu
