@@ -56,7 +56,7 @@ interface KeywordDBQueryResult extends DBQueryResult {
   keyword_score?: number
 }
 
-const keywordSearch = async (query: string, limit: number, filter?: string): Promise<KeywordDBQueryResult[]> => {
+const keywordSearch = async (query: string, limit: number): Promise<KeywordDBQueryResult[]> => {
   try {
     const keywords = query
       .toLowerCase()
@@ -67,21 +67,31 @@ const keywordSearch = async (query: string, limit: number, filter?: string): Pro
       return []
     }
 
-    const vectorResults = await window.database.search(query, limit, filter)
+    const allNotes = await window.fileSystem.getFilesTreeForWindow()
+    const notesWithContent = await window.fileSystem.getFiles(allNotes.map((note) => note.path))
 
     const escapedKeywords = keywords.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
     const keywordRegex = new RegExp(`\\b(${escapedKeywords.join('|')})\\b`, 'gi')
 
-    const resultsWithKeywordScores = vectorResults
-      .map((result) => {
-        const matches = result.content.matchAll(keywordRegex)
-        const score = Array.from(matches).length
+    const resultsWithKeywordScores = notesWithContent
+      .map((note) => {
+        const matches = note.content.matchAll(keywordRegex)
+        const matchArray = Array.from(matches)
+        const score = matchArray.length
         return {
-          ...result,
+          notepath: note.path,
+          content: note.content,
+          subnoteindex: 0,
+          timeadded: note.dateCreated,
+          filemodified: note.dateModified,
+          filecreated: note.dateCreated,
+          _distance: 0,
           keyword_score: score,
         }
       })
+      .filter((result) => result.keyword_score > 0)
       .sort((a, b) => (b.keyword_score || 0) - (a.keyword_score || 0))
+      .slice(0, limit)
 
     return resultsWithKeywordScores
   } catch (error) {
@@ -148,7 +158,7 @@ const combineAndRankResults = (
           const normalizedScore = entry.keywordScore / maxKeywordScore
           updatedEntry._distance = 1 - normalizedScore
         } else {
-          updatedEntry._distance = 0.99 // Show at least 1% similarity
+          updatedEntry._distance = 1 // No matches = 0% similarity
         }
       } else {
         updatedEntry._distance = 1 - entry.combinedScore
@@ -170,7 +180,7 @@ export const hybridSearch = async (
     const [vectorResults, keywordResults] = await Promise.all([
       window.database.search(query, limit, filter),
 
-      keywordSearch(query, limit, filter),
+      keywordSearch(query, limit),
     ])
 
     return combineAndRankResults(vectorResults, keywordResults, limit, vectorWeight)
